@@ -62,19 +62,19 @@ const config: Config = {
     TypeSystemPlugin({
       default: {
         "sans-xs": {
-          "font-family": "var(--font-speedee-regular)",
+          "font-family": "var(--font-speedee)",
           "font-size": "12px",
           "letter-spacing": "0.02em",
           "line-height": "20px",
         },
         "sans-sm": {
-          "font-family": "var(--font-speedee-regular)",
+          "font-family": "var(--font-speedee)",
           "font-size": "14px",
           "letter-spacing": "0.01em",
           "line-height": "24px",
         },
         "sans-base": {
-          "font-family": "var(--font-speedee-regular)",
+          "font-family": "var(--font-speedee)",
           "font-size": "16px",
           "letter-spacing": "0.01em",
           "line-height": "24px",
