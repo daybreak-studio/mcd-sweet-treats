@@ -9,10 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      colors: {
+        light: "#F9D0D6",
+        dark: "#220505",
+        accent: "#FF4F14",
       },
     },
   },
