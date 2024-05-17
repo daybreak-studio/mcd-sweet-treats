@@ -28,7 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${speedee_regular.variable} ${speedee_bold.variable}`}>
+      <body
+        className={`bg-accent overscroll-none ${speedee_regular.variable} ${speedee_bold.variable}`}
+      >
         {children}
       </body>
     </html>
