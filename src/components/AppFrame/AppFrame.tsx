@@ -7,8 +7,8 @@ type Props = {
 const AppFrame = ({ children }: Props) => {
   return (
     <>
-      <div className="border-accent fixed inset-0 border-[12px] h-screen"></div>
-      <div className="flex flex-col bg-light text-dark min-h-screen">
+      <div className="border-accent fixed inset-0 border-[12px] h-screen pointer-events-none"></div>
+      <div className="flex flex-col items-center justify-center bg-light text-dark min-h-screen">
         {children}
       </div>
     </>
