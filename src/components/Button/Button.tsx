@@ -8,6 +8,7 @@ type Props = {
   children: string;
   inverted?: boolean;
   disabled?: boolean;
+  href?: string;
   onClick?: () => void;
 };
 
@@ -17,7 +18,7 @@ const Button = ({ children, inverted, onClick, disabled }: Props) => {
       <motion.button
         disabled={disabled}
         onClick={onClick}
-        className={`rounded-full cursor-pointer overflow-hidden ${
+        className={`rounded-full outline-accent cursor-pointer overflow-hidden ${
           inverted ? "bg-dark" : "bg-light"
         }`}
         whileTap={{

@@ -1,8 +1,8 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import ArrowDown from "../Icons/ArrowDown";
+import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
-import Heart from "../Icons/Heart";
+import Heart from "../Graphics/Heart";
 
 type Props = {
   label: string;
@@ -36,8 +36,10 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
   }, [isFocused]);
 
   return (
-    <div className="relative flex flex-col text-center">
-      <div className="font-sans-sm font-bold uppercase px-3 py-2 ">{label}</div>
+    <label className="relative flex flex-col text-center">
+      <div className="font-sans-sm font-bold uppercase px-3 py-2 select-none">
+        {label}
+      </div>
       <TracyShadow color={"#643525"} elevation={1}>
         <motion.div
           className="relative w-full"
@@ -91,7 +93,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
           <Heart />
         </motion.div>
       </TracyShadow>
-    </div>
+    </label>
   );
 };
 
