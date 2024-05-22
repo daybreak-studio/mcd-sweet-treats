@@ -19,7 +19,7 @@ type Props = {
 const TracyShadow = ({
   children,
   color,
-  elevation = 0,
+  elevation = 1,
   lightSourceOffset,
 }: Props) => {
   const yOffset = 100;
@@ -33,18 +33,17 @@ const TracyShadow = ({
   );
 
   return (
-    <div className="relative w-fit h-fit">
-      <div className="absolute -bottom-6 flex w-full h-full">
+    <div className="relative">
+      <div className="absolute bottom-0 flex items-end w-full h-full">
         <motion.div
-          className="z-0 mx-auto h-[40%] w-[80%] blur-2xl"
-          initial={{ opacity: 0 }}
+          className="z-0 mx-auto h-[50%] w-[70%] blur-lg"
           style={{
             backgroundColor: color,
             x: lightSourceOffset || defaultLightSourceOffset,
             scaleX,
           }}
           animate={{
-            opacity: 1,
+            opacity: 0.6,
             y: yOffset * (elevation / 1) - yOffset,
             scale: elevation,
             transition: {

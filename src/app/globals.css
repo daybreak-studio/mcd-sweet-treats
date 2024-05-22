@@ -28,3 +28,17 @@ body {
 .font-bookman-jf-pro {
   font-family: "bookman-jf-pro", serif;
 }
+
+/* hide dropdown arrow */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  /* Optional: Add custom styles for the select */
+  padding: 10px;
+}
+
+select:invalid {
+  /* color: theme("colors.light"); */
+  color: #fff;
+}
