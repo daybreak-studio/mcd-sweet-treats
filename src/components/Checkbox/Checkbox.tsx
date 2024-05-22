@@ -21,7 +21,7 @@ const Checkbox = ({ children, onChange, value = false }: Props) => {
   }, [value]);
 
   return (
-    <label className="flex flex-row gap-2 font-sans-sm items-center">
+    <label className="flex flex-row gap-2 font-sans-sm items-center select-none">
       <input
         className="w-0"
         type="checkbox"

@@ -47,7 +47,7 @@ const Textfield = ({
   };
 
   return (
-    <label className="bg-[rgba(191,53,62,.08)] flex flex-col px-3 py-2 text-dark rounded-2xl focus-within:outline focus-within:outline-accent">
+    <label className="bg-[rgba(191,53,62,.08)] flex flex-col px-3 py-2 text-dark rounded-2xl focus-within:outline focus-within:outline-accent select-none">
       <div className="font-sans-sm font-normal">{label}</div>
       <input
         ref={inputRef}
