@@ -8,6 +8,7 @@ type Props = {
   children: string;
   inverted?: boolean;
   disabled?: boolean;
+  href?: string;
   onClick?: () => void;
 };
 
