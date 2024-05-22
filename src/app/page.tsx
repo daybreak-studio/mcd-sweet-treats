@@ -2,6 +2,7 @@
 
 import AppFrame from "@/components/AppFrame/AppFrame";
 import Button from "@/components/Button/Button";
+import Checkbox from "@/components/Checkbox/Checkbox";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
@@ -27,6 +28,8 @@ export default function Home() {
         <Dropdown.menu label={"To"}>
           <Dropdown.item value={"test"}>fdsa</Dropdown.item>
         </Dropdown.menu>
+
+        <Checkbox>fdsafdsa</Checkbox>
       </div>
       <div className="mb-12 mt-4">
         <Button>Continue</Button>
