@@ -2,13 +2,15 @@
 
 import React from "react";
 
-type Props = {};
+type Props = {
+  noWordmark?: boolean;
+};
 
-export const LogoLockup = (props: Props) => {
+export const LogoLockup = ({ noWordmark }: Props) => {
   return (
     <div className="flex flex-col gap-4 items-center">
       <Logo />
-      <Wordmark />
+      {!noWordmark && <Wordmark />}
     </div>
   );
 };

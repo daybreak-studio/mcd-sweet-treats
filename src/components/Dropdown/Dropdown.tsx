@@ -1,8 +1,8 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
-import ArrowDown from "../Icons/ArrowDown";
+import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
-import Heart from "../Icons/Heart";
+import Heart from "../Graphics/Heart";
 
 type Props = {
   label: string;
