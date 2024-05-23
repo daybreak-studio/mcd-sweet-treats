@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
-import VideoUploadContextProvider from "@/components/VideoUploadContextProvider/VideoUploadContextProvider";
+import VideoUploadProvider from "@/components/VideoUploadProvider/VideoUploadProvider";
+import UserInfoProvider from "@/components/UserInfoProvider/UserInfoProvider";
 
 const font_speedee = localFont({
   src: [
@@ -33,7 +34,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`overscroll-none bg-accent ${font_speedee.variable}`}>
-        <VideoUploadContextProvider>{children}</VideoUploadContextProvider>
+        <UserInfoProvider>
+          <VideoUploadProvider>{children}</VideoUploadProvider>
+        </UserInfoProvider>
       </body>
     </html>
   );

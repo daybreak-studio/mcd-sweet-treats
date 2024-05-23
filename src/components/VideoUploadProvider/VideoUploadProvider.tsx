@@ -43,7 +43,7 @@ const s3Client = new S3Client(awsConfig);
 const dynamoDbClient = new DynamoDBClient(awsConfig);
 const dynamoDbDocClient = DynamoDBDocumentClient.from(dynamoDbClient);
 
-const VideoUploadContextProvider = ({ children }: Props) => {
+const VideoUploadProvider = ({ children }: Props) => {
   const parallelUploads3Ref = useRef() as MutableRefObject<Upload>;
   const hasUploadAborted = useRef(false);
 
@@ -158,4 +158,4 @@ const VideoUploadContextProvider = ({ children }: Props) => {
   );
 };
 
-export default VideoUploadContextProvider;
+export default VideoUploadProvider;
