@@ -1,4 +1,5 @@
 import AppFrame from "@/components/AppFrame/AppFrame";
+import WebcamTensor from "@/components/WebcamTensor";
 import React from "react";
 
 type Props = {};
@@ -6,7 +7,7 @@ type Props = {};
 const RecordPage = (props: Props) => {
   return (
     <AppFrame>
-      <div>record ui goes here</div>
+      <WebcamTensor />
     </AppFrame>
   );
 };
