@@ -3,6 +3,10 @@
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import VideoRecorder from "@/components/VideoRecorder/VideoRecorder";
+import {
+  InputLanguageKey,
+  OutputLanguageKey,
+} from "@/components/VideoUploadProvider/Languages";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -11,7 +15,7 @@ type Props = {};
 
 const RecordPage = (props: Props) => {
   const { upload } = useVideoUpload();
-  const { email, name } = useUserInfo();
+  const { email, name, inputLanguage, outputLanguage } = useUserInfo();
   const router = useRouter();
 
   const handleRecordingComplete = async (blob: Blob) => {
@@ -19,8 +23,8 @@ const RecordPage = (props: Props) => {
     upload(blob, {
       name: name,
       email: email,
-      inputLanguage: "English",
-      outputLanguage: "English",
+      inputLanguage: inputLanguage as InputLanguageKey,
+      outputLanguage: outputLanguage as OutputLanguageKey,
     });
     router.push("/uploading");
   };

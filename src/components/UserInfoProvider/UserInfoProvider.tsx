@@ -2,18 +2,22 @@
 
 import React, { createContext, useContext, useReducer, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
+import {
+  InputLanguageKey,
+  OutputLanguageKey,
+} from "../VideoUploadProvider/Languages";
 
 // Initial user information
 const initialUserInfo = {
   name: "",
   email: "",
-  inputLanguage: "",
-  outputLanguage: "",
+  inputLanguage: "" as "" | InputLanguageKey,
+  outputLanguage: "" as "" | OutputLanguageKey,
   hasAuthenticated: false,
   videoBlob: null as Blob | null,
   setVideoBlob: (recording: Blob | null) => {},
-  setInputLanguage: (value: string) => {},
-  setOutputLanguage: (value: string) => {},
+  setInputLanguage: (value: InputLanguageKey) => {},
+  setOutputLanguage: (value: OutputLanguageKey) => {},
   setName: (value: string) => {},
   setEmail: (value: string) => {},
   authenticate: () => {},
@@ -37,16 +41,12 @@ export const useUserInfo = () => useContext(UserInfoContext);
 const UserInfoProvider = ({ children }: Props) => {
   const [name, setName] = useLocalStorage("name", "");
   const [email, setEmail] = useLocalStorage("email", "");
-  const [inputLanguage, setInputLanguage] = useLocalStorage(
-    "inputLanguage",
-    "",
-    { initializeWithValue: false },
-  );
-  const [outputLanguage, setOutputLanguage] = useLocalStorage(
-    "outputLanguage",
-    "",
-    { initializeWithValue: false },
-  );
+  const [inputLanguage, setInputLanguage] = useLocalStorage<
+    "" | InputLanguageKey
+  >("inputLanguage", "", { initializeWithValue: false });
+  const [outputLanguage, setOutputLanguage] = useLocalStorage<
+    "" | OutputLanguageKey
+  >("outputLanguage", "", { initializeWithValue: false });
   const [hasAuthenticated, setHasAuthenticated] = useState(false);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
 
