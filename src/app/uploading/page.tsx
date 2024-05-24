@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { motion, useTransform, motionValue } from "framer-motion";
+import { motion, useTransform, useMotionValue } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 
 type Props = {};
@@ -14,7 +14,11 @@ type Props = {};
 const UploadingPage = (props: Props) => {
   const { progress } = useVideoUpload();
 
-  const motionProgress = motionValue(progress);
+  const motionProgress = useMotionValue(0);
+  useEffect(() => {
+    motionProgress.set(progress);
+  }, [motionProgress, progress]);
+
   const maskHeight = useTransform(motionProgress, [0, 1], ["0%", "100%"]);
 
   return (
