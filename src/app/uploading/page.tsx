@@ -14,13 +14,6 @@ type Props = {};
 const UploadingPage = (props: Props) => {
   const { progress } = useVideoUpload();
 
-  const motionProgress = useMotionValue(0);
-  useEffect(() => {
-    motionProgress.set(progress);
-  }, [motionProgress, progress]);
-
-  const maskHeight = useTransform(motionProgress, [0, 1], ["0%", "100%"]);
-
   return (
     <AppFrame>
       <div className="mb-auto mt-8">
@@ -47,11 +40,14 @@ const UploadingPage = (props: Props) => {
             className="absolute bottom-0 w-1/2 opacity-100"
             src="/images/mcflurry.png"
             alt="McFlurry Full"
+            animate={{
+              height: `${progress * 100}%`,
+            }}
             style={{
-              height: maskHeight,
               objectFit: "cover",
               objectPosition: "bottom",
               overflow: "hidden",
+              transition: "height .3 cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           />
         </div>
