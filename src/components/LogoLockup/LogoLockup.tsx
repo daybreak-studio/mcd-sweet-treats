@@ -8,7 +8,7 @@ type Props = {
 
 export const LogoLockup = ({ noWordmark }: Props) => {
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col items-center gap-4">
       <Logo />
       {!noWordmark && <Wordmark />}
     </div>
