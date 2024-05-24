@@ -13,7 +13,7 @@ const DonePage = (props: Props) => {
     <AppFrame>
       <div className="fixed inset-0 flex flex-col overflow-hidden">
         <Image
-          className="mt-auto origin-bottom scale-[200%] xl:w-full xl:translate-y-[20%] xl:scale-100"
+          className="mt-auto origin-bottom scale-[200%] md:w-full md:scale-150 xl:translate-y-[20%] xl:scale-100"
           src="/images/meal.png"
           alt="McFlurry"
           quality={100}
