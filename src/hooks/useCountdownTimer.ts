@@ -24,7 +24,7 @@ export function useCountdownTimer(duration: number, countdownInterval = 1000) {
         const elapsedTime = (currentTime - beginTime) / 1000;
 
         if (elapsedTime <= 0) {
-          setHasFinished(true);
+          finishTimer();
         }
         return duration - elapsedTime;
       });

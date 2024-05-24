@@ -35,7 +35,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const recorder = useVideoRecording(canvasElm);
   useBodySegmentation(videoElm, canvasElm);
 
-  const { startTimer, finishTimer, remainingTime, resetTimer } =
+  const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
     useCountdownTimer(MAX_DURATION, 60);
 
   // Put the video stream on screen
@@ -94,6 +94,11 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       return;
     }
   };
+
+  // stop recording when the timer reach zero
+  useEffect(() => {
+    if (hasFinished) stopRecording();
+  }, [hasFinished]);
 
   return (
     <>
