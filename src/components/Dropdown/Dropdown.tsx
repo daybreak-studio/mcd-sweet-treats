@@ -1,10 +1,4 @@
-import React, {
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
