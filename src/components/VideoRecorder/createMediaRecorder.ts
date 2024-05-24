@@ -50,5 +50,18 @@ export async function createMediaRecorder(
     }
   };
 
-  return { videoStream, recorder };
+  let _isDestroyed = false;
+  const destory = () => {
+    // top all the media stream
+    let tracks = stream.getTracks();
+    console.log(tracks);
+    tracks.forEach((track) => track.stop());
+
+    _isDestroyed = true;
+  };
+  const isDestroyed = () => {
+    return _isDestroyed;
+  };
+
+  return { videoStream, recorder, destory, isDestroyed };
 }
