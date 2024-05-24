@@ -8,6 +8,8 @@ import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import {
+  InputLanguageKey,
+  OutputLanguageKey,
   inputLanguageMap,
   outputLanguageMap,
 } from "@/components/VideoUploadProvider/Languages";
@@ -34,7 +36,7 @@ export default function LanguagePage() {
         <div className="mb-12 flex w-64 flex-col gap-4">
           <Dropdown.menu
             label={"From"}
-            onChange={(latest) => setInputLanguage(latest)}
+            onChange={(latest) => setInputLanguage(latest as InputLanguageKey)}
             value={inputLanguage}
           >
             {supportedInputLanguages.map((language, index) => (
@@ -45,7 +47,9 @@ export default function LanguagePage() {
           </Dropdown.menu>
           <Dropdown.menu
             label={"To"}
-            onChange={(latest) => setOutputLanguage(latest)}
+            onChange={(latest) =>
+              setOutputLanguage(latest as OutputLanguageKey)
+            }
             value={outputLanguage}
           >
             {supportedOutputLanguages.map((language, index) => (
