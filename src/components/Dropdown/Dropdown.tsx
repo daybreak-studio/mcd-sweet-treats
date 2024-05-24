@@ -1,4 +1,10 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, {
+  MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
@@ -37,7 +43,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
 
   return (
     <label className="relative flex flex-col text-center">
-      <div className="font-sans-sm font-bold uppercase px-3 py-2 select-none">
+      <div className="font-sans-sm select-none px-3 py-2 font-bold uppercase">
         {label}
       </div>
       <TracyShadow color={"#643525"} elevation={1}>
@@ -47,7 +53,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             scale: isFocused ? 0.98 : 1,
           }}
         >
-          <div className="absolute right-0 h-full top-0 flex items-center mr-4">
+          <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
             <ArrowDown fill={isFocused ? "#ff4f14" : "#220505"} />
           </div>
           <select
@@ -56,9 +62,9 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             onBlur={() => setIsFocused(false)}
             value={internalValue}
             onChange={handleChange}
-            className="px-3 py-4 bg-light cursor-pointer border border-dark text-dark text-center rounded-full w-full focus-within:border-accent focus-within:text-accent focus-within:border outline-none font-bold font-sans-base"
+            className="font-sans-base w-full cursor-pointer rounded-full border border-dark bg-light px-3 py-4 text-center font-bold text-dark outline-none focus-within:border focus-within:border-accent focus-within:text-accent"
           >
-            <option disabled value="" selected>
+            <option disabled value="">
               Select
             </option>
             {children}

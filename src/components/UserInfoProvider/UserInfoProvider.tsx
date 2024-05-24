@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useReducer, useState } from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 // Initial user information
 const initialUserInfo = {
@@ -34,10 +35,18 @@ export const useUserInfo = () => useContext(UserInfoContext);
 
 // Context provider that manages the user information state and provides it to child components
 const UserInfoProvider = ({ children }: Props) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [inputLanguage, setInputLanguage] = useState("");
-  const [outputLanguage, setOutputLanguage] = useState("");
+  const [name, setName] = useLocalStorage("name", "");
+  const [email, setEmail] = useLocalStorage("email", "");
+  const [inputLanguage, setInputLanguage] = useLocalStorage(
+    "inputLanguage",
+    "",
+    { initializeWithValue: false },
+  );
+  const [outputLanguage, setOutputLanguage] = useLocalStorage(
+    "outputLanguage",
+    "",
+    { initializeWithValue: false },
+  );
   const [hasAuthenticated, setHasAuthenticated] = useState(false);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
 
