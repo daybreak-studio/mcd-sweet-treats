@@ -11,11 +11,11 @@ import Image from "next/image";
 export default function GetStartedPage() {
   return (
     <AppFrame>
-      <div className="mt-8 mb-auto">
+      <div className="mb-auto mt-8">
         <LogoLockup noWordmark />
       </div>
-      <div className="mb-auto my-8 flex flex-col items-center">
-        <h1 className="font-serif-md text-center mb-4">
+      <div className="my-8 mb-auto flex flex-col items-center">
+        <h1 className="font-serif-md mb-4 text-center">
           Record your video
           <br /> then treat yourself to a
         </h1>
@@ -23,15 +23,15 @@ export default function GetStartedPage() {
           <GrandmaMcFlurryLogo />
         </div>
         <Image
-          src="/grandma-mc-flurry.png"
+          src="/image/mc-flurry.png"
           width={136 * 2}
           height={246 * 2}
           alt="Grandma McFlurry"
-          className="max-w-32 mb-12"
+          className="mb-12 max-w-32"
         />
         <LinkButton href={"/rules"}>{"Let's go"}</LinkButton>
       </div>
-      <div className="mb-8 font-sans-xs opacity-50">
+      <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.
       </div>
     </AppFrame>
