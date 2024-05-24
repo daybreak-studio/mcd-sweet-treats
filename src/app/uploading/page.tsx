@@ -16,11 +16,10 @@ const UploadingPage = (props: Props) => {
   const router = useRouter();
 
   const motionProgress = motionValue(progress);
-  const maskHeight = useTransform(motionProgress, [0, 1], ["100%", "0%"]);
+  const maskHeight = useTransform(motionProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
-    // if (progress >= 1 || !isUploading) {
-    if (progress >= 1) {
+    if (progress >= 1 || !isUploading) {
       router.push("/done");
     }
   }, [progress, isUploading, router]);
@@ -59,7 +58,9 @@ const UploadingPage = (props: Props) => {
             }}
           />
         </div>
-        <LinkButton href="/done">Continue</LinkButton>
+        <div className="mt-8">
+          {progress === 1 && <LinkButton href="/done">Continue</LinkButton>}
+        </div>
       </div>
     </AppFrame>
   );
