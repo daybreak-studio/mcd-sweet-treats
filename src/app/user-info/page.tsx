@@ -8,34 +8,44 @@ import SwirlGraphicBottom from "@/components/Graphics/SwirlGraphicBottom";
 import SwirlGraphicTop from "@/components/Graphics/SwirlGraphicTop";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
+import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import Image from "next/image";
 
 export default function UserInfoPage() {
+  const { setEmail, email, setName, name } = useUserInfo();
+
   return (
     <AppFrame>
-      <div className="mt-8 mb-auto">
+      <div className="mb-auto mt-8">
         <LogoLockup noWordmark />
       </div>
-      <div className="mb-auto relative my-8 flex flex-col items-center text-center">
-        <h1 className="font-serif-xl text-center mb-4">
+      <div className="relative my-8 mb-auto flex flex-col items-center text-center">
+        <h1 className="font-serif-xl mb-4 text-center">
           Who&apos;s grandma&apos;s
           <br /> favourite? It&apos;s you!
         </h1>
-        <div className="max-w-[26ch] font-serif-sm">
+        <div className="font-serif-sm max-w-[26ch]">
           Enter your information to ensure that the video makes it your way.
         </div>
-        <div className="flex flex-col gap-2 my-10">
-          <Textfield label={"Your full name"} placeholder={"First Last"} />
+        <div className="my-10 flex flex-col gap-2">
+          <Textfield
+            label={"Your full name"}
+            placeholder={"First Last"}
+            onChange={setName}
+            value={name}
+          />
           <Textfield
             label={"Personal email address"}
             placeholder={"example@gmail.com"}
+            onChange={setEmail}
+            value={email}
           />
           <Checkbox>I accept the Terms & Conditions</Checkbox>
         </div>
 
         <LinkButton href={"/record"}>{"I am ready"}</LinkButton>
       </div>
-      <div className="mb-8 font-sans-xs opacity-50">
+      <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.
       </div>
     </AppFrame>

@@ -6,58 +6,58 @@ import LinkButton from "@/components/Button/LinkButton";
 import Dropdown from "@/components/Dropdown/Dropdown";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
+import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
+import {
+  inputLanguageMap,
+  outputLanguageMap,
+} from "@/components/VideoUploadProvider/Languages";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
-const supportedInputLanguages = [
-  "Portuguese",
-  "Itlian",
-  "Mandarin",
-  "spanish",
-  "English",
-];
-
-const supportedOutputLanguages = supportedInputLanguages;
+const supportedInputLanguages = Object.keys(inputLanguageMap);
+const supportedOutputLanguages = Object.keys(outputLanguageMap);
 
 export default function LanguagePage() {
-  const [inputLang, setInputLang] = useState("");
-  const [outputLang, setOutputLang] = useState("");
+  const { setInputLanguage, setOutputLanguage, outputLanguage, inputLanguage } =
+    useUserInfo();
 
   return (
     <AppFrame>
-      <div className="mt-8 mb-auto">
+      <div className="mb-auto mt-8">
         <LogoLockup />
       </div>
-      <div className="mb-auto my-8 flex flex-col items-center">
-        <h1 className="font-serif-xl text-center mb-4">
+      <div className="my-8 mb-auto flex flex-col items-center">
+        <h1 className="font-serif-xl mb-4 text-center">
           Select your <br /> language
         </h1>
-        <div className="w-64 mb-12 flex flex-col gap-4">
+        <div className="mb-12 flex w-64 flex-col gap-4">
           <Dropdown.menu
             label={"From"}
-            onChange={(latest) => setInputLang(latest)}
+            onChange={(latest) => setInputLanguage(latest)}
+            value={inputLanguage}
           >
-            {supportedInputLanguages.map((lang, index) => (
-              <Dropdown.item value={lang.toLowerCase()} key={index}>
-                {lang}
+            {supportedInputLanguages.map((language, index) => (
+              <Dropdown.item value={language} key={index}>
+                {language}
               </Dropdown.item>
             ))}
           </Dropdown.menu>
           <Dropdown.menu
             label={"To"}
-            onChange={(latest) => setOutputLang(latest)}
+            onChange={(latest) => setOutputLanguage(latest)}
+            value={outputLanguage}
           >
-            {supportedOutputLanguages.map((lang, index) => (
-              <Dropdown.item value={lang.toLowerCase()} key={index}>
-                {lang}
+            {supportedOutputLanguages.map((language, index) => (
+              <Dropdown.item value={language} key={index}>
+                {language}
               </Dropdown.item>
             ))}
           </Dropdown.menu>
         </div>
         <LinkButton href={"/user-info"}>{"Let's go"}</LinkButton>
       </div>
-      <div className="mb-8 font-sans-xs opacity-50">
+      <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.
       </div>
     </AppFrame>

@@ -1,10 +1,18 @@
-import React, { createContext, useReducer, useState } from "react";
+"use client";
+
+import React, { createContext, useContext, useReducer, useState } from "react";
 
 // Initial user information
 const initialUserInfo = {
   name: "",
   email: "",
+  inputLanguage: "",
+  outputLanguage: "",
   hasAuthenticated: false,
+  videoBlob: null as Blob | null,
+  setVideoBlob: (recording: Blob | null) => {},
+  setInputLanguage: (value: string) => {},
+  setOutputLanguage: (value: string) => {},
   setName: (value: string) => {},
   setEmail: (value: string) => {},
   authenticate: () => {},
@@ -15,17 +23,23 @@ export type UserInfo = typeof initialUserInfo;
 
 // Create a context for user information
 const UserInfoContext = createContext(initialUserInfo);
+UserInfoContext.displayName = "UserInfoContext";
 
 // Define the props type
 type Props = {
   children: React.ReactNode;
 };
 
+export const useUserInfo = () => useContext(UserInfoContext);
+
 // Context provider that manages the user information state and provides it to child components
 const UserInfoProvider = ({ children }: Props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [inputLanguage, setInputLanguage] = useState("");
+  const [outputLanguage, setOutputLanguage] = useState("");
   const [hasAuthenticated, setHasAuthenticated] = useState(false);
+  const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
 
   // Authenticate the user
   const authenticate = () => {
@@ -39,6 +53,12 @@ const UserInfoProvider = ({ children }: Props) => {
         name,
         setName,
         email,
+        inputLanguage,
+        outputLanguage,
+        videoBlob,
+        setVideoBlob,
+        setInputLanguage,
+        setOutputLanguage,
         setEmail,
         hasAuthenticated,
         authenticate,

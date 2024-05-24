@@ -29,6 +29,7 @@ const VideoUploadContext = createContext({
   progress: 0,
   isUploading: false,
 });
+VideoUploadContext.displayName = "VideoUploadContext";
 
 export const useVideoUpload = () => useContext(VideoUploadContext);
 
