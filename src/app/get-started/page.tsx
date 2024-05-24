@@ -23,7 +23,7 @@ export default function GetStartedPage() {
           <GrandmaMcFlurryLogo />
         </div>
         <Image
-          src="/image/mc-flurry.png"
+          src="/images/mcflurry.png"
           width={136 * 2}
           height={246 * 2}
           alt="Grandma McFlurry"
