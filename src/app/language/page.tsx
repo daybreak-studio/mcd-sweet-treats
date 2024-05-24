@@ -59,7 +59,7 @@ export default function LanguagePage() {
             ))}
           </Dropdown.menu>
         </div>
-        <LinkButton href={"/user-info"}>{"Let's go"}</LinkButton>
+        <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
       </div>
       <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.

@@ -2,6 +2,7 @@
 
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
+import Button from "@/components/Button/Button";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import SwirlGraphicBottom from "@/components/Graphics/SwirlGraphicBottom";
@@ -10,9 +11,21 @@ import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 
 export default function UserInfoPage() {
-  const { setEmail, email, setName, name } = useUserInfo();
+  const {
+    setEmail,
+    email,
+    setName,
+    name,
+    videoBlob,
+    inputLanguage,
+    outputLanguage,
+  } = useUserInfo();
+  const { upload } = useVideoUpload();
+  const router = useRouter();
 
   return (
     <AppFrame>
@@ -43,7 +56,34 @@ export default function UserInfoPage() {
           <Checkbox>I accept the Terms & Conditions</Checkbox>
         </div>
 
-        <LinkButton href={"/record"}>{"I am ready"}</LinkButton>
+        {/* ADD CAPTCHA HERE */}
+        <Button
+          onClick={() => {
+            if (inputLanguage === "" || outputLanguage === "") {
+              console.log(
+                "Input or output language is empty, redirecting to language page",
+              );
+              router.push("/language");
+              return;
+            }
+
+            if (!videoBlob) {
+              console.log("Video not recorded, redirecting to record page");
+              router.push("/record");
+              return;
+            }
+
+            router.push("/uploading");
+            upload(videoBlob, {
+              name,
+              email,
+              inputLanguage,
+              outputLanguage,
+            });
+          }}
+        >
+          {"Submit"}
+        </Button>
       </div>
       <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.
