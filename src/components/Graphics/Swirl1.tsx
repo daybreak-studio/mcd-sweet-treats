@@ -1,5 +1,6 @@
 import React from "react";
 import Lottie, { useLottie } from "lottie-react";
+
 import Swirl1 from "/public/mcdonald-sprite-3.json";
 
 const App = () => {

@@ -1,42 +1,38 @@
 "use client";
 
 import AppFrame from "@/components/AppFrame/AppFrame";
-import Button from "@/components/Button/Button";
 import LinkButton from "@/components/Button/LinkButton";
-import Checkbox from "@/components/Checkbox/Checkbox";
-import Dropdown from "@/components/Dropdown/Dropdown";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
+
 import Swirl1 from "@/components/Graphics/Swirl1";
-import Textfield from "@/components/Textfield/Textfield";
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <AppFrame>
-      <div className="mt-8 mb-auto">
+      <div className="mb-auto mt-8">
         <LogoLockup noWordmark />
       </div>
-      <div className="mb-auto my-8 flex flex-col items-center">
-        <h1 className="font-serif-lg text-center mb-4 px-8">
+      <div className="my-8 mb-auto flex flex-col items-center">
+        <h1 className="font-serif-lg mb-4 px-8 text-center">
           Send grandma a sweet message
         </h1>
-        <div className="relative w-full h-[350px] z-10">
+        <div className="relative z-10 h-[350px] w-full">
           <Image
-            className="max-w-[61.8%] absolute left-[51%] translate-x-[-50%]"
+            className="absolute left-[51%] max-w-[61.8%] translate-x-[-50%]"
             src="/opening/visual-1-placeholder.png"
             layout="responsive"
             width={375}
             height={812}
             alt={""}
           />
-          <div className="absolute left-0 bottom-[-150px] w-full">
+          <div className="absolute bottom-[-150px] left-0 w-full">
             <Swirl1 />
           </div>
         </div>
         <LinkButton href={"/get-started"}>Continue</LinkButton>
       </div>
-      <div className="mb-8 font-sans-xs opacity-50">
+      <div className="font-sans-xs mb-8 opacity-50">
         Select languages available.
       </div>
     </AppFrame>

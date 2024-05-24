@@ -7,8 +7,11 @@ import { useVideoRecording } from "./useVideoRecording";
 import { useBodySegmentation } from "./useBodySegmentation";
 import { useCountdownTimer } from "@/hooks/useCountdownTimer";
 import { useDynamicDOMRef } from "@/hooks/useDynamicDOMRef";
+import Button from "../Button/Button";
 
-type Props = {};
+type Props = {
+  onCompleteRecording: (blob: Blob) => void;
+};
 const MAX_DURATION = 30; // Max video recording length
 
 enum RecorderStates {
@@ -17,7 +20,7 @@ enum RecorderStates {
   RECORDED = "RECORDED",
 }
 
-const VideoRecorder = (props: Props) => {
+const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
@@ -70,7 +73,7 @@ const VideoRecorder = (props: Props) => {
   };
 
   // reset the ui to the beginning
-  const clearRecording = () => {
+  const restartRecording = () => {
     setRecorderState(RecorderStates.INITIAL);
     resetTimer();
   };
@@ -81,7 +84,7 @@ const VideoRecorder = (props: Props) => {
   );
 
   return (
-    <div>
+    <>
       {(recorderState === RecorderStates.INITIAL ||
         recorderState === RecorderStates.RECORDING) && (
         <div>
@@ -103,25 +106,29 @@ const VideoRecorder = (props: Props) => {
 
       {/* display the recording when the user has something recorded */}
       {recorderState === RecorderStates.RECORDED && (
-        <div>
-          <button
-            className="absolute z-20 bg-slate-500"
-            onClick={clearRecording}
-          >
-            Redo
-          </button>
+        <>
+          <div className="mb-24 mt-auto flex flex-row gap-8">
+            <Button inverted onClick={restartRecording}>
+              Redo
+            </Button>
+            <Button
+              inverted
+              onClick={() => videoBlob && onCompleteRecording(videoBlob)}
+            >
+              Done
+            </Button>
+          </div>
           <video
-            className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
+            className="absolute inset-0 h-[100svh] w-full object-cover xl:object-contain"
             playsInline
             autoPlay
-            muted
             loop
             src={recordedURLObject ? recordedURLObject : ""}
-            controls
+            // controls
           />
-        </div>
+        </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -7,14 +7,19 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { v4 as uuidv4 } from "uuid";
+
 import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client } from "@aws-sdk/client-s3";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-providers";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { inputLanguageMap, outputLanguageMap } from "./Languages";
-import { UploadRecord, validateUploadRecord } from "./UploadRecord";
+import {
+  IdentifiableUploadRecord,
+  UploadRecord,
+  createIdentifiableUploadRecord,
+  validateUploadRecord,
+} from "./UploadRecord";
 
 const REGION = "us-east-2"; // AWS Region
 const IDENTITY_POOL_ID = "us-east-2:4adc1a3c-60e1-4661-bd5f-34131a974c9a"; // AWS Cognito Identity Pool ID
@@ -57,7 +62,7 @@ const VideoUploadProvider = ({ children }: Props) => {
     email,
     inputLanguage,
     outputLanguage,
-  }: UploadRecord) => {
+  }: IdentifiableUploadRecord) => {
     try {
       const threeDaysInSeconds = 3 * 24 * 60 * 60; // 3 days in seconds
       const ttl = Math.floor(Date.now() / 1000) + threeDaysInSeconds;
@@ -83,6 +88,7 @@ const VideoUploadProvider = ({ children }: Props) => {
   const upload = async (file: Blob, info: UploadRecord) => {
     // throw error if the upload record is not valid
     const validatedUploadRecord = validateUploadRecord(info);
+    const record = createIdentifiableUploadRecord(validatedUploadRecord);
 
     if (!file) {
       throw "Abort upload: File cannot be null";
@@ -98,15 +104,13 @@ const VideoUploadProvider = ({ children }: Props) => {
     setIsUploading(true);
     setProgress(0);
 
-    const uuid = uuidv4();
-
     try {
       const startTime = new Date();
       const parallelUploads3 = new Upload({
         client: s3Client,
         params: {
           Bucket: "mcdonalds-input",
-          Key: `uploads/${uuid}`,
+          Key: `uploads/${record.uuid}`,
           Body: file,
         },
         queueSize: 4, // optional concurrency configuration
@@ -122,7 +126,7 @@ const VideoUploadProvider = ({ children }: Props) => {
       });
 
       await parallelUploads3.done();
-      await putItemToDynamoDB(validatedUploadRecord);
+      await putItemToDynamoDB(record);
       alert(
         "Upload completed successfully. Please refresh the HeyGen dashboard for the completed video!",
       );

@@ -4,13 +4,22 @@ import {
   inputLanguageMap,
   outputLanguageMap,
 } from "./Languages";
+import { v4 as uuidv4 } from "uuid";
 
 export interface UploadRecord {
-  uuid: string;
   name: string;
   email: string;
   inputLanguage: InputLanguageKey;
   outputLanguage: OutputLanguageKey;
+}
+
+export interface IdentifiableUploadRecord extends UploadRecord {
+  uuid: string;
+}
+
+export function createIdentifiableUploadRecord(record: UploadRecord) {
+  const uuid = uuidv4();
+  return { uuid: uuid, ...record };
 }
 
 export function validateUploadRecord(record: any): UploadRecord {
