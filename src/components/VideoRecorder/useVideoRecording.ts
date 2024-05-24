@@ -16,7 +16,8 @@ export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
 
   useEffect(() => {
     console.log("re-creating recording function");
-    (async function () {
+
+    const asyncCleanupFunctionWrapper = (async function () {
       setIsMediaRecorderReady(false);
       if (!(canvasElm instanceof HTMLCanvasElement)) return;
 
@@ -32,10 +33,20 @@ export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
         setIsMediaRecorderReady(true);
         setVideoStream(recorder.videoStream);
         setMediaRecorder(recorder.recorder);
+
+        return () => {
+          recorder.destory();
+        };
       } catch (error) {
         console.error("Error accessing media devices.", error);
       }
     })();
+
+    return () => {
+      asyncCleanupFunctionWrapper.then((cleanup) => {
+        cleanup && cleanup();
+      });
+    };
   }, [aspectRatio, canvasElm]);
 
   const startRecording = () => {
