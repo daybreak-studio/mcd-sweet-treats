@@ -1,28 +1,39 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export function useCountdownTimer(duration: number) {
-  const [elapsedTime, setElapsedTime] = useState(duration);
+export function useCountdownTimer(duration: number, countdownInterval = 1000) {
+  const [remainingTime, setRemainingTime] = useState(duration);
   const [hasFinished, setHasFinished] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // to prevent memory leaking
+  useEffect(() => {
+    return () => {
+      timerRef.current && clearInterval(timerRef.current);
+    };
+  }, []);
+
   const startTimer = () => {
     setHasFinished(false);
-    setElapsedTime(duration);
+    setRemainingTime(duration);
+
+    let beginTime = Date.now();
 
     timerRef.current = setInterval(() => {
-      setElapsedTime((prevDuration) => {
-        const newDuration = prevDuration - 1;
-        if (newDuration <= 0) {
-          setHasFinished(true);
+      setRemainingTime(() => {
+        const currentTime = Date.now();
+        const elapsedTime = (currentTime - beginTime) / 1000;
+
+        if (elapsedTime <= 0) {
+          finishTimer();
         }
-        return newDuration;
+        return duration - elapsedTime;
       });
-    }, 1000);
+    }, countdownInterval);
   };
 
   const resetTimer = () => {
     setHasFinished(false);
-    setElapsedTime(duration);
+    setRemainingTime(duration);
     timerRef.current && clearInterval(timerRef.current);
   };
 
@@ -31,5 +42,11 @@ export function useCountdownTimer(duration: number) {
     timerRef.current && clearInterval(timerRef.current);
   };
 
-  return { startTimer, resetTimer, finishTimer, elapsedTime, hasFinished };
+  return {
+    startTimer,
+    resetTimer,
+    finishTimer,
+    remainingTime,
+    hasFinished,
+  };
 }

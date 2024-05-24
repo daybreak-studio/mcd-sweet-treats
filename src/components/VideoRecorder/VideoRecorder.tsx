@@ -8,6 +8,7 @@ import { useBodySegmentation } from "./useBodySegmentation";
 import { useCountdownTimer } from "@/hooks/useCountdownTimer";
 import { useDynamicDOMRef } from "@/hooks/useDynamicDOMRef";
 import Button from "../Button/Button";
+import RecordButton from "../RecordButton/RecordButton";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -34,8 +35,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const recorder = useVideoRecording(canvasElm);
   useBodySegmentation(videoElm, canvasElm);
 
-  const { startTimer, finishTimer, elapsedTime, resetTimer } =
-    useCountdownTimer(MAX_DURATION);
+  const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
+    useCountdownTimer(MAX_DURATION, 60);
 
   // Put the video stream on screen
   useEffect(() => {
@@ -83,25 +84,46 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     [videoBlob],
   );
 
+  const handleRecordButtonClick = () => {
+    if (recorderState === RecorderStates.INITIAL) {
+      startRecording();
+      return;
+    }
+    if (recorderState === RecorderStates.RECORDING) {
+      stopRecording();
+      return;
+    }
+  };
+
+  // stop recording when the timer reach zero
+  useEffect(() => {
+    if (hasFinished) stopRecording();
+  }, [hasFinished]);
+
   return (
     <>
       {(recorderState === RecorderStates.INITIAL ||
         recorderState === RecorderStates.RECORDING) && (
-        <div>
-          <video ref={videoRef} autoPlay playsInline hidden />
-          <canvas
-            style={{
-              opacity: recorderState === RecorderStates.INITIAL ? 0.7 : 1,
-            }}
-            onClick={() => {
-              recorderState === RecorderStates.INITIAL
-                ? startRecording()
-                : stopRecording();
-            }}
-            ref={canvasRef}
-            className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
-          />
-        </div>
+        <>
+          <div>
+            <video ref={videoRef} autoPlay playsInline hidden />
+            <canvas
+              ref={canvasRef}
+              className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
+            />
+          </div>
+          <div className="relative z-30 mb-24 mt-auto flex flex-col items-center">
+            <div className="font-sans-base mb-2 text-light">
+              {Math.round(remainingTime)}
+            </div>
+            <RecordButton
+              maxDuration={MAX_DURATION}
+              currentTime={remainingTime}
+              isRecording={recorderState === RecorderStates.RECORDING}
+              onClick={handleRecordButtonClick}
+            />
+          </div>
+        </>
       )}
 
       {/* display the recording when the user has something recorded */}
@@ -124,7 +146,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
             autoPlay
             loop
             src={recordedURLObject ? recordedURLObject : ""}
-            // controls
+            controls
           />
         </>
       )}

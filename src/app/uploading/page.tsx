@@ -6,23 +6,13 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { motion, useTransform, motionValue } from "framer-motion";
+import { motion, useTransform, useMotionValue } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 
 type Props = {};
 
 const UploadingPage = (props: Props) => {
-  const { progress, isUploading } = useVideoUpload();
-  const router = useRouter();
-
-  const motionProgress = motionValue(progress);
-  const maskHeight = useTransform(motionProgress, [0, 1], ["0%", "100%"]);
-
-  useEffect(() => {
-    if (progress >= 1 || !isUploading) {
-      router.push("/done");
-    }
-  }, [progress, isUploading, router]);
+  const { progress } = useVideoUpload();
 
   return (
     <AppFrame>
@@ -50,11 +40,14 @@ const UploadingPage = (props: Props) => {
             className="absolute bottom-0 w-1/2 opacity-100"
             src="/images/mcflurry.png"
             alt="McFlurry Full"
+            animate={{
+              height: `${progress * 100}%`,
+            }}
             style={{
-              height: maskHeight,
               objectFit: "cover",
               objectPosition: "bottom",
               overflow: "hidden",
+              transition: "height .3 cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           />
         </div>
