@@ -108,9 +108,6 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
           <div>
             <video ref={videoRef} autoPlay playsInline hidden />
             <canvas
-              style={{
-                opacity: recorderState === RecorderStates.INITIAL ? 0.7 : 1,
-              }}
               ref={canvasRef}
               className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
             />
