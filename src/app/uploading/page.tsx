@@ -12,17 +12,10 @@ import LinkButton from "@/components/Button/LinkButton";
 type Props = {};
 
 const UploadingPage = (props: Props) => {
-  const { progress, isUploading } = useVideoUpload();
-  const router = useRouter();
+  const { progress } = useVideoUpload();
 
   const motionProgress = motionValue(progress);
   const maskHeight = useTransform(motionProgress, [0, 1], ["0%", "100%"]);
-
-  useEffect(() => {
-    if (progress >= 1 || !isUploading) {
-      router.push("/done");
-    }
-  }, [progress, isUploading, router]);
 
   return (
     <AppFrame>
