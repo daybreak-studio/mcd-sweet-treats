@@ -8,27 +8,46 @@ type Props = {
   children: string;
   inverted?: boolean;
   disabled?: boolean;
+  secondary?: boolean;
   href?: string;
   onClick?: () => void;
+  className?: string;
 };
 
-const Button = ({ children, inverted, onClick, disabled }: Props) => {
+const Button = ({
+  children,
+  inverted,
+  onClick,
+  disabled,
+  secondary,
+  className = "",
+}: Props) => {
+  const invertedPrimaryStyles = "bg-light text-dark";
+  const invertedSecondaryStyles =
+    "bg-dark text-light bg-opacity-20 backdrop-blur-lg";
+  const primaryStyles = "bg-dark text-light";
+  const secondaryStyles = "bg-light text-dark bg-opacity-20 backdrop-blur-lg";
+
+  const styling = inverted
+    ? secondary
+      ? invertedSecondaryStyles
+      : invertedPrimaryStyles
+    : secondary
+      ? secondaryStyles
+      : primaryStyles;
+
   return (
     <TracyShadow color={"#643525"} elevation={1}>
       <motion.button
         disabled={disabled}
         onClick={onClick}
-        className={`rounded-full outline-accent cursor-pointer overflow-hidden ${
-          inverted ? "bg-dark" : "bg-light"
-        }`}
+        className={`${styling} ${disabled ? "cursor-default" : "cursor-pointer"} overflow-hidden rounded-full outline-accent ${className}`}
         whileTap={{
-          scale: 0.98,
+          scale: disabled ? 1 : 0.98,
         }}
       >
         <motion.div
-          className={`h-16 pointer-events-none ${
-            inverted ? "bg-light text-dark" : "bg-dark text-light"
-          } flex items-center text-center justify-center rounded-full font-serif-base min-w-64`}
+          className={`font-serif-base pointer-events-none flex h-16 items-center justify-center rounded-full px-8 text-center`}
           animate={{
             opacity: disabled ? 0.2 : 1,
           }}
