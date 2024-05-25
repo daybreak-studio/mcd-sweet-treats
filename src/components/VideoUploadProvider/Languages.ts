@@ -1,6 +1,6 @@
 export const inputLanguageMap = {
   English: "English",
-  Filipino: "Filipino (Philippines)",
+  Tagalog: "Filipino (Philippines)",
   Japanese: "Japanese (Japan)",
   Korean: "Korean (Korea)",
   Mandarin: "Chinese (Mandarin, Simplified)",
@@ -17,7 +17,7 @@ export const outputLanguageMap = {
   Mandarin: "Chinese (Mandarin, Simplified)",
   Cantonese: "Chinese (Cantonese, Traditional)",
   English: "English",
-  Filipino: "Filipino (Philippines)",
+  Tagalog: "Filipino (Philippines)",
   Hindi: "Hindi (India)",
   Japanese: "Japanese (Japan)",
   Korean: "Korean (Korea)",
