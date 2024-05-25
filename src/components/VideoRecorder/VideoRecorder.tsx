@@ -129,16 +129,19 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       {/* display the recording when the user has something recorded */}
       {recorderState === RecorderStates.RECORDED && (
         <>
-          <div className="mb-24 mt-auto flex flex-row gap-8">
-            <Button inverted onClick={restartRecording}>
-              Redo
-            </Button>
-            <Button
-              inverted
+          <div className="z-10 mb-12 flex flex-row">
+            <button
+              className="font-serif-md rounded-full px-12 py-6"
+              onClick={restartRecording}
+            >
+              <h5 className="font-serif-md text-light">Redo</h5>
+            </button>
+            <button
+              className="font-serif-md rounded-full bg-pink-200 px-12 py-6"
               onClick={() => videoBlob && onCompleteRecording(videoBlob)}
             >
               Done
-            </Button>
+            </button>
           </div>
           <video
             className="absolute inset-0 h-[100svh] w-full object-cover xl:object-contain"
