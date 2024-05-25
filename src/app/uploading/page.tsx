@@ -16,10 +16,8 @@ const UploadingPage = (props: Props) => {
 
   return (
     <AppFrame>
-      <div className="mb-auto mt-8">
-        <LogoLockup />
-      </div>
-      <div className="mb-auto flex flex-col items-center text-center">
+      <LogoLockup />
+      <div className="flex flex-grow flex-col items-center justify-center text-center">
         <h1 className="font-serif-2xl self-start px-16 pb-4 text-center">
           {progress < 1 ? "Don't leave just yet!" : "Check your inbox!"}
         </h1>

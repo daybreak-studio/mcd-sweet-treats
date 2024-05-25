@@ -3,38 +3,66 @@
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-
-import Swirl1 from "@/components/Graphics/Swirl1";
-import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video !== null) {
+      setVideoLoaded(true);
+    }
+  }, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.3,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const childVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
   return (
-    <AppFrame>
-      <div className="mb-auto mt-8">
-        <LogoLockup noWordmark />
-      </div>
-      <div className="my-8 mb-auto flex flex-col items-center">
-        <h1 className="font-serif-lg mb-4 px-8 text-center">
+    <AppFrame caption={"Select Languages Available"}>
+      <LogoLockup />
+      <motion.div
+        className="my-8 flex flex-col items-center"
+        initial="hidden"
+        animate={videoLoaded ? "visible" : "hidden"}
+        variants={containerVariants}
+      >
+        <motion.h1
+          className="font-serif-lg mb-4 px-8 text-center"
+          variants={childVariants}
+        >
           Send grandma a sweet message
-        </h1>
-        <div className="relative z-10 h-[350px] w-full">
-          <Image
-            className="absolute left-[51%] max-w-[61.8%] translate-x-[-50%]"
-            src="/opening/visual-1-placeholder.png"
-            layout="responsive"
-            width={375}
-            height={812}
-            alt={""}
+        </motion.h1>
+        <motion.div
+          className="relative z-10 flex w-full flex-col items-center"
+          variants={childVariants}
+        >
+          <video
+            ref={videoRef}
+            className="mb-8 w-10/12 rounded-lg md:w-8/12 xl:w-1/4"
+            src="https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
           />
-          <div className="absolute bottom-[-150px] left-0 w-full">
-            <Swirl1 />
-          </div>
-        </div>
-        <LinkButton href={"/get-started"}>Continue</LinkButton>
-      </div>
-      <div className="font-sans-xs mb-8 opacity-50">
-        Select languages available.
-      </div>
+        </motion.div>
+        <motion.div variants={childVariants}>
+          <LinkButton href={"/get-started"}>Continue</LinkButton>
+        </motion.div>
+      </motion.div>
     </AppFrame>
   );
 }

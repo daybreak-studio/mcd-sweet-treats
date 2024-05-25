@@ -10,22 +10,9 @@ type Props = {};
 
 const DonePage = (props: Props) => {
   return (
-    <AppFrame>
-      <div className="pointer-events-none fixed inset-0 flex flex-col overflow-hidden">
-        <Image
-          className="mt-auto origin-bottom scale-[200%] md:w-full md:scale-150 xl:translate-y-[20%] xl:scale-100"
-          src="/images/meal.png"
-          alt="McFlurry"
-          quality={100}
-          width={500}
-          height={500}
-        />
-      </div>
-
-      <div className="mt-8 pb-32">
-        <LogoLockup noWordmark />
-      </div>
-      <div className="mb-auto flex flex-col text-center">
+    <AppFrame caption={"At participating McDonald's for a limited time."}>
+      <LogoLockup />
+      <div className="z-30 flex flex-grow flex-col items-center pt-16 text-center">
         <h5 className="font-serif-sm pb-4">
           Come to McDonald&apos;s to treat yourself to a
         </h5>
@@ -39,8 +26,16 @@ const DonePage = (props: Props) => {
           <h5 className="font-serif-sm">Record another message</h5>
         </Link>
       </div>
-      <div className="font-sans-xs z-20 w-full bg-opacity-25 bg-gradient-to-t from-[rgba(0,0,0,0.6)] to-transparent pb-8 pt-16 text-center text-light">
-        At participating McDonald’s for a limited time.
+
+      <div className="pointer-events-none fixed inset-0 flex flex-col overflow-hidden">
+        <Image
+          className="mt-auto origin-bottom translate-y-[10%] scale-[200%] md:w-full md:scale-150 xl:translate-y-[20%] xl:scale-100"
+          src="/images/meal.png"
+          alt="McFlurry"
+          quality={100}
+          width={500}
+          height={500}
+        />
       </div>
     </AppFrame>
   );

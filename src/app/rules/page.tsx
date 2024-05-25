@@ -10,24 +10,23 @@ import Image from "next/image";
 
 export default function RulesPage() {
   return (
-    <AppFrame>
-      <div className="mt-8 mb-auto">
-        <LogoLockup noWordmark />
-      </div>
-      <div className="mb-auto relative my-8 flex flex-col items-center text-center">
-        <SwirlGraphicTop className="relative mb-6 left-4" />
-        <h1 className="font-serif-xl text-center mb-4">
-          Play nice for <br /> grandma
+    <AppFrame
+      caption={
+        "McDonald’s reserves the right to not render videos that contain offensive items."
+      }
+    >
+      <LogoLockup />
+      <div className="relative my-8 flex h-full flex-grow flex-col items-center justify-center text-center">
+        <SwirlGraphicTop className="relative left-4 mb-6" />
+        <h1 className="font-serif-xl mb-4 w-8/12 text-center">
+          Be good for grandma
         </h1>
-        <div className="max-w-[26ch] font-serif-sm">
-          Mind your manners and don&apos;t say or show anything inappropriate
+        <div className="font-serif-sm max-w-[26ch]">
+          Like grandma says, if you don’t have anything nice to say, don’t say
+          anything at all.
         </div>
-        <SwirlGraphicBottom className="relative -top-16 -left-16" />
-
+        <SwirlGraphicBottom className="relative -left-16 -top-16" />
         <LinkButton href={"/language"}>{"I promise"}</LinkButton>
-      </div>
-      <div className="mb-8 font-sans-xs opacity-50">
-        Select languages available.
       </div>
     </AppFrame>
   );

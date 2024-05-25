@@ -112,7 +112,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
               className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
             />
           </div>
-          <div className="relative z-30 mb-24 mt-auto flex flex-col items-center">
+          <div className="relative z-30 mb-16 mt-auto flex flex-col items-center">
             <div className="font-sans-base mb-2 text-light">
               {Math.round(remainingTime)}
             </div>
@@ -129,7 +129,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       {/* display the recording when the user has something recorded */}
       {recorderState === RecorderStates.RECORDED && (
         <>
-          <div className="z-10 mb-12 flex flex-row">
+          <div className="fixed bottom-8 z-10 mb-12 flex flex-row">
             <button
               className="font-serif-md rounded-full px-12 py-6"
               onClick={restartRecording}

@@ -29,12 +29,12 @@ const TracyShadow = ({
     lightSourceOffset || defaultLightSourceOffset,
     [-100, 0, 100],
     [2 * elevation, 1 * elevation, 2 * elevation],
-    { clamp: false }
+    { clamp: false },
   );
 
   return (
     <div className="relative">
-      <div className="absolute bottom-0 flex items-end w-full h-full">
+      <div className="absolute bottom-0 flex h-full w-full items-end">
         <motion.div
           className="z-0 mx-auto h-[50%] w-[70%] blur-lg"
           style={{

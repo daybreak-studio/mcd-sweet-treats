@@ -25,13 +25,11 @@ export default function LanguagePage() {
     useUserInfo();
 
   return (
-    <AppFrame>
-      <div className="mb-auto mt-8">
-        <LogoLockup />
-      </div>
-      <div className="my-8 mb-auto flex flex-col items-center">
-        <h1 className="font-serif-xl mb-4 text-center">
-          Select your <br /> language
+    <AppFrame caption={"Select Languages Available"}>
+      <LogoLockup />
+      <div className="my-8 flex flex-grow flex-col items-center justify-center">
+        <h1 className="font-serif-xl mb-4 w-8/12 text-center">
+          Select your language
         </h1>
         <div className="mb-12 flex w-64 flex-col gap-4">
           <Dropdown.menu
@@ -60,9 +58,6 @@ export default function LanguagePage() {
           </Dropdown.menu>
         </div>
         <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
-      </div>
-      <div className="font-sans-xs mb-8 opacity-50">
-        Select languages available.
       </div>
     </AppFrame>
   );
