@@ -5,7 +5,7 @@ import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
 
 type Props = {
-  children: string;
+  children: React.ReactNode;
   inverted?: boolean;
   disabled?: boolean;
   secondary?: boolean;
@@ -47,7 +47,7 @@ const Button = ({
         }}
       >
         <motion.div
-          className={`font-serif-base pointer-events-none flex h-16 items-center justify-center rounded-full px-8 text-center`}
+          className={`font-serif-base pointer-events-none flex h-16 items-center justify-center gap-2 rounded-full px-8 text-center`}
           animate={{
             opacity: disabled ? 0.2 : 1,
           }}

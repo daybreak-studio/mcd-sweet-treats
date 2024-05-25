@@ -68,10 +68,15 @@ export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
     return false;
   };
 
+  const clearRecordedBlobData = () => {
+    setRecordedBlobData(null);
+  };
+
   return {
     isMediaRecorderReady,
     startRecording,
     stopRecording,
+    clearRecordedBlobData,
     videoStream,
     isRecording,
     recordedBlobData,

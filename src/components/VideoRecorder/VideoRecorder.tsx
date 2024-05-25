@@ -10,6 +10,9 @@ import { useDynamicDOMRef } from "@/hooks/useDynamicDOMRef";
 import Button from "../Button/Button";
 import RecordButton from "../RecordButton/RecordButton";
 
+import DoneSVG from "./done.svg";
+import RedoSVG from "./redo.svg";
+
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
 };
@@ -48,6 +51,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   // when there is data loaded, add to the user data
   useEffect(() => {
+    // Move the blob data from recorded blob to the storage to reduce memory usage
     setVideoBlob(recorder.recordedBlobData);
   }, [recorder.recordedBlobData, setVideoBlob]);
 
@@ -75,6 +79,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   // reset the ui to the beginning
   const restartRecording = () => {
+    // remove the junk to create reduce memory usage
+    recorder.clearRecordedBlobData();
     setRecorderState(RecorderStates.INITIAL);
     resetTimer();
   };
@@ -129,8 +135,9 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       {/* display the recording when the user has something recorded */}
       {recorderState === RecorderStates.RECORDED && (
         <>
-          <div className="fixed bottom-8 left-0 right-0 z-10 mb-12 flex flex-row justify-center">
+          <div className="fixed bottom-8 left-0 right-0 z-10 mb-12 flex flex-row justify-center gap-4">
             <Button onClick={restartRecording} secondary inverted>
+              <RedoSVG />
               Redo
             </Button>
             <Button
@@ -138,6 +145,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
               inverted
               disabled
             >
+              <DoneSVG />
               Done
             </Button>
           </div>
