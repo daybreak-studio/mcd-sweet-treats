@@ -3,37 +3,60 @@ import { useVideoSeeker } from "@/hooks/useVideoSeeker";
 import { useWindowDimension } from "@/hooks/useWindowDimension";
 import {
   clamp,
+  motion,
   useAnimate,
   useAnimationFrame,
   useMotionValue,
   useMotionValueEvent,
   useTransform,
 } from "framer-motion";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import PorgressBar from "./PorgressBar";
+import PlayIcon from "./play.svg";
 
 type Props = {
   src: string;
   className?: string;
   // the duration that roughly calculated by the video recording flow
   approximateDuration: number;
+  onScrubStart?: () => void;
+  onScrubEnd?: () => void;
 };
 
-const VideoPlayer = ({ src, className = "", approximateDuration }: Props) => {
+const VideoPlayer = ({
+  src,
+  className = "",
+  approximateDuration,
+  onScrubEnd,
+  onScrubStart,
+}: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
   const windowDim = useWindowDimension();
   const [duration, setDuration] = useState(approximateDuration);
 
-  const [shouldPlay, setShouldPlay] = useState(true);
-  // const seek = useVideoSeeker({ videoRef, isVideoReady: true });
+  const videoWidth = useMemo(() => {
+    if (!videoRef.current) return windowDim.width;
+    return videoRef.current.getBoundingClientRect().width;
+  }, [windowDim.width]);
 
-  const scrubWidth = windowDim.width / 2;
+  const [shouldPlay, setShouldPlay] = useState(true);
+  const seek = useVideoSeeker({ videoRef, isVideoReady: true });
+
+  const scrubWidth = videoWidth / 2;
   const pixelPerSec = scrubWidth / duration;
 
-  const [containerRef, scrubOffset, scrubOffsetTarget, isScrubbing] = useScrub({
+  const {
+    containerRef,
+    current: scrubOffset,
+    target: scrubOffsetTarget,
+    isScrubbing,
+    hasScrubbed,
+  } = useScrub({
     maxDistance: scrubWidth,
+    inverseGesture: true,
     canUseMouseWheel: true,
+    responsiveness: 0.5,
   });
 
   useAnimationFrame(() => {
@@ -44,13 +67,24 @@ const VideoPlayer = ({ src, className = "", approximateDuration }: Props) => {
 
   useMotionValueEvent(scrubOffset, "change", (latest) => {
     if (!isScrubbing || !videoRef.current) return;
-    videoRef.current.currentTime = -latest / pixelPerSec;
+    // videoRef.current.currentTime = -latest / pixelPerSec;
+    seek(-latest / pixelPerSec);
   });
 
   const currentTime = useTransform(
     scrubOffset,
     (latest) => duration * (-latest / scrubWidth),
   );
+
+  useEffect(() => {
+    if (isScrubbing && hasScrubbed) {
+      onScrubStart?.();
+    }
+  }, [isScrubbing, hasScrubbed]);
+
+  useEffect(() => {
+    if (!isScrubbing) onScrubEnd?.();
+  }, [isScrubbing]);
 
   // console.log(pixelPerSec * duration);
   // useMotionValueEvent(currentTime, "change", (latest) => console.log(latest));
@@ -74,21 +108,34 @@ const VideoPlayer = ({ src, className = "", approximateDuration }: Props) => {
   };
 
   return (
-    <div className={`${className}`} ref={containerRef}>
-      <video
+    <div className={`${className} touch-pan-y`} ref={containerRef}>
+      <motion.video
         // click to play/pause
-        onClick={() => setShouldPlay(!shouldPlay)}
-        className="h-full w-full object-contain xl:object-contain"
+        onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
+        className="h-full w-full object-cover"
         playsInline
         autoPlay
         loop
         src={src}
         ref={videoRef}
         onDurationChange={handleDurationChange}
+        animate={{
+          opacity: shouldPlay ? 1 : 0.9,
+        }}
         // controls
       />
-      <div className="absolute bottom-12 left-0 right-0 z-20 flex justify-center">
-        <PorgressBar duration={duration} currentTime={currentTime} />
+      <PlayIcon
+        className="pointer-events-none absolute left-1/2 top-1/2 z-20 scale-150"
+        style={{
+          visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
+        }}
+      />
+      <div className="pointer-events-none absolute bottom-16 left-16 right-16 z-20 flex justify-center">
+        <PorgressBar
+          duration={duration}
+          currentTime={currentTime}
+          isActive={isScrubbing && hasScrubbed}
+        />
       </div>
     </div>
   );

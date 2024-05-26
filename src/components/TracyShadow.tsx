@@ -14,6 +14,7 @@ type Props = {
   color: string;
   elevation?: number;
   lightSourceOffset?: MotionValue;
+  className?: string;
 };
 
 const TracyShadow = ({
@@ -21,6 +22,7 @@ const TracyShadow = ({
   color,
   elevation = 1,
   lightSourceOffset,
+  className,
 }: Props) => {
   const yOffset = 100;
   const defaultLightSourceOffset = useMotionValue(0);
@@ -33,7 +35,7 @@ const TracyShadow = ({
   );
 
   return (
-    <div className="relative">
+    <div className={`relative ${className}`}>
       <div className="absolute bottom-0 flex h-full w-full items-end">
         <motion.div
           className="z-0 mx-auto h-[50%] w-[70%] blur-lg"

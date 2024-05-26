@@ -2,6 +2,7 @@ import {
   MotionValue,
   clamp,
   useMotionValue,
+  useMotionValueEvent,
   useTransform,
 } from "framer-motion";
 import {
@@ -13,13 +14,6 @@ import {
 } from "react";
 import { useFollowMotionValue } from "./useFollowMotionValue";
 import { useWindowDimension } from "./useWindowDimension";
-
-type Scrub = [
-  MutableRefObject<HTMLDivElement>,
-  MotionValue,
-  MotionValue,
-  boolean,
-];
 
 enum ScrubDirection {
   x = "x",
@@ -34,7 +28,8 @@ export function useScrub({
   responsiveness = 0.2,
   dampingConst = 8,
   dampingMargin = 1000,
-}): Scrub {
+  inverseGesture = false,
+}) {
   const containerRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   const target = useMotionValue(0);
@@ -48,6 +43,13 @@ export function useScrub({
 
   const [isUsingDrag, setIsUsingDrag] = useState(false);
   const [isScrubbing, setIsScrubbing] = useState(false);
+  const [hasScrubbed, setHasScrubbed] = useState(false);
+
+  useEffect(() => {
+    if (isScrubbing) {
+      setHasScrubbed(false);
+    }
+  }, [isScrubbing]);
 
   // snap to a position after released a drag
   useEffect(() => {
@@ -80,16 +82,18 @@ export function useScrub({
       isDragging = true;
       prevVal = direction === ScrubDirection.x ? e.clientX : e.clientY;
       setIsScrubbing(true);
+      setHasScrubbed(false);
       setIsUsingDrag(true);
     };
     const handlePointerMove = (e: PointerEvent) => {
       if (!isDragging) return;
 
       const currVal = direction === ScrubDirection.x ? e.clientX : e.clientY;
-      const deltaY = currVal - prevVal;
+      const delta = currVal - prevVal;
 
-      const updatedTarget = getClampedNewValue(deltaY);
+      const updatedTarget = getClampedNewValue(inverseGesture ? -delta : delta);
       target.set(updatedTarget);
+      setHasScrubbed(true);
 
       prevVal = currVal;
     };
@@ -120,6 +124,7 @@ export function useScrub({
     direction,
     getClampedNewValue,
     target,
+    inverseGesture,
   ]);
 
   useEffect(() => {
@@ -131,7 +136,10 @@ export function useScrub({
       // delta value
       const delta = direction === ScrubDirection.x ? e.deltaX : e.deltaY;
       const scrollDelta = -clamp(-maxWheelDelta, maxWheelDelta, delta * 1);
-      target.set(getClampedNewValue(scrollDelta));
+      target.set(
+        getClampedNewValue(inverseGesture ? -scrollDelta : scrollDelta),
+      );
+      setHasScrubbed(true);
       setIsScrubbing(true);
     };
 
@@ -152,9 +160,10 @@ export function useScrub({
     maxWheelDelta,
     target,
     getClampedNewValue,
+    inverseGesture,
   ]);
 
-  return [containerRef, current, target, isScrubbing];
+  return { containerRef, current, target, isScrubbing, hasScrubbed };
 }
 /**
  * A hook that allows you to scrub a container element:
