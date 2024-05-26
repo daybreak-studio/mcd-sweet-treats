@@ -83,7 +83,6 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   // control flow for stopping a recording
   const stopRecording = useCallback(() => {
-    // console.trace("stop recording");
     const success = recorder.stopRecording();
     if (!success) {
       console.log("Cannot stop recording");
@@ -91,7 +90,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     }
     setRecorderState(RecorderStates.RECORDED);
     setApproimateVideoDuration(MAX_DURATION - remainingTime);
-  }, [recorder, remainingTime]);
+    resetTimer();
+  }, [recorder, resetTimer, remainingTime]);
 
   // reset the ui to the beginning
   const restartRecording = useCallback(() => {
