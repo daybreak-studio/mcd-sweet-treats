@@ -16,9 +16,9 @@ const RecordPage = (props: Props) => {
   };
 
   return (
-    <AppFrame>
+    <div className="fixed inset-0 h-full w-full bg-dark">
       <VideoRecorder onCompleteRecording={handleRecordingComplete} />
-    </AppFrame>
+    </div>
   );
 };
 

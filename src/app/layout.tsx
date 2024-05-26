@@ -3,6 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 import VideoUploadProvider from "@/components/VideoUploadProvider/VideoUploadProvider";
 import UserInfoProvider from "@/components/UserInfoProvider/UserInfoProvider";
+import { WindowDimensionContextProvider } from "@/hooks/useWindowDimension";
 
 const font_speedee = localFont({
   src: [
@@ -34,9 +35,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`overscroll-none bg-accent ${font_speedee.variable}`}>
-        <UserInfoProvider>
-          <VideoUploadProvider>{children}</VideoUploadProvider>
-        </UserInfoProvider>
+        <WindowDimensionContextProvider>
+          <UserInfoProvider>
+            <VideoUploadProvider>{children}</VideoUploadProvider>
+          </UserInfoProvider>
+        </WindowDimensionContextProvider>
       </body>
     </html>
   );

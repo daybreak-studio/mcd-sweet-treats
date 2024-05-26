@@ -12,6 +12,10 @@ import RecordButton from "../RecordButton/RecordButton";
 
 import DoneSVG from "./done.svg";
 import RedoSVG from "./redo.svg";
+import { usePermission } from "react-use";
+import VideoPlayer from "../VideoPlayer/VideoPlayer";
+import { motion } from "framer-motion";
+import { AnimationConfig } from "../AnimationConfig";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -25,12 +29,23 @@ enum RecorderStates {
 }
 
 const VideoRecorder = ({ onCompleteRecording }: Props) => {
+  // either prompt, granted or denied
+  const cameraPermissionState = usePermission({ name: "camera" });
+  const microphonePermissionState = usePermission({ name: "microphone" });
+  const hasUserGrantedPermissions = useMemo(
+    () =>
+      cameraPermissionState === "granted" &&
+      microphonePermissionState === "granted",
+    [cameraPermissionState, microphonePermissionState],
+  );
+
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
   const [recorderState, setRecorderState] = useState<RecorderStates>(
     RecorderStates.INITIAL,
   );
+  const [shouldShowNavButtons, setShouldShowNavButtons] = useState(true);
 
   // for writing to the global state
   const { videoBlob, setVideoBlob } = useUserInfo();
@@ -40,6 +55,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
     useCountdownTimer(MAX_DURATION, 60);
+
+  const [approximateVideoDuration, setApproimateVideoDuration] = useState(0);
 
   // Put the video stream on screen
   useEffect(() => {
@@ -74,7 +91,9 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       return;
     }
     setRecorderState(RecorderStates.RECORDED);
+
     finishTimer();
+    setApproimateVideoDuration(MAX_DURATION - remainingTime);
   };
 
   // reset the ui to the beginning
@@ -107,59 +126,79 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   }, [hasFinished]);
 
   return (
-    <>
-      {(recorderState === RecorderStates.INITIAL ||
-        recorderState === RecorderStates.RECORDING) && (
-        <>
-          <div>
-            <video ref={videoRef} autoPlay playsInline hidden />
-            <canvas
-              ref={canvasRef}
-              className="absolute left-0 top-0 z-10 h-[100svh] w-full object-cover xl:object-contain"
-            />
-          </div>
-          <div className="relative z-30 mb-16 mt-auto flex flex-col items-center">
-            <div className="font-sans-base mb-2 text-light">
-              {Math.round(remainingTime)}
+    <div className="fixed inset-0 flex h-svh">
+      <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
+        {(recorderState === RecorderStates.INITIAL ||
+          recorderState === RecorderStates.RECORDING) && (
+          <>
+            <div className="absolute inset-0 z-10">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                hidden
+                className="hidden"
+              />
+              <canvas ref={canvasRef} className="h-full w-full object-cover" />
             </div>
-            <RecordButton
-              maxDuration={MAX_DURATION}
-              currentTime={remainingTime}
-              isRecording={recorderState === RecorderStates.RECORDING}
-              onClick={handleRecordButtonClick}
-            />
-          </div>
-        </>
-      )}
+            <div className="relative z-30 mb-16 mt-auto flex flex-col items-center">
+              <div className="font-sans-base mb-2 text-light">
+                {Math.round(remainingTime)}
+              </div>
+              <RecordButton
+                maxDuration={MAX_DURATION}
+                currentTime={remainingTime}
+                isRecording={recorderState === RecorderStates.RECORDING}
+                onClick={handleRecordButtonClick}
+              />
+            </div>
+          </>
+        )}
 
-      {/* display the recording when the user has something recorded */}
-      {recorderState === RecorderStates.RECORDED && (
-        <>
-          <div className="fixed bottom-8 left-0 right-0 z-10 mb-12 flex flex-row justify-center gap-4">
-            <Button onClick={restartRecording} secondary inverted>
-              <RedoSVG />
-              Redo
-            </Button>
-            <Button
-              onClick={() => videoBlob && onCompleteRecording(videoBlob)}
-              inverted
-              disabled
-            >
-              <DoneSVG />
-              Done
-            </Button>
-          </div>
-          <video
-            className="absolute inset-0 h-[100svh] w-full object-cover xl:object-contain"
-            playsInline
-            autoPlay
-            loop
-            src={recordedURLObject ? recordedURLObject : ""}
-            controls
-          />
-        </>
-      )}
-    </>
+        {/* display the recording when the user has something recorded */}
+        {recorderState === RecorderStates.RECORDED && (
+          <>
+            <div className="absolute bottom-0 left-0 right-0 z-10 mb-24">
+              <motion.div
+                className="flex flex-row justify-center gap-4"
+                animate={{
+                  y: shouldShowNavButtons ? 0 : 30,
+                  transition: {
+                    duration: AnimationConfig.NORMAL,
+                    ease: AnimationConfig.EASING,
+                  },
+                }}
+              >
+                <Button
+                  isVisible={shouldShowNavButtons}
+                  onClick={restartRecording}
+                  secondary
+                  inverted
+                >
+                  <RedoSVG />
+                  Redo
+                </Button>
+                <Button
+                  isVisible={shouldShowNavButtons}
+                  onClick={() => videoBlob && onCompleteRecording(videoBlob)}
+                  inverted
+                >
+                  <DoneSVG />
+                  Done
+                </Button>
+              </motion.div>
+            </div>
+            <VideoPlayer
+              src={recordedURLObject ? recordedURLObject : ""}
+              className="h-full w-full"
+              approximateDuration={approximateVideoDuration}
+              onScrubEnd={() => setShouldShowNavButtons(true)}
+              onScrubStart={() => setShouldShowNavButtons(false)}
+            />
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 
