@@ -12,6 +12,8 @@ import RecordButton from "../RecordButton/RecordButton";
 
 import DoneSVG from "./done.svg";
 import RedoSVG from "./redo.svg";
+import { usePermission } from "react-use";
+import VideoPlayer from "../VideoPlayer/VideoPlayer";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -25,6 +27,16 @@ enum RecorderStates {
 }
 
 const VideoRecorder = ({ onCompleteRecording }: Props) => {
+  // either prompt, granted or denied
+  const cameraPermissionState = usePermission({ name: "camera" });
+  const microphonePermissionState = usePermission({ name: "microphone" });
+  const hasUserGrantedPermissions = useMemo(
+    () =>
+      cameraPermissionState === "granted" &&
+      microphonePermissionState === "granted",
+    [cameraPermissionState, microphonePermissionState],
+  );
+
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
@@ -40,6 +52,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
     useCountdownTimer(MAX_DURATION, 60);
+
+  const [approximateVideoDuration, setApproimateVideoDuration] = useState(0);
 
   // Put the video stream on screen
   useEffect(() => {
@@ -74,7 +88,9 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       return;
     }
     setRecorderState(RecorderStates.RECORDED);
+
     finishTimer();
+    setApproimateVideoDuration(MAX_DURATION - remainingTime);
   };
 
   // reset the ui to the beginning
@@ -135,27 +151,25 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       {/* display the recording when the user has something recorded */}
       {recorderState === RecorderStates.RECORDED && (
         <>
-          <div className="fixed bottom-8 left-0 right-0 z-10 mb-12 flex flex-row justify-center gap-4">
-            <Button onClick={restartRecording} secondary inverted>
-              <RedoSVG />
-              Redo
-            </Button>
-            <Button
-              onClick={() => videoBlob && onCompleteRecording(videoBlob)}
-              inverted
-              disabled
-            >
-              <DoneSVG />
-              Done
-            </Button>
+          <div className="fixed bottom-8 left-0 right-0 z-10 mb-12 ">
+            <div className="flex flex-row justify-center gap-4">
+              <Button onClick={restartRecording} secondary inverted>
+                <RedoSVG />
+                Redo
+              </Button>
+              <Button
+                onClick={() => videoBlob && onCompleteRecording(videoBlob)}
+                inverted
+              >
+                <DoneSVG />
+                Done
+              </Button>
+            </div>
           </div>
-          <video
-            className="absolute inset-0 h-[100svh] w-full object-cover xl:object-contain"
-            playsInline
-            autoPlay
-            loop
+          <VideoPlayer
             src={recordedURLObject ? recordedURLObject : ""}
-            controls
+            className="fixed inset-0 h-[100svh] w-full"
+            approximateDuration={approximateVideoDuration}
           />
         </>
       )}
