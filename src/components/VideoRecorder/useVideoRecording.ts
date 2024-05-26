@@ -4,6 +4,7 @@ import { createMediaRecorder } from "./createMediaRecorder";
 
 export function useVideoRecording(
   canvasElm: HTMLCanvasElement | undefined,
+  videoElm: HTMLVideoElement | undefined,
   hasPermissionGranted: boolean,
 ) {
   const [recordedBlobData, setRecordedBlobData] = useState<Blob | null>(null);
@@ -77,6 +78,14 @@ export function useVideoRecording(
   const clearRecordedBlobData = () => {
     setRecordedBlobData(null);
   };
+
+  // Put the video stream on screen
+  useEffect(() => {
+    if (videoElm && videoStream) {
+      videoElm.srcObject = videoStream;
+      videoElm.play().catch(console.error);
+    }
+  }, [videoStream, videoElm]);
 
   return {
     isMediaRecorderReady,

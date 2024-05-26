@@ -50,21 +50,18 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   // for writing to the global state
   const { videoBlob, setVideoBlob } = useUserInfo();
 
-  const recorder = useVideoRecording(canvasElm, hasUserGrantedPermissions);
+  const recorder = useVideoRecording(
+    canvasElm,
+    videoElm,
+    hasUserGrantedPermissions,
+  );
   const isVideoFeedReady = useBodySegmentation(videoElm, canvasElm);
+  const isCameraExperienceReady = isVideoFeedReady && hasUserGrantedPermissions;
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
     useCountdownTimer(MAX_DURATION, 60);
 
   const [approximateVideoDuration, setApproimateVideoDuration] = useState(0);
-
-  // Put the video stream on screen
-  useEffect(() => {
-    if (videoElm && recorder.videoStream) {
-      videoElm.srcObject = recorder.videoStream;
-      videoElm.play().catch(console.error);
-    }
-  }, [recorder.videoStream, videoElm]);
 
   // when there is data loaded, add to the user data
   useEffect(() => {
@@ -138,8 +135,6 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       setRecorderState(RecorderStates.INITIAL);
     }
   }, [recorder.isRecording, stopRecording, hasUserGrantedPermissions]);
-
-  const isCameraExperienceReady = isVideoFeedReady && hasUserGrantedPermissions;
 
   return (
     <div className="fixed inset-0 flex h-svh">
