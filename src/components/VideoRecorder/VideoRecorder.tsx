@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useUserInfo } from "../UserInfoProvider/UserInfoProvider";
 import { useState, useEffect } from "react";
 import { useVideoRecording } from "./useVideoRecording";
@@ -50,7 +50,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   // for writing to the global state
   const { videoBlob, setVideoBlob } = useUserInfo();
 
-  const recorder = useVideoRecording(canvasElm);
+  const recorder = useVideoRecording(canvasElm, hasUserGrantedPermissions);
   const isVideoFeedReady = useBodySegmentation(videoElm, canvasElm);
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
@@ -73,7 +73,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   }, [recorder.recordedBlobData, setVideoBlob]);
 
   // control flow for starting a recording
-  const startRecording = () => {
+  const startRecording = useCallback(() => {
+    console.log("start recording");
     const success = recorder.startRecording();
     if (!success) {
       console.log("Cannot start recording");
@@ -81,28 +82,27 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     }
     setRecorderState(RecorderStates.RECORDING);
     startTimer();
-  };
+  }, [recorder, startTimer]);
 
   // control flow for stopping a recording
-  const stopRecording = () => {
+  const stopRecording = useCallback(() => {
+    // console.trace("stop recording");
     const success = recorder.stopRecording();
     if (!success) {
       console.log("Cannot stop recording");
       return;
     }
     setRecorderState(RecorderStates.RECORDED);
-
-    finishTimer();
     setApproimateVideoDuration(MAX_DURATION - remainingTime);
-  };
+  }, [recorder, remainingTime]);
 
   // reset the ui to the beginning
-  const restartRecording = () => {
+  const restartRecording = useCallback(() => {
     // remove the junk to create reduce memory usage
     recorder.clearRecordedBlobData();
     setRecorderState(RecorderStates.INITIAL);
     resetTimer();
-  };
+  }, [recorder, resetTimer]);
 
   const recordedURLObject = useMemo(
     () => videoBlob && URL.createObjectURL(videoBlob),
@@ -115,15 +115,29 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
       return;
     }
     if (recorderState === RecorderStates.RECORDING) {
-      stopRecording();
+      finishTimer();
       return;
     }
   };
 
   // stop recording when the timer reach zero
   useEffect(() => {
-    if (hasFinished) stopRecording();
-  }, [hasFinished]);
+    if (hasFinished && recorder.isRecording) {
+      stopRecording();
+    }
+  }, [hasFinished, stopRecording, recorder.isRecording]);
+
+  // handling permission rejection
+  useEffect(() => {
+    if (hasUserGrantedPermissions) {
+      return;
+    }
+    // stop recording if the user aborted the permission
+    if (recorder.isRecording) {
+      stopRecording();
+      setRecorderState(RecorderStates.INITIAL);
+    }
+  }, [recorder.isRecording, stopRecording, hasUserGrantedPermissions]);
 
   const isCameraExperienceReady = isVideoFeedReady && hasUserGrantedPermissions;
 

@@ -2,7 +2,10 @@ import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import useViewport from "@/hooks/useViewport";
 import { createMediaRecorder } from "./createMediaRecorder";
 
-export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
+export function useVideoRecording(
+  canvasElm: HTMLCanvasElement | undefined,
+  hasPermissionGranted: boolean,
+) {
   const [recordedBlobData, setRecordedBlobData] = useState<Blob | null>(null);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
     null,
@@ -15,7 +18,10 @@ export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
   const aspectRatio = useMemo(() => (isMobile ? 16 / 9 : 9 / 16), [isMobile]);
 
   useEffect(() => {
-    console.log("re-creating recording function");
+    if (!hasPermissionGranted) {
+      console.log("User have not granted permission, abort");
+    }
+    // console.log("re-creating recording function");
 
     const asyncCleanupFunctionWrapper = (async function () {
       setIsMediaRecorderReady(false);
@@ -47,7 +53,7 @@ export function useVideoRecording(canvasElm?: HTMLCanvasElement) {
         cleanup && cleanup();
       });
     };
-  }, [aspectRatio, canvasElm]);
+  }, [aspectRatio, canvasElm, hasPermissionGranted]);
 
   const startRecording = () => {
     if (mediaRecorder && mediaRecorder.state === "inactive") {
