@@ -9,11 +9,12 @@ export function useBodySegmentation(
     if (!videoElm || !canvasElm) {
       return;
     }
-    let cleanup = () => {};
-    (async () => {
-      cleanup = await runBodySegment(videoElm, canvasElm);
+    let cleanup = (async () => {
+      return await runBodySegment(videoElm, canvasElm);
     })();
-    return () => cleanup();
+    return () => {
+      cleanup.then((cleanup) => cleanup());
+    };
   }, [videoElm, canvasElm]);
 
   // Run the body segmentation model on the video feed
@@ -33,6 +34,8 @@ export function useBodySegmentation(
       segmenterConfig,
     );
 
+    let segmentationAnimFrame = 0;
+
     const processSegmentation = async () => {
       if (videoElm && canvasElm && videoElm.readyState === 4) {
         const segmentation = await segmenter.segmentPeople(videoElm);
@@ -50,13 +53,13 @@ export function useBodySegmentation(
           edgeBlurAmount,
           flipHorizontal,
         );
-        requestAnimationFrame(processSegmentation);
+        segmentationAnimFrame = requestAnimationFrame(processSegmentation);
       }
     };
 
     // If the video is playing, start processing the segmentation
     const startSegmentation = () => {
-      requestAnimationFrame(processSegmentation);
+      segmentationAnimFrame = requestAnimationFrame(processSegmentation);
     };
 
     if (videoElm) {
@@ -66,6 +69,7 @@ export function useBodySegmentation(
     return () => {
       if (videoElm) {
         videoElm.removeEventListener("playing", startSegmentation);
+        cancelAnimationFrame(segmentationAnimFrame);
       }
     };
   };
