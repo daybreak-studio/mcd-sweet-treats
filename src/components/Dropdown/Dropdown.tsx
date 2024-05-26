@@ -36,11 +36,11 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
   }, [isFocused]);
 
   return (
-    <label className="relative flex flex-col text-center">
-      <div className="font-sans-sm select-none px-3 py-2 font-bold uppercase">
+    <motion.label className="relative flex flex-col text-center">
+      <motion.div className="font-sans-sm select-none px-3 py-2 font-bold uppercase">
         {label}
-      </div>
-      <TracyShadow color={"#643525"} elevation={1}>
+      </motion.div>
+      <TracyShadow color={"#643525"} variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} elevation={1}>
         <motion.div
           className="relative w-full"
           animate={{
@@ -93,7 +93,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
           <Heart />
         </motion.div>
       </TracyShadow>
-    </label>
+    </motion.label>
   );
 };
 

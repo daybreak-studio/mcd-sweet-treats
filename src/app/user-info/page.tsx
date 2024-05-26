@@ -85,7 +85,7 @@ export default function UserInfoPage() {
           {"Submit"}
         </Button>
       </div>
-      <div className="font-sans-xs mb-8 opacity-50">
+      <div className="font-sans-xs mb-8 opacity-50 text-center mx-auto">
         Select languages available.
       </div>
     </AppFrame>

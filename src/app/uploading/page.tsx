@@ -18,7 +18,7 @@ const UploadingPage = (props: Props) => {
     <AppFrame>
       <LogoLockup />
       <div className="flex flex-grow flex-col items-center justify-center text-center">
-        <h1 className="font-serif-2xl self-start px-16 pb-4 text-center">
+        <h1 className="font-serif-2xl self-start px-16 pb-4 text-center mx-auto">
           {progress < 1 ? "Don't leave just yet!" : "Check your inbox!"}
         </h1>
         <h5 className="font-serif-base pb-8">
