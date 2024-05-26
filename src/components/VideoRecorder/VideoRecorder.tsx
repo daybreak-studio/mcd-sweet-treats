@@ -158,7 +158,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
         {/* display the recording when the user has something recorded */}
         {recorderState === RecorderStates.RECORDED && (
           <>
-            <div className="absolute bottom-0 left-0 right-0 z-10 mb-16">
+            <div className="absolute bottom-0 left-0 right-0 z-10 mb-24">
               <motion.div
                 className="flex flex-row justify-center gap-4"
                 animate={{

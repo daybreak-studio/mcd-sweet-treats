@@ -130,7 +130,7 @@ const VideoPlayer = ({
           visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
         }}
       />
-      <div className="pointer-events-none absolute bottom-16 left-16 right-16 z-20 flex justify-center">
+      <div className="pointer-events-none absolute bottom-12 left-16 right-16 z-20 flex justify-center">
         <PorgressBar
           duration={duration}
           currentTime={currentTime}
