@@ -1,19 +1,24 @@
 import * as bodySegmentation from "@tensorflow-models/body-segmentation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function useBodySegmentation(
   videoElm?: HTMLVideoElement,
   canvasElm?: HTMLCanvasElement,
 ) {
+  const [isVideoFeedReady, setIsVideoFeedReady] = useState(false);
+
   useEffect(() => {
     if (!videoElm || !canvasElm) {
       return;
     }
-    let cleanup = (async () => {
-      return await runBodySegment(videoElm, canvasElm);
+    setIsVideoFeedReady(false);
+    let asyncCleanupWrapper = (async () => {
+      const cleanupFunction = await runBodySegment(videoElm, canvasElm);
+      return cleanupFunction;
     })();
     return () => {
-      cleanup.then((cleanup) => cleanup());
+      setIsVideoFeedReady(false);
+      asyncCleanupWrapper.then((cleanup) => cleanup());
     };
   }, [videoElm, canvasElm]);
 
@@ -59,6 +64,7 @@ export function useBodySegmentation(
 
     // If the video is playing, start processing the segmentation
     const startSegmentation = () => {
+      setIsVideoFeedReady(true);
       segmentationAnimFrame = requestAnimationFrame(processSegmentation);
     };
 
@@ -73,4 +79,6 @@ export function useBodySegmentation(
       }
     };
   };
+
+  return isVideoFeedReady;
 }

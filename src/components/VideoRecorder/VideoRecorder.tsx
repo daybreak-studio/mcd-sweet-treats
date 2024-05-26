@@ -51,7 +51,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const { videoBlob, setVideoBlob } = useUserInfo();
 
   const recorder = useVideoRecording(canvasElm);
-  useBodySegmentation(videoElm, canvasElm);
+  const isVideoFeedReady = useBodySegmentation(videoElm, canvasElm);
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
     useCountdownTimer(MAX_DURATION, 60);
@@ -125,6 +125,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     if (hasFinished) stopRecording();
   }, [hasFinished]);
 
+  const isCameraExperienceReady = isVideoFeedReady && hasUserGrantedPermissions;
+
   return (
     <div className="fixed inset-0 flex h-svh">
       <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
@@ -135,7 +137,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: 1,
+                  opacity: isVideoFeedReady ? 1 : 0,
                   transition: {
                     duration: AnimationConfig.SLOW,
                   },
@@ -161,7 +163,18 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 />
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: isCameraExperienceReady ? 0 : 1,
+                }}
+                className="font-sans-sm absolute inset-0 z-30 mx-auto flex max-w-[26ch] items-center justify-center text-center text-light"
+              >
+                {!hasUserGrantedPermissions
+                  ? "To provide you with the best experience, we need access to your camera and microphone for recording."
+                  : "Preparing camera"}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 0 }}
                 animate={{
                   opacity: 1,
                   y: 0,
@@ -172,22 +185,38 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 }}
                 exit={{
                   opacity: 0,
-                  y: 30,
+                  y: 10,
+                  scale: 0.9,
                   transition: {
-                    duration: AnimationConfig.NORMAL,
+                    duration: AnimationConfig.FAST,
                     ease: AnimationConfig.EASING,
                   },
                 }}
                 className="relative z-30 mb-16 mt-auto flex flex-col items-center"
               >
-                <div className="font-sans-base mb-2 text-light">
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                  }}
+                  animate={{
+                    opacity: isCameraExperienceReady ? 1 : 0,
+                    y: isCameraExperienceReady ? 0 : 10,
+                    transition: {
+                      duration: AnimationConfig.NORMAL,
+                      ease: AnimationConfig.EASING,
+                      delay: AnimationConfig.FAST,
+                    },
+                  }}
+                  className="font-sans-base mb-2 select-none text-light"
+                >
                   {Math.round(remainingTime)}
-                </div>
+                </motion.div>
                 <RecordButton
                   maxDuration={MAX_DURATION}
                   currentTime={remainingTime}
                   isRecording={recorderState === RecorderStates.RECORDING}
                   onClick={handleRecordButtonClick}
+                  isLoading={!isCameraExperienceReady}
                 />
               </motion.div>
             </React.Fragment>
