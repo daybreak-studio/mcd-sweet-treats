@@ -14,7 +14,7 @@ import DoneSVG from "./done.svg";
 import RedoSVG from "./redo.svg";
 import { usePermission } from "react-use";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 
 type Props = {
@@ -128,75 +128,133 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   return (
     <div className="fixed inset-0 flex h-svh">
       <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
-        {(recorderState === RecorderStates.INITIAL ||
-          recorderState === RecorderStates.RECORDING) && (
-          <>
-            <div className="absolute inset-0 z-10">
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                hidden
-                className="hidden"
-              />
-              <canvas ref={canvasRef} className="h-full w-full object-cover" />
-            </div>
-            <div className="relative z-30 mb-16 mt-auto flex flex-col items-center">
-              <div className="font-sans-base mb-2 text-light">
-                {Math.round(remainingTime)}
-              </div>
-              <RecordButton
-                maxDuration={MAX_DURATION}
-                currentTime={remainingTime}
-                isRecording={recorderState === RecorderStates.RECORDING}
-                onClick={handleRecordButtonClick}
-              />
-            </div>
-          </>
-        )}
-
-        {/* display the recording when the user has something recorded */}
-        {recorderState === RecorderStates.RECORDED && (
-          <>
-            <div className="absolute bottom-0 left-0 right-0 z-10 mb-24">
+        <AnimatePresence mode={"wait"}>
+          {(recorderState === RecorderStates.INITIAL ||
+            recorderState === RecorderStates.RECORDING) && (
+            <React.Fragment key={"initial"}>
               <motion.div
-                className="flex flex-row justify-center gap-4"
+                initial={{ opacity: 0 }}
                 animate={{
-                  y: shouldShowNavButtons ? 0 : 30,
+                  opacity: 1,
+                  transition: {
+                    duration: AnimationConfig.SLOW,
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  transition: {
+                    duration: AnimationConfig.NORMAL,
+                  },
+                }}
+                className="absolute inset-0 z-10"
+              >
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  hidden
+                  className="hidden"
+                />
+                <canvas
+                  ref={canvasRef}
+                  className="h-full w-full object-cover"
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
                   transition: {
                     duration: AnimationConfig.NORMAL,
                     ease: AnimationConfig.EASING,
                   },
                 }}
+                exit={{
+                  opacity: 0,
+                  y: 30,
+                  transition: {
+                    duration: AnimationConfig.NORMAL,
+                    ease: AnimationConfig.EASING,
+                  },
+                }}
+                className="relative z-30 mb-16 mt-auto flex flex-col items-center"
               >
-                <Button
-                  isVisible={shouldShowNavButtons}
-                  onClick={restartRecording}
-                  secondary
-                  inverted
-                >
-                  <RedoSVG />
-                  Redo
-                </Button>
-                <Button
-                  isVisible={shouldShowNavButtons}
-                  onClick={() => videoBlob && onCompleteRecording(videoBlob)}
-                  inverted
-                >
-                  <DoneSVG />
-                  Done
-                </Button>
+                <div className="font-sans-base mb-2 text-light">
+                  {Math.round(remainingTime)}
+                </div>
+                <RecordButton
+                  maxDuration={MAX_DURATION}
+                  currentTime={remainingTime}
+                  isRecording={recorderState === RecorderStates.RECORDING}
+                  onClick={handleRecordButtonClick}
+                />
               </motion.div>
-            </div>
-            <VideoPlayer
-              src={recordedURLObject ? recordedURLObject : ""}
-              className="h-full w-full"
-              approximateDuration={approximateVideoDuration}
-              onScrubEnd={() => setShouldShowNavButtons(true)}
-              onScrubStart={() => setShouldShowNavButtons(false)}
-            />
-          </>
-        )}
+            </React.Fragment>
+          )}
+
+          {/* display the recording when the user has something recorded */}
+          {recorderState === RecorderStates.RECORDED && (
+            <React.Fragment key={"recorded"}>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                    duration: AnimationConfig.NORMAL,
+                    ease: AnimationConfig.EASING,
+                  },
+                }}
+                exit={{
+                  opacity: 0,
+                  y: 30,
+                  transition: {
+                    duration: AnimationConfig.NORMAL,
+                    ease: AnimationConfig.EASING,
+                  },
+                }}
+                className="absolute bottom-0 left-0 right-0 z-10 mb-24"
+              >
+                <motion.div
+                  className="flex flex-row justify-center gap-4"
+                  animate={{
+                    y: shouldShowNavButtons ? 0 : 30,
+                    transition: {
+                      duration: AnimationConfig.NORMAL,
+                      ease: AnimationConfig.EASING,
+                    },
+                  }}
+                >
+                  <Button
+                    isVisible={shouldShowNavButtons}
+                    onClick={restartRecording}
+                    secondary
+                    inverted
+                  >
+                    <RedoSVG />
+                    Redo
+                  </Button>
+                  <Button
+                    isVisible={shouldShowNavButtons}
+                    onClick={() => videoBlob && onCompleteRecording(videoBlob)}
+                    inverted
+                  >
+                    <DoneSVG />
+                    Done
+                  </Button>
+                </motion.div>
+              </motion.div>
+              <VideoPlayer
+                src={recordedURLObject ? recordedURLObject : ""}
+                className="h-full w-full"
+                approximateDuration={approximateVideoDuration}
+                onScrubEnd={() => setShouldShowNavButtons(true)}
+                onScrubStart={() => setShouldShowNavButtons(false)}
+              />
+            </React.Fragment>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
