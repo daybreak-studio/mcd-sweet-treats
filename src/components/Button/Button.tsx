@@ -4,6 +4,7 @@ import React from "react";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
+import { AnimWrap } from "../AnimWrap";
 
 type Props = {
   children: React.ReactNode;
@@ -52,6 +53,8 @@ const Button = ({
       whileTap={{
         scale: disabled ? 1 : 0.98,
       }}
+      variants={AnimWrap.bounceUpB}
+
       animate={{
         width: isVisible ? "" : 0,
         height: isVisible ? "" : 0,
@@ -80,7 +83,9 @@ const Button = ({
   return noShadow ? (
     buttonContent
   ) : (
-    <TracyShadow color={"#643525"} elevation={1} className={className}>
+    <TracyShadow
+      variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+      color={"#643525"} elevation={1} className={className}>
       {buttonContent}
     </TracyShadow>
   );

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { AnimationConfig } from "../AnimationConfig";
+import { AnimWrap } from "../AnimWrap";
 
 type Props = {
   children: React.ReactNode;
@@ -22,7 +23,7 @@ const Checkbox = ({ children, onChange, name, value = false }: Props) => {
   }, [value]);
 
   return (
-    <label className="font-sans-sm flex select-none flex-row items-center gap-2">
+    <motion.label variants={AnimWrap.bounceUpB} className="font-sans-sm flex select-none flex-row items-center gap-2">
       <input
         className="w-0"
         type="checkbox"
@@ -60,7 +61,7 @@ const Checkbox = ({ children, onChange, name, value = false }: Props) => {
         </motion.div>
       </motion.div>
       {children}
-    </label>
+    </motion.label>
   );
 };
 
