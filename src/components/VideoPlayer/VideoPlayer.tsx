@@ -94,7 +94,8 @@ const VideoPlayer = ({
       videoRef.current?.pause();
       return;
     }
-    videoRef.current?.play();
+    // enter pause state if the browser rejects playing initially
+    videoRef.current?.play().catch(() => setShouldPlay(false));
   }, [shouldPlay, isScrubbing]);
 
   const handleDurationChange = () => {
