@@ -52,7 +52,7 @@ const Textfield = ({
   return (
     <label className="flex flex-col items-start">
       <div
-        className={`${error ? "outline outline-red-900" : "outline-accent"} flex w-full select-none flex-col rounded-2xl bg-[rgba(191,53,62,.08)] px-3 py-2 text-left text-dark focus-within:outline focus-within:outline-2`}
+        className={`${error ? "outline outline-red-700" : "outline-accent"} ${isFocused ? "outline outline-2" : error && "outline-1"} flex w-full select-none flex-col rounded-2xl bg-[rgba(191,53,62,.08)] px-5 py-4 text-left text-dark`}
       >
         <motion.div
           className="font-sans-sm font-normal "
@@ -83,12 +83,12 @@ const Textfield = ({
       <AnimatePresence>
         {error && (
           <motion.div
-            className="font-sans-xs overflow-hidden pl-3 text-red-900"
+            className="font-sans-xs flex overflow-hidden pl-4 text-red-700"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
           >
-            {error}
+            <span className="my-1">{error}</span>
           </motion.div>
         )}
       </AnimatePresence>
