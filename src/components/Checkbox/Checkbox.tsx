@@ -29,6 +29,8 @@ const Checkbox = ({ children, onChange, value = false }: Props) => {
         onClick={() => setIsChecked(!isChecked)}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        onMouseEnter={() => setIsFocused(true)}
+        onMouseLeave={() => setIsFocused(false)}
       />
       <motion.div
         animate={{

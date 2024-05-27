@@ -16,7 +16,7 @@ import {
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-
+import { AnimWrap } from "@/components/AnimWrap";
 const supportedInputLanguages = Object.keys(inputLanguageMap);
 const supportedOutputLanguages = Object.keys(outputLanguageMap);
 
@@ -27,10 +27,11 @@ export default function LanguagePage() {
   return (
     <AppFrame caption={"Select Languages Available"}>
       <LogoLockup />
-      <div className="my-8 flex flex-grow flex-col items-center justify-center">
-        <h1 className="font-serif-xl mb-4 w-8/12 text-center">
+      <motion.div variants={AnimWrap.AnimParentA} initial="hidden" animate="visible"
+        className="my-8 flex flex-grow flex-col items-center justify-center">
+        <motion.h1 variants={AnimWrap.bounceUpA} className="font-serif-xl mb-4 w-8/12 text-center">
           Select your language
-        </h1>
+        </motion.h1>
         <div className="mb-12 flex w-64 flex-col gap-4">
           <Dropdown.menu
             label={"From"}
@@ -58,7 +59,7 @@ export default function LanguagePage() {
           </Dropdown.menu>
         </div>
         <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
-      </div>
+      </motion.div>
     </AppFrame>
   );
 }

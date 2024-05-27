@@ -3,6 +3,7 @@ import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
 import { motion } from "framer-motion";
 import Heart from "../Graphics/Heart";
+import { AnimWrap } from "../AnimWrap";
 
 type Props = {
   label: string;
@@ -16,6 +17,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
 
   const [internalValue, setInternalValue] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange?.(e.target.value);
@@ -34,21 +36,43 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
     }
     selectRef.current.blur();
   }, [isFocused]);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  useEffect(() => {
+    const currentRef = selectRef.current;
+    currentRef.addEventListener("mouseenter", handleMouseEnter);
+    currentRef.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      currentRef.removeEventListener("mouseenter", handleMouseEnter);
+      currentRef.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
 
   return (
-    <label className="relative flex flex-col text-center">
-      <div className="font-sans-sm select-none px-3 py-2 font-bold uppercase">
+    <motion.label className="relative flex flex-col text-center">
+      <motion.div variants={AnimWrap.bounceUpB}
+        className="font-sans-sm select-none px-3 py-2 font-bold uppercase origin-top-left">
         {label}
-      </div>
-      <TracyShadow color={"#643525"} elevation={1}>
+      </motion.div>
+      <TracyShadow color={"#643525"}
+        variants={AnimWrap.bounceUpA}
+        elevation={1}>
         <motion.div
           className="relative w-full"
+
           animate={{
             scale: isFocused ? 0.98 : 1,
           }}
         >
           <div className="absolute right-0 top-0 mr-4 flex h-full items-center">
-            <ArrowDown fill={isFocused ? "#ff4f14" : "#220505"} />
+            <ArrowDown fill={isHovered ? "#ff4f14" : "#220505"} />
           </div>
           <select
             ref={selectRef}
@@ -70,9 +94,9 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             opacity: 0,
           }}
           animate={{
-            opacity: isFocused ? 1 : 0,
-            x: isFocused ? 0 : 10,
-            rotate: isFocused ? -20 : -10,
+            opacity: isHovered ? 1 : 0,
+            x: isHovered ? 0 : 10,
+            rotate: isHovered ? -20 : -10,
             scale: 1.5,
           }}
         >
@@ -84,16 +108,16 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             opacity: 0,
           }}
           animate={{
-            opacity: isFocused ? 1 : 0,
-            x: isFocused ? 0 : -10,
-            rotate: isFocused ? 17 : 10,
+            opacity: isHovered ? 1 : 0,
+            x: isHovered ? 0 : -10,
+            rotate: isHovered ? 17 : 10,
             scale: 0.8,
           }}
         >
           <Heart />
         </motion.div>
       </TracyShadow>
-    </label>
+    </motion.label>
   );
 };
 

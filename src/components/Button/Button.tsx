@@ -62,6 +62,7 @@ const Button = ({
         className={`font-serif-base pointer-events-none flex h-16 items-center justify-center gap-2 rounded-full px-8 text-center`}
         animate={{
           opacity: isVisible ? (disabled ? 0.2 : 1) : 0,
+
           transition: {
             duration: AnimationConfig.NORMAL,
             ease: AnimationConfig.EASING,

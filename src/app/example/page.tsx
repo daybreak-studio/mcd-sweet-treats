@@ -1,6 +1,7 @@
 "use client";
 
 import AppFrame from "@/components/AppFrame/AppFrame";
+import BottomBanner from "@/components/Banner/BottomBanner";
 import Button from "@/components/Button/Button";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import Dropdown from "@/components/Dropdown/Dropdown";
@@ -34,9 +35,9 @@ export default function Home() {
       <div className="mb-12 mt-4">
         <Button>Continue</Button>
       </div>
-      <div className="mb-8 font-sans-xs opacity-50">
-        Select languages available.
-      </div>
+      <BottomBanner >
+        Select languages available
+      </BottomBanner>
     </AppFrame>
   );
 }
