@@ -44,8 +44,9 @@ const TracyShadow = ({
     <motion.div
 
       variants={variants}
+
       className={`relative ${className}`}>
-      <div className="absolute bottom-0 flex h-full w-full items-end">
+      <div className="origin-top-left absolute bottom-0 flex h-full w-full items-end">
         <motion.div
           className="z-0 mx-auto h-[50%] w-[70%] blur-lg"
           style={{

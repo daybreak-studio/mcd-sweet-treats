@@ -1,4 +1,5 @@
 import React from "react";
+import BottomBanner from "../Banner/BottomBanner";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +14,9 @@ const AppFrame = ({ children, caption }: Props) => {
         {children}
       </div>
       <div className="font-sans-xs fixed bottom-0 mb-8 w-full px-8 opacity-50">
-        <h5 className="w-full text-center">{caption}</h5>
+
+        <BottomBanner >{caption}
+        </BottomBanner>
       </div>
     </main>
   );

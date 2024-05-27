@@ -13,6 +13,8 @@ import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
+import { motion } from "framer-motion";
+import BottomBanner from "@/components/Banner/BottomBanner";
 
 export default function UserInfoPage() {
   const {
@@ -85,9 +87,11 @@ export default function UserInfoPage() {
           {"Submit"}
         </Button>
       </div>
-      <div className="font-sans-xs mb-8 opacity-50 text-center mx-auto">
-        Select languages available.
-      </div>
+
+      <BottomBanner >
+        Select languages available
+      </BottomBanner>
     </AppFrame>
   );
 }
+
