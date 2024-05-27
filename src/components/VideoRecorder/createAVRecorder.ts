@@ -7,7 +7,7 @@ import { getSupportedMimeType } from "./getSupportedMimeType";
  * @param onBlobAvailable
  * @returns
  */
-export async function createMediaRecorder(
+export async function createAVRecorder(
   canvas: HTMLCanvasElement,
   aspectRatio: number,
   onBlobAvailable: (blob: Blob) => void,
@@ -54,7 +54,6 @@ export async function createMediaRecorder(
   const destory = () => {
     // top all the media stream
     let tracks = stream.getTracks();
-    console.log(tracks);
     tracks.forEach((track) => track.stop());
 
     _isDestroyed = true;
@@ -63,5 +62,36 @@ export async function createMediaRecorder(
     return _isDestroyed;
   };
 
-  return { videoStream, recorder, destory, isDestroyed };
+  const isInactive = () => {
+    return recorder.state === "inactive";
+  };
+
+  const isRecording = () => {
+    return recorder.state === "recording";
+  };
+
+  const isPaused = () => {
+    return recorder.state === "paused";
+  };
+
+  const start = () => {
+    recorder.start();
+  };
+
+  const stop = () => {
+    recorder.stop();
+  };
+
+  return {
+    videoStream,
+    destory,
+    start,
+    stop,
+    isDestroyed,
+    isInactive,
+    isRecording,
+    isPaused,
+  };
 }
+
+export type AVRecorder = Awaited<ReturnType<typeof createAVRecorder>>;

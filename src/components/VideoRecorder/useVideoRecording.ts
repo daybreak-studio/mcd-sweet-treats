@@ -1,6 +1,7 @@
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import useViewport from "@/hooks/useViewport";
-import { createMediaRecorder } from "./createMediaRecorder";
+import { AVRecorder, createAVRecorder } from "./createAVRecorder";
+import { requestCameraAndMicrophonePermissions } from "./permission";
 
 export function useVideoRecording(
   canvasElm: HTMLCanvasElement | undefined,
@@ -8,10 +9,8 @@ export function useVideoRecording(
   hasPermissionGranted: boolean,
 ) {
   const [recordedBlobData, setRecordedBlobData] = useState<Blob | null>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null,
-  );
-  const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
+  const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
+  // const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
 
@@ -19,29 +18,32 @@ export function useVideoRecording(
   const aspectRatio = useMemo(() => (isMobile ? 16 / 9 : 9 / 16), [isMobile]);
 
   useEffect(() => {
+    if (!(canvasElm instanceof HTMLCanvasElement) || !videoElm) return;
     if (!hasPermissionGranted) {
       console.log("User have not granted permission, abort");
+      return;
     }
-    // console.log("re-creating recording function");
 
+    console.log("creating AVRecorder");
     const asyncCleanupFunctionWrapper = (async function () {
       setIsMediaRecorderReady(false);
-      if (!(canvasElm instanceof HTMLCanvasElement)) return;
 
       try {
-        const onBlobAvailable = (newBlobData: Blob) =>
-          setRecordedBlobData(newBlobData);
-
-        const recorder = await createMediaRecorder(
+        const recorder = await createAVRecorder(
           canvasElm,
           aspectRatio,
-          onBlobAvailable,
+          setRecordedBlobData,
         );
-        setIsMediaRecorderReady(true);
-        setVideoStream(recorder.videoStream);
-        setMediaRecorder(recorder.recorder);
 
+        setIsMediaRecorderReady(true);
+        // setVideoStream(recorder.videoStream);
+        setAVRecorder(recorder);
+        videoElm.srcObject = recorder.videoStream;
+        videoElm.play().catch(console.error);
+
+        console.log("created AVRecorder");
         return () => {
+          console.log(`cleanup AVRecorder`);
           recorder.destory();
         };
       } catch (error) {
@@ -54,12 +56,12 @@ export function useVideoRecording(
         cleanup && cleanup();
       });
     };
-  }, [aspectRatio, canvasElm, hasPermissionGranted]);
+  }, [aspectRatio, canvasElm, videoElm, hasPermissionGranted]);
 
   const startRecording = () => {
-    if (mediaRecorder && mediaRecorder.state === "inactive") {
+    if (avRecorder && avRecorder.isInactive()) {
       setRecordedBlobData(null);
-      mediaRecorder.start();
+      avRecorder.start();
       setIsRecording(true);
       return true;
     }
@@ -67,8 +69,8 @@ export function useVideoRecording(
   };
 
   const stopRecording = () => {
-    if (mediaRecorder && mediaRecorder.state === "recording") {
-      mediaRecorder.stop();
+    if (avRecorder && avRecorder.isRecording()) {
+      avRecorder.stop();
       setIsRecording(false);
       return true;
     }
@@ -80,19 +82,19 @@ export function useVideoRecording(
   };
 
   // Put the video stream on screen
-  useEffect(() => {
-    if (videoElm && videoStream) {
-      videoElm.srcObject = videoStream;
-      videoElm.play().catch(console.error);
-    }
-  }, [videoStream, videoElm]);
+  // useEffect(() => {
+  //   if (videoElm && videoStream) {
+  //     videoElm.srcObject = videoStream;
+  //     videoElm.play().catch(console.error);
+  //   }
+  // }, [videoStream, videoElm]);
 
   return {
     isMediaRecorderReady,
     startRecording,
     stopRecording,
     clearRecordedBlobData,
-    videoStream,
+    avRecorder,
     isRecording,
     recordedBlobData,
   };

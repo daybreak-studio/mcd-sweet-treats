@@ -16,6 +16,7 @@ import { usePermission } from "react-use";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
+import { useAVPermission } from "./useAVPermission";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -29,15 +30,7 @@ enum RecorderStates {
 }
 
 const VideoRecorder = ({ onCompleteRecording }: Props) => {
-  // either prompt, granted or denied
-  const cameraPermissionState = usePermission({ name: "camera" });
-  const microphonePermissionState = usePermission({ name: "microphone" });
-  const hasUserGrantedPermissions = useMemo(
-    () =>
-      cameraPermissionState === "granted" &&
-      microphonePermissionState === "granted",
-    [cameraPermissionState, microphonePermissionState],
-  );
+  const { hasUserGrantedPermissions, requestPermission } = useAVPermission();
 
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
@@ -55,7 +48,11 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     videoElm,
     hasUserGrantedPermissions,
   );
-  const isVideoFeedReady = useBodySegmentation(videoElm, canvasElm);
+  const isVideoFeedReady = useBodySegmentation(
+    videoElm,
+    canvasElm,
+    recorder.isMediaRecorderReady,
+  );
   const isCameraExperienceReady = isVideoFeedReady && hasUserGrantedPermissions;
 
   const { startTimer, finishTimer, remainingTime, resetTimer, hasFinished } =
@@ -124,17 +121,23 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     }
   }, [hasFinished, stopRecording, recorder.isRecording]);
 
-  // handling permission rejection
+  // handling permission rejection or refreshing video feed
   useEffect(() => {
-    if (hasUserGrantedPermissions) {
+    if (hasUserGrantedPermissions && isVideoFeedReady) {
       return;
     }
+
     // stop recording if the user aborted the permission
     if (recorder.isRecording) {
       stopRecording();
       setRecorderState(RecorderStates.INITIAL);
     }
-  }, [recorder.isRecording, stopRecording, hasUserGrantedPermissions]);
+  }, [
+    recorder.isRecording,
+    hasUserGrantedPermissions,
+    isVideoFeedReady,
+    stopRecording,
+  ]);
 
   return (
     <div className="fixed inset-0 flex h-svh">
@@ -164,6 +167,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   autoPlay
                   playsInline
                   hidden
+                  muted
                   className="hidden"
                 />
                 <canvas
@@ -178,15 +182,46 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 }}
                 className="font-sans-sm absolute inset-0 z-30 mx-auto flex max-w-[26ch] items-center justify-center text-center text-light"
               >
-                {!hasUserGrantedPermissions
-                  ? "To provide you with the best experience, we need access to your camera and microphone for recording."
-                  : "Preparing camera"}
+                {!hasUserGrantedPermissions && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: isCameraExperienceReady ? 0 : 1,
+                      pointerEvents: isCameraExperienceReady ? "none" : "all",
+                      transition: {
+                        delay: isCameraExperienceReady ? 0 : 1,
+                      },
+                    }}
+                    className="flex flex-col items-center gap-4"
+                  >
+                    <p>
+                      To provide you with the best experience, we need access to
+                      your camera and microphone for recording.
+                    </p>
+                    <motion.button
+                      initial={{ opacity: 0 }}
+                      animate={{
+                        opacity: isCameraExperienceReady ? 0 : 1,
+                        pointerEvents: isCameraExperienceReady ? "none" : "all",
+                        transition: {
+                          delay: isCameraExperienceReady ? 0 : 3,
+                        },
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => requestPermission()}
+                      className="rounded-full bg-light bg-opacity-[.15] px-4 py-2 text-light"
+                    >
+                      Grant Access
+                    </motion.button>
+                  </motion.div>
+                )}
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: 0 }}
+                initial={{ opacity: 0, y: 10, scale: 0.9 }}
                 animate={{
                   opacity: 1,
                   y: 0,
+                  scale: 1,
                   transition: {
                     duration: AnimationConfig.NORMAL,
                     ease: AnimationConfig.EASING,
@@ -213,7 +248,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                     transition: {
                       duration: AnimationConfig.NORMAL,
                       ease: AnimationConfig.EASING,
-                      delay: AnimationConfig.FAST,
+                      delay: isVideoFeedReady ? AnimationConfig.FAST : 0,
                     },
                   }}
                   className="font-sans-base mb-2 select-none text-light"
