@@ -10,12 +10,10 @@ import { useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import { AnimatePresence, motion } from "framer-motion";
 import BottomBanner from "@/components/Banner/BottomBanner";
-import { useHash } from "react-use";
 import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 
 const TERMS_HASH = "#terms-and-conditions";
 
@@ -45,8 +43,6 @@ export default function UserInfoPage() {
   } = useUserInfo();
   const { upload } = useVideoUpload();
   const router = useRouter();
-
-  const [hash, setHash] = useHash();
 
   const {
     handleSubmit,
@@ -156,7 +152,7 @@ export default function UserInfoPage() {
         {/* ADD CAPTCHA HERE */}
         <Button submit>{"Submit"}</Button>
       </form>
-      <AnimatePresence>
+      {/* <AnimatePresence>
         {hash === TERMS_HASH && (
           <motion.div
             className="z-50"
@@ -172,7 +168,7 @@ export default function UserInfoPage() {
             <TermsAndCondition />
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
       <BottomBanner>Select languages available</BottomBanner>
     </AppFrame>
   );
