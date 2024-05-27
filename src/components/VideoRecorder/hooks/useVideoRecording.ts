@@ -9,7 +9,6 @@ export function useVideoRecording(
 ) {
   const [recordedBlobData, setRecordedBlobData] = useState<Blob | null>(null);
   const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
-  // const [videoStream, setVideoStream] = useState<MediaStream | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
 
@@ -35,7 +34,6 @@ export function useVideoRecording(
         );
 
         setIsMediaRecorderReady(true);
-        // setVideoStream(recorder.videoStream);
         setAVRecorder(recorder);
         videoElm.srcObject = recorder.videoStream;
         videoElm.play().catch(console.error);
@@ -79,14 +77,6 @@ export function useVideoRecording(
   const clearRecordedBlobData = () => {
     setRecordedBlobData(null);
   };
-
-  // Put the video stream on screen
-  // useEffect(() => {
-  //   if (videoElm && videoStream) {
-  //     videoElm.srcObject = videoStream;
-  //     videoElm.play().catch(console.error);
-  //   }
-  // }, [videoStream, videoElm]);
 
   return {
     isMediaRecorderReady,
