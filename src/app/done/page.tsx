@@ -29,8 +29,8 @@ const DonePage = (props: Props) => {
           <motion.h5 variants={AnimWrap.bounceUpB} className="font-serif-sm">Record another message</motion.h5>
         </Link>
         <motion.figure
-          variants={{ hidden: { opacity: 0, scale: 0.9, y: "35%" }, visible: { opacity: 1, scale: 1, y: "0", transition: { bounce: .2, type: "spring", duration: .5, delay: .8 } } }}
-          className="pointer-events-none fixed inset-0 flex flex-col overflow-hidden">
+          variants={{ hidden: { rotate: 15, opacity: 0, scale: 0.9, y: "35%" }, visible: { rotate: 0, opacity: 1, scale: 1, y: "0", transition: { bounce: .2, type: "spring", duration: .65, delay: .8 } } }}
+          className="pointer-events-none fixed inset-0 flex flex-col overflow-hidden origin-bottom-left" >
           <Image
             className="mt-auto origin-bottom translate-y-[10%] scale-[200%] md:w-full md:scale-150 xl:translate-y-[20%] xl:scale-100"
             src="/images/meal.png"
