@@ -40,12 +40,13 @@ export default function Home() {
   const videoVariants = {
     hidden: {
       filter: "blur(10px)",
-      opacity: 0, scale: 0.8, rotate: 3,
-      y: 64,
+      opacity: 0, scale: 1.2,
+      rotate: 10,
+      y: 120,
     },
     visible: {
       filter: "blur(0px)",
-      opacity: 1, scale: 1, rotate: 0, y: [64, 32, 0], transition: { type: "spring", bounce: .3, duration: 0.65 }
+      opacity: 1, scale: 1, rotate: 0, y: 0, transition: { type: "spring", bounce: .2, duration: 0.75 }
     },
   };
   const imageTransition = {
@@ -57,46 +58,31 @@ export default function Home() {
   return (
     <AppFrame caption={"Select Languages Available"}>
       <LogoLockup />
-      <motion.section className="fixed z-[51] hidden lg:block" >
-        <motion.figure className="origin-bottom-left fixed z-[52] "
-          initial={{
-            rotate: -240,
-            x: "-120%"
-          }}
-          animate={{
-            rotate: -8,
-            x: "12%",
-            y: "18vh",
-          }}
-          transition={imageTransition}
-        >
-          <Image
-            width={300} height={200} className="h-auto max-w-[30vw] object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-            src="/images/landing-1.jpg" alt="image of child with their grandparent"
-          />
-        </motion.figure>
+      <motion.section className="fixed z-[51] hidden lg:block w-[100vw] pointer-events-none touch-none h-screen" initial="hidden" animate="visible"
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: .5 } } }} >
 
         <motion.figure className="origin-top-right fixed bottom-0 right-0"
           transition={imageTransition}
-          initial={{
-            rotate: -230,
-            x: "120%",
-            y: "15vh"
-          }}
-          animate={{
-            rotate: 10,
-            x: "5%",
-            y: "-10vh",
+          variants={{
+            hidden: { rotate: -150, x: "120vw", y: "15vh", },
+            visible: {
+              rotate: 10, x: "5vw", y: "-10vh",
+            }
           }}
         >
           <Image
             width={320} height={200} className="object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-            src="/images/landing-2.jpg" alt="image of child with their grandparent"
+            src="/images/landing-1.webp" alt="image of child with their grandparent"
           />
         </motion.figure>
 
         <motion.figure className="origin-top-right fixed -left-12"
           transition={imageTransition}
+
+          variants={{
+            hidden: { rotate: -150, x: "-215%", y: "100vh", scale: 1.5 },
+            visible: { rotate: 12, x: "6%", y: "40vh", scale: 1 }
+          }}
           initial={{
             rotate: -100,
             x: "-215%",
@@ -110,7 +96,19 @@ export default function Home() {
         >
           <Image
             width={350} height={200} className="object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-            src="/images/landing-3.jpg" alt="image of child with their grandparent"
+            src="/images/landing-3.webp" alt="image of child with their grandparent"
+          />
+        </motion.figure>
+        <motion.figure className="origin-bottom-left fixed z-[52] "
+          variants={{
+            hidden: { rotate: -150, x: "-120%", scale: 1.5 },
+            visible: { rotate: -8, x: "10%", y: "15vh", scale: 1 }
+          }}
+          transition={imageTransition}
+        >
+          <Image
+            width={300} height={200} className="h-auto max-w-[30vw] object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
+            src="/images/landing-2.webp" alt="image of child with their grandparent"
           />
         </motion.figure>
 
@@ -130,7 +128,7 @@ export default function Home() {
           Send grandma a sweet message
         </motion.h1>
         <motion.div
-          className="relative z-10 flex w-full flex-col items-center origin-top-left"
+          className="relative z-10 flex w-full flex-col items-center "
           variants={videoVariants}
         >
           <video
