@@ -23,7 +23,7 @@ export function useCountdownTimer(duration: number, countdownInterval = 1000) {
         const currentTime = Date.now();
         const elapsedTime = (currentTime - beginTime) / 1000;
 
-        if (elapsedTime <= 0) {
+        if (elapsedTime >= duration) {
           finishTimer();
         }
         return duration - elapsedTime;
