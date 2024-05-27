@@ -66,6 +66,10 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     setVideoBlob(recorder.recordedBlobData);
   }, [recorder.recordedBlobData, setVideoBlob]);
 
+  useEffect(() => {
+    if (videoBlob) setRecorderState(RecorderStates.RECORDED);
+  }, [videoBlob]);
+
   // control flow for starting a recording
   const startRecording = useCallback(() => {
     console.log("start recording");
@@ -95,11 +99,11 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     // remove the junk to create reduce memory usage
     recorder.clearRecordedBlobData();
     setRecorderState(RecorderStates.INITIAL);
+    setVideoBlob(null); // clean up the blob when restart recording
     resetTimer();
-  }, [recorder, resetTimer]);
+  }, [recorder, resetTimer, setVideoBlob]);
 
   const recordedURLObject = useMemo(() => {
-    console.log(videoBlob);
     return videoBlob && URL.createObjectURL(videoBlob);
   }, [videoBlob]);
 
