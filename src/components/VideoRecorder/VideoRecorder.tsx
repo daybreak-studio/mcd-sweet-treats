@@ -3,8 +3,8 @@
 import React, { useCallback, useMemo } from "react";
 import { useUserInfo } from "../UserInfoProvider/UserInfoProvider";
 import { useState, useEffect } from "react";
-import { useVideoRecording } from "./useVideoRecording";
-import { useBodySegmentation } from "./useBodySegmentation";
+import { useVideoRecording } from "./hooks/useVideoRecording";
+import { useBodySegmentation } from "./hooks/useBodySegmentation";
 import { useCountdownTimer } from "@/hooks/useCountdownTimer";
 import { useDynamicDOMRef } from "@/hooks/useDynamicDOMRef";
 import Button from "../Button/Button";
@@ -16,7 +16,7 @@ import { usePermission } from "react-use";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
-import { useAVPermission } from "./useAVPermission";
+import { useAVPermission } from "./hooks/useAVPermission";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
