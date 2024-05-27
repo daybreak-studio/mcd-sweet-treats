@@ -78,6 +78,9 @@ export function useScrub({
     let isDragging = false;
     let prevVal = 0;
 
+    // accept as scrub gesture when the offset is bigger a distance
+    const SCRUB_DETECTION_THRESHOLD = 5;
+
     const handlePointerDown = (e: PointerEvent) => {
       isDragging = true;
       prevVal = direction === ScrubDirection.x ? e.clientX : e.clientY;
@@ -92,8 +95,11 @@ export function useScrub({
       const delta = currVal - prevVal;
 
       const updatedTarget = getClampedNewValue(inverseGesture ? -delta : delta);
-      target.set(updatedTarget);
-      setHasScrubbed(true);
+
+      if (Math.abs(updatedTarget) > SCRUB_DETECTION_THRESHOLD) {
+        target.set(updatedTarget);
+        setHasScrubbed(true);
+      }
 
       prevVal = currVal;
     };
