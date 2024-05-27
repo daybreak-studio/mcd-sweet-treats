@@ -12,7 +12,6 @@ import RecordButton from "../RecordButton/RecordButton";
 
 import DoneSVG from "./done.svg";
 import RedoSVG from "./redo.svg";
-import { usePermission } from "react-use";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
