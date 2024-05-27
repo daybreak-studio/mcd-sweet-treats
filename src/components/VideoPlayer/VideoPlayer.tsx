@@ -109,7 +109,7 @@ const VideoPlayer = ({
   };
 
   return (
-    <div className={`${className} touch-pan-y`} ref={containerRef}>
+    <div className={`${className} touch-none`} ref={containerRef}>
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
@@ -131,7 +131,7 @@ const VideoPlayer = ({
           visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
         }}
       />
-      <div className="pointer-events-none absolute bottom-12 left-16 right-16 z-20 flex justify-center">
+      <div className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex max-w-72 justify-center">
         <PorgressBar
           duration={duration}
           currentTime={currentTime}
