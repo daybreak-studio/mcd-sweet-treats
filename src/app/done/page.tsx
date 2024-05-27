@@ -5,7 +5,7 @@ import React from "react";
 import Image from "next/image";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
-
+import { motion } from "framer-motion";
 type Props = {};
 
 const DonePage = (props: Props) => {

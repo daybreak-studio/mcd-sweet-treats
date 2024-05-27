@@ -24,9 +24,6 @@ export const AnimWrap={
       opacity:1,
       scale:1,
       transition: {
-        duration: 0.4,
-        type: "spring",
-        bounce: 0.3,
 
       },
     },
@@ -47,9 +44,6 @@ blur:10,
       opacity:1,
       scale:1,
       transition: {
-        duration: 0.3,
-        type: "spring",
-        bounce: 0.3,
 
       },
     },
