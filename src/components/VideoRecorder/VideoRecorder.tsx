@@ -10,8 +10,8 @@ import { useDynamicDOMRef } from "@/hooks/useDynamicDOMRef";
 import Button from "../Button/Button";
 import RecordButton from "../RecordButton/RecordButton";
 
-import DoneSVG from "./done.svg";
-import RedoSVG from "./redo.svg";
+import DoneSVG from "./icon/done.svg";
+import RedoSVG from "./icon/redo.svg";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
