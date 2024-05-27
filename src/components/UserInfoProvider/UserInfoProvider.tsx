@@ -11,7 +11,6 @@ import {
 const initialUserInfo = {
   name: "",
   email: "",
-  hasAcceptedTerms: false,
   inputLanguage: "" as "" | InputLanguageKey,
   outputLanguage: "" as "" | OutputLanguageKey,
   hasAuthenticated: false,
@@ -19,7 +18,6 @@ const initialUserInfo = {
   setVideoBlob: (recording: Blob | null) => {},
   setInputLanguage: (value: InputLanguageKey) => {},
   setOutputLanguage: (value: OutputLanguageKey) => {},
-  setHasAcceptedTerms: (value: boolean) => {},
   setName: (value: string) => {},
   setEmail: (value: string) => {},
   authenticate: () => {},
@@ -50,7 +48,6 @@ const UserInfoProvider = ({ children }: Props) => {
     "" | OutputLanguageKey
   >("outputLanguage", "", { initializeWithValue: false });
   const [hasAuthenticated, setHasAuthenticated] = useState(false);
-  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
 
   // Authenticate the user
@@ -65,14 +62,12 @@ const UserInfoProvider = ({ children }: Props) => {
         name,
         setName,
         email,
-        hasAcceptedTerms,
         inputLanguage,
         outputLanguage,
         videoBlob,
         setVideoBlob,
         setInputLanguage,
         setOutputLanguage,
-        setHasAcceptedTerms,
         setEmail,
         hasAuthenticated,
         authenticate,

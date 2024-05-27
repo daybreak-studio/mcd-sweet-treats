@@ -13,6 +13,7 @@ type Props = {
   onCancel?: () => void;
   value?: string;
   error?: string | undefined;
+  autoFocus?: boolean;
 };
 
 const Textfield = ({
@@ -22,6 +23,7 @@ const Textfield = ({
   onCommit,
   value,
   name,
+  autoFocus,
   error,
 }: Props) => {
   const inputRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -66,6 +68,7 @@ const Textfield = ({
           {label}
         </motion.div>
         <input
+          autoFocus={autoFocus}
           name={name}
           ref={inputRef}
           className="font-sans-base bg-transparent font-bold placeholder-dark placeholder-opacity-30 outline-none"

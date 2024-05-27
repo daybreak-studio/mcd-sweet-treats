@@ -52,6 +52,8 @@ const Checkbox = ({
               duration: AnimationConfig.NORMAL,
               ease: AnimationConfig.EASING,
             },
+          }}
+          style={{
             outline: isFocused ? "2px solid #FF4F14" : "",
           }}
           className="mr-2 flex h-4 w-4 items-center justify-center rounded-md border-2 border-dark p-2"

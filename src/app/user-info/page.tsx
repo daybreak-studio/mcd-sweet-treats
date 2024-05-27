@@ -15,6 +15,7 @@ import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition"
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 
 const TERMS_HASH = "#terms-and-conditions";
 
@@ -41,8 +42,6 @@ export default function UserInfoPage() {
     videoBlob,
     inputLanguage,
     outputLanguage,
-    setHasAcceptedTerms,
-    hasAcceptedTerms,
   } = useUserInfo();
   const { upload } = useVideoUpload();
   const router = useRouter();
@@ -63,11 +62,26 @@ export default function UserInfoPage() {
   });
 
   const handleFormValid = (data: FormData) => {
-    // handle the form submit here
-    setEmail(data.email);
-    setName(data.name);
-    setHasAcceptedTerms(data.terms);
-    console.log(data);
+    if (inputLanguage === "" || outputLanguage === "") {
+      console.log(
+        "Input or output language is empty, redirecting to language page",
+      );
+      router.push("/language");
+      return;
+    }
+    if (!videoBlob) {
+      console.log("Video not recorded, redirecting to record page");
+      router.push("/record");
+      return;
+    }
+
+    router.push("/uploading");
+    upload(videoBlob, {
+      name: data.name,
+      email: data.email,
+      inputLanguage,
+      outputLanguage,
+    });
   };
 
   return (
@@ -99,6 +113,7 @@ export default function UserInfoPage() {
                 value={field.value}
                 name={"name"}
                 error={errors.name?.message}
+                autoFocus
               />
             )}
           />
@@ -139,32 +154,7 @@ export default function UserInfoPage() {
         </div>
 
         {/* ADD CAPTCHA HERE */}
-        <Button
-          submit
-          onClick={() => {
-            // if (inputLanguage === "" || outputLanguage === "") {
-            //   console.log(
-            //     "Input or output language is empty, redirecting to language page",
-            //   );
-            //   router.push("/language");
-            //   return;
-            // }
-            // if (!videoBlob) {
-            //   console.log("Video not recorded, redirecting to record page");
-            //   router.push("/record");
-            //   return;
-            // }
-            // router.push("/uploading");
-            // upload(videoBlob, {
-            //   name,
-            //   email,
-            //   inputLanguage,
-            //   outputLanguage,
-            // });
-          }}
-        >
-          {"Submit"}
-        </Button>
+        <Button submit>{"Submit"}</Button>
       </form>
       <AnimatePresence>
         {hash === TERMS_HASH && (
