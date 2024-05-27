@@ -6,7 +6,7 @@ type Props = {};
 
 const TermsAndCondition = (props: Props) => {
   return (
-    <div className="fixed inset-0 overflow-scroll">
+    <div className="fixed inset-0 overflow-y-scroll">
       <div className="mx-auto w-full border-[1rem] border-accent bg-light p-12 sm:my-24 sm:max-w-[500px]">
         <div className="flex flex-row justify-between">
           <h2 className="font-serif-xl mb-4">Terms</h2>
