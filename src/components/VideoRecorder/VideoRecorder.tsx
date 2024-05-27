@@ -35,7 +35,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
   // for writing to the global state
-  const { videoBlob, setVideoBlob } = useUserInfo();
+  const { videoBlob, savedVideoDuration, saveVideo, clearVideo } =
+    useUserInfo();
 
   const [recorderState, setRecorderState] = useState<RecorderStates>(
     videoBlob ? RecorderStates.RECORDED : RecorderStates.INITIAL,
@@ -63,8 +64,15 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   useEffect(() => {
     // Move the blob data from recorded blob to the storage to reduce memory usage
     if (!recorder.recordedBlobData) return;
-    setVideoBlob(recorder.recordedBlobData);
-  }, [recorder.recordedBlobData, setVideoBlob]);
+    console.log("saved video!");
+    saveVideo(recorder.recordedBlobData, approximateVideoDuration);
+  }, [recorder.recordedBlobData, approximateVideoDuration, saveVideo]);
+
+  // restore the previous saved video duration
+  useEffect(() => {
+    if (approximateVideoDuration === 0)
+      setApproimateVideoDuration(savedVideoDuration);
+  }, [approximateVideoDuration, savedVideoDuration]);
 
   useEffect(() => {
     if (videoBlob) setRecorderState(RecorderStates.RECORDED);
@@ -99,9 +107,9 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     // remove the junk to create reduce memory usage
     recorder.clearRecordedBlobData();
     setRecorderState(RecorderStates.INITIAL);
-    setVideoBlob(null); // clean up the blob when restart recording
+    clearVideo(); // clean up the blob when restart recording
     resetTimer();
-  }, [recorder, resetTimer, setVideoBlob]);
+  }, [recorder, resetTimer, clearVideo]);
 
   const recordedURLObject = useMemo(() => {
     return videoBlob && URL.createObjectURL(videoBlob);

@@ -2,6 +2,7 @@
 
 import React, {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -21,7 +22,9 @@ const initialUserInfo = {
   outputLanguage: "" as "" | OutputLanguageKey,
   hasAuthenticated: false,
   videoBlob: null as Blob | null | undefined,
-  setVideoBlob: (recording: Blob | null) => {},
+  savedVideoDuration: 0,
+  saveVideo: (videoBlob: Blob, approxDuration: number) => {},
+  clearVideo: () => {},
   setInputLanguage: (value: InputLanguageKey) => {},
   setOutputLanguage: (value: OutputLanguageKey) => {},
   setName: (value: string) => {},
@@ -104,6 +107,7 @@ const UserInfoProvider = ({ children }: Props) => {
   const [videoBlob, setVideoBlob] = useState<Blob | null | undefined>(
     undefined,
   );
+  const [savedVideoDuration, setSavedVideoDuration] = useState(0);
 
   useEffect(() => {
     // when it was just initializing, return
@@ -114,6 +118,7 @@ const UserInfoProvider = ({ children }: Props) => {
     if (videoBlob === null) {
       localStorage.removeItem("videoBlob");
       localStorage.removeItem("videoMimeType");
+      localStorage.removeItem("videoDuration");
       return;
     }
 
@@ -122,17 +127,19 @@ const UserInfoProvider = ({ children }: Props) => {
         const encodedVideo = (await blobToBase64(videoBlob)) as string;
         // save to local storage
         localStorage.setItem("videoBlob", encodedVideo);
+        localStorage.setItem("videoDuration", `${savedVideoDuration}`);
         localStorage.setItem("videoMimeType", videoBlob.type);
       } catch (e) {
         console.log(e);
       }
     })();
-  }, [videoBlob]);
+  }, [savedVideoDuration, videoBlob]);
 
   // load the blob in the local storage
   useEffect(() => {
     const blobBase64Data = localStorage.getItem("videoBlob");
     const blobMimeType = localStorage.getItem("videoMimeType");
+    const duration = localStorage.getItem("videoDuration");
 
     if (
       typeof blobBase64Data === "undefined" ||
@@ -150,6 +157,8 @@ const UserInfoProvider = ({ children }: Props) => {
       const blob = base64ToBlob(blobBase64Data, blobMimeType);
       console.log("restoring video from previous session");
       setVideoBlob(blob);
+      if (typeof duration === "string")
+        setSavedVideoDuration(parseInt(duration));
     } catch (e) {
       console.warn(e);
     }
@@ -161,6 +170,14 @@ const UserInfoProvider = ({ children }: Props) => {
     setHasAuthenticated(true);
   };
 
+  const saveVideo = useCallback((videoBlob: Blob, approxDuration: number) => {
+    setVideoBlob(videoBlob);
+    setSavedVideoDuration(approxDuration);
+  }, []);
+  const clearVideo = useCallback(() => {
+    setVideoBlob(null);
+  }, []);
+
   return (
     <UserInfoContext.Provider
       value={{
@@ -170,12 +187,14 @@ const UserInfoProvider = ({ children }: Props) => {
         inputLanguage,
         outputLanguage,
         videoBlob,
-        setVideoBlob,
+        saveVideo,
         setInputLanguage,
         setOutputLanguage,
         setEmail,
         hasAuthenticated,
         authenticate,
+        savedVideoDuration,
+        clearVideo,
       }}
     >
       {children}

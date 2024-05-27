@@ -71,10 +71,10 @@ const VideoPlayer = ({
     seek(-latest / pixelPerSec);
   });
 
-  const currentTime = useTransform(
-    scrubOffset,
-    (latest) => duration * (-latest / scrubWidth),
-  );
+  const currentTime = useTransform(scrubOffset, (latest) => {
+    const t = duration * (-latest / scrubWidth);
+    return t;
+  });
 
   useEffect(() => {
     if (isScrubbing && hasScrubbed) {
@@ -90,12 +90,15 @@ const VideoPlayer = ({
   // useMotionValueEvent(currentTime, "change", (latest) => console.log(latest));
 
   useEffect(() => {
+    if (!videoRef.current) return;
+
     if (!shouldPlay || isScrubbing) {
-      videoRef.current?.pause();
+      videoRef.current.pause();
       return;
     }
+
     // enter pause state if the browser rejects playing initially
-    videoRef.current?.play().catch(() => setShouldPlay(false));
+    videoRef.current.play().catch(() => setShouldPlay(false));
   }, [shouldPlay, isScrubbing]);
 
   const handleDurationChange = () => {
