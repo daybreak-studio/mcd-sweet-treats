@@ -1,7 +1,6 @@
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import useViewport from "@/hooks/useViewport";
 import { AVRecorder, createAVRecorder } from "./createAVRecorder";
-import { requestCameraAndMicrophonePermissions } from "./permission";
 
 export function useVideoRecording(
   canvasElm: HTMLCanvasElement | undefined,

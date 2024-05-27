@@ -182,7 +182,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 }}
                 className="font-sans-sm absolute inset-0 z-30 mx-auto flex max-w-[26ch] items-center justify-center text-center text-light"
               >
-                {!hasUserGrantedPermissions && (
+                {!hasUserGrantedPermissions ? (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{
@@ -214,6 +214,8 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                       Grant Access
                     </motion.button>
                   </motion.div>
+                ) : (
+                  ""
                 )}
               </motion.div>
               <motion.div
