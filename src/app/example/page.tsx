@@ -14,14 +14,22 @@ export default function Home() {
   return (
     <AppFrame>
       <motion.div></motion.div>
-      <div className="mt-8 mb-auto">
+      <div className="mb-auto mt-8">
         <LogoLockup />
       </div>
       <h1 className="font-serif-lg">Send grandma a sweet message</h1>
       <div>Your video goes here</div>
       <div className="flex flex-col gap-1">
-        <Textfield label={"Your full name"} placeholder={"Enter your name"} />
-        <Textfield label={"Email"} placeholder={"Enter email address"} />
+        <Textfield
+          label={"Your full name"}
+          placeholder={"Enter your name"}
+          name={""}
+        />
+        <Textfield
+          label={"Email"}
+          placeholder={"Enter email address"}
+          name={""}
+        />
         <Dropdown.menu label={"From"}>
           <Dropdown.item value={"test"}>fdsa</Dropdown.item>
           <Dropdown.item value={"test2"}>fdsa 2</Dropdown.item>
@@ -30,14 +38,12 @@ export default function Home() {
           <Dropdown.item value={"test"}>fdsa</Dropdown.item>
         </Dropdown.menu>
 
-        <Checkbox>fdsafdsa</Checkbox>
+        <Checkbox name={""}>fdsafdsa</Checkbox>
       </div>
       <div className="mb-12 mt-4">
         <Button>Continue</Button>
       </div>
-      <BottomBanner >
-        Select languages available
-      </BottomBanner>
+      <BottomBanner>Select languages available</BottomBanner>
     </AppFrame>
   );
 }
