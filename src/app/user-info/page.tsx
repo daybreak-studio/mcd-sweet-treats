@@ -15,6 +15,10 @@ import { useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import { motion } from "framer-motion";
 import BottomBanner from "@/components/Banner/BottomBanner";
+import { useHash } from "react-use";
+import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
+
+const TERMS_HASH = "#terms-and-conditions";
 
 export default function UserInfoPage() {
   const {
@@ -34,7 +38,28 @@ export default function UserInfoPage() {
       <div className="mb-auto mt-8">
         <LogoLockup noWordmark />
       </div>
-      <div className="relative my-8 mb-auto flex flex-col items-center text-center">
+
+      <AnimatePresence>
+        {hash === TERMS_HASH && (
+          <motion.div
+            className="z-50"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+          >
+            <motion.div className="fixed inset-0 bg-dark bg-opacity-60" />
+            <TermsAndCondition />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <form
+        action={submitAction}
+        className="relative my-8 mb-auto flex flex-col items-center text-center"
+      >
         <h1 className="font-serif-xl mb-4 text-center">
           Who&apos;s grandma&apos;s
           <br /> favourite? It&apos;s you!
