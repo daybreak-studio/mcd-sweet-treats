@@ -34,13 +34,13 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
-  const [recorderState, setRecorderState] = useState<RecorderStates>(
-    RecorderStates.INITIAL,
-  );
-  const [shouldShowNavButtons, setShouldShowNavButtons] = useState(true);
-
   // for writing to the global state
   const { videoBlob, setVideoBlob } = useUserInfo();
+
+  const [recorderState, setRecorderState] = useState<RecorderStates>(
+    videoBlob ? RecorderStates.RECORDED : RecorderStates.INITIAL,
+  );
+  const [shouldShowNavButtons, setShouldShowNavButtons] = useState(true);
 
   const recorder = useVideoRecording(
     canvasElm,
@@ -62,6 +62,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   // when there is data loaded, add to the user data
   useEffect(() => {
     // Move the blob data from recorded blob to the storage to reduce memory usage
+    if (!recorder.recordedBlobData) return;
     setVideoBlob(recorder.recordedBlobData);
   }, [recorder.recordedBlobData, setVideoBlob]);
 
@@ -97,10 +98,10 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     resetTimer();
   }, [recorder, resetTimer]);
 
-  const recordedURLObject = useMemo(
-    () => videoBlob && URL.createObjectURL(videoBlob),
-    [videoBlob],
-  );
+  const recordedURLObject = useMemo(() => {
+    console.log(videoBlob);
+    return videoBlob && URL.createObjectURL(videoBlob);
+  }, [videoBlob]);
 
   const handleRecordButtonClick = () => {
     if (recorderState === RecorderStates.INITIAL) {

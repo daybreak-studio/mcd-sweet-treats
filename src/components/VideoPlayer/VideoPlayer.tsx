@@ -105,7 +105,7 @@ const VideoPlayer = ({
     if (d === Infinity) return;
 
     console.log(`duration change`, videoRef.current?.duration);
-    setDuration(duration);
+    setDuration(videoRef.current?.duration);
   };
 
   return (
