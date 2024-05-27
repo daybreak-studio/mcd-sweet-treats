@@ -1,16 +1,11 @@
 "use client";
 
 import AppFrame from "@/components/AppFrame/AppFrame";
-import LinkButton from "@/components/Button/LinkButton";
 import Button from "@/components/Button/Button";
 import Checkbox from "@/components/Checkbox/Checkbox";
-import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
-import SwirlGraphicBottom from "@/components/Graphics/SwirlGraphicBottom";
-import SwirlGraphicTop from "@/components/Graphics/SwirlGraphicTop";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import { AnimatePresence, motion } from "framer-motion";

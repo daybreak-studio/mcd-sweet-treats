@@ -10,6 +10,18 @@ export const AnimWrap={
       },
     },
   },
+  AnimParentB:{
+    hidden: {
+    },
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: .25,
+      },
+    },
+    
+  
+  },
   bounceUpA:{
     //this is the animation that will be applied to the element
     hidden: {
@@ -49,4 +61,4 @@ blur:10,
     },
   }
 
-}
+  }
