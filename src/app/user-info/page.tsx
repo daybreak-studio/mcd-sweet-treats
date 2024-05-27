@@ -11,9 +11,9 @@ import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import BottomBanner from "@/components/Banner/BottomBanner";
 import { useHash } from "react-use";
 import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
@@ -21,6 +21,8 @@ import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition"
 const TERMS_HASH = "#terms-and-conditions";
 
 export default function UserInfoPage() {
+  const pathName = usePathname();
+
   const {
     setEmail,
     email,
@@ -29,9 +31,21 @@ export default function UserInfoPage() {
     videoBlob,
     inputLanguage,
     outputLanguage,
+    setHasAcceptedTerms,
+    hasAcceptedTerms,
   } = useUserInfo();
   const { upload } = useVideoUpload();
   const router = useRouter();
+
+  const [hash, setHash] = useHash();
+
+  const submitAction = async (formData: FormData) => {
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const terms = formData.get("terms");
+  };
+
+  console.log(hash);
 
   return (
     <AppFrame>
@@ -73,50 +87,55 @@ export default function UserInfoPage() {
             placeholder={"First Last"}
             onChange={setName}
             value={name}
+            name={"name"}
           />
           <Textfield
             label={"Personal email address"}
             placeholder={"example@gmail.com"}
             onChange={setEmail}
             value={email}
+            name={"email"}
           />
-          <Checkbox>I accept the Terms & Conditions</Checkbox>
+          <Checkbox name={"terms"}>
+            <span>
+              I accept the{" "}
+              <a href={`${TERMS_HASH}`} className="font-sans-sm font-bold">
+                Terms & Conditions
+              </a>
+            </span>
+          </Checkbox>
         </div>
 
         {/* ADD CAPTCHA HERE */}
         <Button
+          submit
           onClick={() => {
-            if (inputLanguage === "" || outputLanguage === "") {
-              console.log(
-                "Input or output language is empty, redirecting to language page",
-              );
-              router.push("/language");
-              return;
-            }
-
-            if (!videoBlob) {
-              console.log("Video not recorded, redirecting to record page");
-              router.push("/record");
-              return;
-            }
-
-            router.push("/uploading");
-            upload(videoBlob, {
-              name,
-              email,
-              inputLanguage,
-              outputLanguage,
-            });
+            // if (inputLanguage === "" || outputLanguage === "") {
+            //   console.log(
+            //     "Input or output language is empty, redirecting to language page",
+            //   );
+            //   router.push("/language");
+            //   return;
+            // }
+            // if (!videoBlob) {
+            //   console.log("Video not recorded, redirecting to record page");
+            //   router.push("/record");
+            //   return;
+            // }
+            // router.push("/uploading");
+            // upload(videoBlob, {
+            //   name,
+            //   email,
+            //   inputLanguage,
+            //   outputLanguage,
+            // });
           }}
         >
           {"Submit"}
         </Button>
-      </div>
+      </form>
 
-      <BottomBanner >
-        Select languages available
-      </BottomBanner>
+      <BottomBanner>Select languages available</BottomBanner>
     </AppFrame>
   );
 }
-

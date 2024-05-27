@@ -5,10 +5,11 @@ import { AnimationConfig } from "../AnimationConfig";
 type Props = {
   children: React.ReactNode;
   value?: boolean;
+  name: string;
   onChange?: (isChecked: boolean) => void;
 };
 
-const Checkbox = ({ children, onChange, value = false }: Props) => {
+const Checkbox = ({ children, onChange, name, value = false }: Props) => {
   const [isChecked, setIsChecked] = useState(value);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -21,10 +22,11 @@ const Checkbox = ({ children, onChange, value = false }: Props) => {
   }, [value]);
 
   return (
-    <label className="flex flex-row gap-2 font-sans-sm items-center select-none">
+    <label className="font-sans-sm flex select-none flex-row items-center gap-2">
       <input
         className="w-0"
         type="checkbox"
+        name={name}
         checked={isChecked}
         onClick={() => setIsChecked(!isChecked)}
         onFocus={() => setIsFocused(true)}
@@ -42,7 +44,7 @@ const Checkbox = ({ children, onChange, value = false }: Props) => {
           },
           outline: isFocused ? "2px solid #FF4F14" : "",
         }}
-        className="border-2 border-dark w-4 h-4 flex items-center justify-center p-2 rounded-md"
+        className="flex h-4 w-4 items-center justify-center rounded-md border-2 border-dark p-2"
       >
         <motion.div
           animate={{
