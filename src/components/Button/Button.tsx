@@ -53,7 +53,7 @@ const Button = ({
       whileTap={{
         scale: disabled ? 1 : 0.98,
       }}
-      variants={AnimWrap.bounceUpB}
+      variants={AnimWrap.bounceUpC}
 
       animate={{
         width: isVisible ? "" : 0,
