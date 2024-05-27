@@ -32,13 +32,13 @@ const Checkbox = ({
 
   return (
     <label className={`flex flex-col items-start ${className}`}>
-      <div className="font-sans-sm flex select-none flex-row items-center gap-2">
+      <div className="font-sans-sm flex select-none flex-row items-center ">
         <input
-          className="hidden w-0"
+          className="w-0"
           type="checkbox"
           name={name}
           checked={isChecked}
-          onClick={() => setIsChecked(!isChecked)}
+          onChange={(e) => setIsChecked(e.target.checked)}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           onMouseEnter={() => setIsFocused(true)}
@@ -54,7 +54,7 @@ const Checkbox = ({
             },
             outline: isFocused ? "2px solid #FF4F14" : "",
           }}
-          className="flex h-4 w-4 items-center justify-center rounded-md border-2 border-dark p-2"
+          className="mr-2 flex h-4 w-4 items-center justify-center rounded-md border-2 border-dark p-2"
         >
           <motion.div
             animate={{
