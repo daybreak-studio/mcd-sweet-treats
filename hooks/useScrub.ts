@@ -79,7 +79,7 @@ export function useScrub({
     let prevVal = 0;
 
     // accept as scrub gesture when the offset is bigger a distance
-    const SCRUB_DETECTION_THRESHOLD = 5;
+    const SCRUB_DETECTION_THRESHOLD = 10;
 
     const handlePointerDown = (e: PointerEvent) => {
       isDragging = true;
