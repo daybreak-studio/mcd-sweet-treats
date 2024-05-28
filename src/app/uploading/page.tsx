@@ -9,25 +9,52 @@ import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { motion, useTransform, useMotionValue } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 import { AnimWrap } from "@/components/AnimWrap";
+import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 
 type Props = {};
 
 const UploadingPage = (props: Props) => {
-  const { progress } = useVideoUpload();
+  const { progress, isUploading } = useVideoUpload();
+  const { clearVideo } = useUserInfo();
+
+  useEffect(() => {
+    // clear video draft when the upload is completed
+    if (progress >= 1 && !isUploading) {
+      clearVideo();
+      return;
+    }
+  }, [progress, isUploading, clearVideo]);
 
   return (
     <AppFrame>
       <LogoLockup />
-      <motion.div initial="hidden" animate="visible" variants={AnimWrap.AnimParentA} className="flex flex-grow flex-col items-center justify-center text-center origin-top-left">
-        <motion.h1 variants={AnimWrap.bounceUpA} className="font-serif-2xl self-start px-16 pb-4 text-center mx-auto origin-top-left">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={AnimWrap.AnimParentA}
+        className="flex flex-grow origin-top-left flex-col items-center justify-center text-center"
+      >
+        <motion.h1
+          variants={AnimWrap.bounceUpA}
+          className="font-serif-2xl mx-auto origin-top-left self-start px-16 pb-4 text-center"
+        >
           {progress < 1 ? "Don't leave just yet!" : "Check your inbox!"}
         </motion.h1>
-        <motion.h5 variants={AnimWrap.bounceUpB} className="font-serif-base pb-8 origin-top-left">
+        <motion.h5
+          variants={AnimWrap.bounceUpB}
+          className="font-serif-base origin-top-left pb-8"
+        >
           {progress < 1
             ? "We’re getting your video ready."
             : "Your results are in."}
         </motion.h5>
-        <motion.div variants={{ hidden: { opacity: 0, scale: .5, rotate: -5, y: 40 }, visible: { opacity: [0, .9, 1], scale: 1, rotate: 0, y: 0 } }} className="relative flex w-fit justify-center origin-top-left">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, scale: 0.5, rotate: -5, y: 40 },
+            visible: { opacity: [0, 0.9, 1], scale: 1, rotate: 0, y: 0 },
+          }}
+          className="relative flex w-fit origin-top-left justify-center"
+        >
           <Image
             className="w-1/2 opacity-25"
             src="/images/mcflurry.png"

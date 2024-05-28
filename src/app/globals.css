@@ -42,3 +42,7 @@ select:invalid {
   /* color: theme("colors.light"); */
   color: #fff;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}

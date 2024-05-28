@@ -127,9 +127,7 @@ const VideoUploadProvider = ({ children }: Props) => {
 
       await parallelUploads3.done();
       await putItemToDynamoDB(record);
-      alert(
-        "Upload completed successfully. Please refresh the HeyGen dashboard for the completed video!",
-      );
+
       const endTime = new Date();
       console.log(
         `Time taken to upload: ${(endTime.getTime() - startTime.getTime()) / 1000} seconds`,
