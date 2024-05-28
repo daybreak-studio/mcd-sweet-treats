@@ -115,9 +115,20 @@ const RecordButton = ({
           style={{
             rotate: -ROT_OFFSET_DEGREE,
           }}
-          className="absolute inset-0"
+          className="absolute inset-0 rounded-full bg-light"
         >
-          <RecordStopSVG />
+          <motion.div
+            animate={{
+              opacity: [0, 1],
+              transition: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 0.5,
+              },
+            }}
+          >
+            <RecordStopSVG />
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.button>

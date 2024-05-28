@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useAVPermission } from "./hooks/useAVPermission";
 import VideoInstuction from "./Instruction/VideoInstuction";
+import FacePositionHint from "./FacePositionHint";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -156,7 +157,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   return (
     <div className="fixed inset-0 flex h-svh">
-      <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
+      <div className="relative m-auto flex h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
         <AnimatePresence mode={"wait"}>
           {(recorderState === RecorderStates.INITIAL ||
             recorderState === RecorderStates.RECORDING) && (
@@ -190,19 +191,30 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   className="h-full w-full object-cover"
                 />
               </motion.div>
-
-              <AnimatePresence>
+              <AnimatePresence mode={"sync"}>
                 {!hasUserSeenInstruction && isCameraExperienceReady && (
-                  <>
+                  <React.Fragment key="instruction">
                     <motion.div
                       className="pointer-events-none fixed inset-0 z-50 bg-black"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 0.6 }}
-                      exit={{ opacity: 0 }}
+                      exit={{
+                        opacity: 0,
+                        transition: {
+                          duration: AnimationConfig.SLOW,
+                          ease: AnimationConfig.EASING,
+                        },
+                      }}
                     />
-                    <div className="absolute inset-0 overflow-hidden">
+                    <motion.div
+                      className="absolute inset-0 overflow-hidden"
+                      key="instruction-container"
+                    >
                       <motion.div
-                        initial={{ opacity: 0, y: 200 }}
+                        initial={{
+                          // opacity: 0,
+                          y: "100%",
+                        }}
                         animate={{
                           opacity: 1,
                           y: 0,
@@ -213,10 +225,10 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                         }}
                         exit={{
                           // opacity: 0,
-                          y: "50%",
+                          y: "100%",
                           transition: {
                             duration: AnimationConfig.NORMAL,
-                            ease: AnimationConfig.EASING,
+                            ease: AnimationConfig.EASING_INVERTED,
                           },
                         }}
                         className="absolute inset-0 z-50 flex items-end"
@@ -225,9 +237,28 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                           onProceed={() => setHasUserSeenInstruction(true)}
                         />
                       </motion.div>
-                    </div>
-                  </>
+                    </motion.div>
+                  </React.Fragment>
                 )}
+                {hasUserSeenInstruction &&
+                  isCameraExperienceReady &&
+                  recorderState !== RecorderStates.RECORDING && (
+                    <motion.div
+                      key="face-position-hint"
+                      className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center"
+                      initial={{
+                        opacity: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                      }}
+                      exit={{
+                        opacity: 0,
+                      }}
+                    >
+                      <FacePositionHint />
+                    </motion.div>
+                  )}
               </AnimatePresence>
               <motion.div
                 initial={{ opacity: 0 }}

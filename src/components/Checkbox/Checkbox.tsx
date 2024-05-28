@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { AnimationConfig } from "../AnimationConfig";
+import { AnimWrap } from "../AnimWrap";
 
 type Props = {
   children: React.ReactNode;

@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import { AnimationConfig } from "../AnimationConfig";
 
+
 type Props = {
   label: string;
   name: string;

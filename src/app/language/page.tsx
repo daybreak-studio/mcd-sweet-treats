@@ -1,10 +1,8 @@
 "use client";
 
 import AppFrame from "@/components/AppFrame/AppFrame";
-import Button from "@/components/Button/Button";
 import LinkButton from "@/components/Button/LinkButton";
 import Dropdown from "@/components/Dropdown/Dropdown";
-import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import {
@@ -14,8 +12,6 @@ import {
   outputLanguageMap,
 } from "@/components/VideoUploadProvider/Languages";
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { useState } from "react";
 import { AnimWrap } from "@/components/AnimWrap";
 const supportedInputLanguages = Object.keys(inputLanguageMap);
 const supportedOutputLanguages = Object.keys(outputLanguageMap);
