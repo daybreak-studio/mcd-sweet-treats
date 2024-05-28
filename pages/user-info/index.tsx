@@ -7,15 +7,12 @@ import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import { useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import BottomBanner from "@/components/Banner/BottomBanner";
-import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { useReCaptcha } from "next-recaptcha-v3";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RecaptchaResponse } from "@/types/RecaptchaResponse";
 import { useEffect } from "react";
-
-const TERMS_HASH = "#terms-and-conditions";
 
 const UserInfoSchema = z.object({
   name: z
@@ -91,7 +88,6 @@ export default function UserInfoPage() {
       });
 
       const data: RecaptchaResponse = await response.json();
-      console.log(data);
 
       if (!data.success) {
         throw data.message;
@@ -178,7 +174,10 @@ export default function UserInfoPage() {
               >
                 <span>
                   I accept the{" "}
-                  <a href={`${TERMS_HASH}`} className="font-sans-sm font-bold">
+                  <a
+                    href={`https://www.heygen.com/policy`}
+                    className="font-sans-sm font-bold"
+                  >
                     Terms & Conditions
                   </a>
                 </span>
@@ -196,23 +195,6 @@ export default function UserInfoPage() {
           </p>
         )}
       </form>
-      {/* <AnimatePresence>
-        {hash === TERMS_HASH && (
-          <motion.div
-            className="z-50"
-            initial={{ opacity: 0 }}
-            animate={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-          >
-            <motion.div className="fixed inset-0 bg-dark bg-opacity-60" />
-            <TermsAndCondition />
-          </motion.div>
-        )}
-      </AnimatePresence> */}
       <BottomBanner>
         <span className="block max-w-[48ch] text-center">
           This site is protected by reCAPTCHA and the Google{" "}
