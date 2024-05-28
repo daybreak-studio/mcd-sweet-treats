@@ -23,6 +23,7 @@ type Props = {
   onScrubStart?: () => void;
   onScrubEnd?: () => void;
   onReady?: () => void;
+  autoPlay?: boolean;
 };
 
 const VideoPlayer = ({
@@ -32,6 +33,7 @@ const VideoPlayer = ({
   onScrubEnd,
   onScrubStart,
   onReady,
+  autoPlay,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
@@ -58,7 +60,9 @@ const VideoPlayer = ({
     return videoRef.current.getBoundingClientRect().width;
   }, [windowDim.width]);
 
-  const [shouldPlay, setShouldPlay] = useState(true);
+  const [shouldPlay, setShouldPlay] = useState(autoPlay);
+  const [hasPlayedSucecssfully, setHasPlayedSuccessfully] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const seek = useVideoSeeker({ videoRef, isVideoReady: true });
 
   const scrubWidth = videoWidth / 2;
@@ -104,9 +108,6 @@ const VideoPlayer = ({
     if (!isScrubbing) onScrubEnd?.();
   }, [isScrubbing]);
 
-  // console.log(pixelPerSec * duration);
-  // useMotionValueEvent(currentTime, "change", (latest) => console.log(latest));
-
   useEffect(() => {
     if (!videoRef.current) return;
 
@@ -116,8 +117,21 @@ const VideoPlayer = ({
     }
 
     // enter pause state if the browser rejects playing initially
-    videoRef.current.play().catch(() => setShouldPlay(false));
+    videoRef.current
+      .play()
+      .then(() => {
+        setHasPlayedSuccessfully(true);
+      })
+      .catch(() => {
+        setShouldPlay(false);
+      });
   }, [shouldPlay, isScrubbing]);
+
+  useEffect(() => {
+    if (hasPlayedSucecssfully || isScrubbing) {
+      setHasInteracted(true);
+    }
+  }, [hasPlayedSucecssfully, isScrubbing]);
 
   return (
     <div className={`${className} relative touch-none`} ref={containerRef}>
@@ -126,7 +140,7 @@ const VideoPlayer = ({
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
         className="h-full w-full object-cover"
         playsInline
-        autoPlay
+        autoPlay={autoPlay}
         loop
         src={src}
         ref={videoRef}
@@ -142,13 +156,21 @@ const VideoPlayer = ({
           visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
         }}
       />
-      <div className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex max-w-72 justify-center">
+      <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: hasInteracted ? 1 : 0,
+        }}
+        className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex max-w-72 justify-center"
+      >
         <PorgressBar
           duration={duration}
           currentTime={currentTime}
           isActive={isScrubbing && hasScrubbed}
         />
-      </div>
+      </motion.div>
     </div>
   );
 };

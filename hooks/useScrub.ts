@@ -141,6 +141,10 @@ export function useScrub({
     const handleContainerWheel = (e: WheelEvent) => {
       // delta value
       const delta = direction === ScrubDirection.x ? e.deltaX : e.deltaY;
+
+      // don't trigger update when the user scrolling on the wrong direction
+      if (delta === 0) return;
+
       const scrollDelta = -clamp(-maxWheelDelta, maxWheelDelta, delta * 1);
       target.set(
         getClampedNewValue(inverseGesture ? -scrollDelta : scrollDelta),

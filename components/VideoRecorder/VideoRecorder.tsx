@@ -408,6 +408,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 </motion.div>
               </motion.div>
               <VideoPlayer
+                autoPlay
                 src={recordedURLObject ? recordedURLObject : ""}
                 className="h-full w-full"
                 approximateDuration={approximateVideoDuration}
