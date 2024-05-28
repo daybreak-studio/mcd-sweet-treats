@@ -1,6 +1,6 @@
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
@@ -12,8 +12,11 @@ import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 type Props = {};
 
 const UploadingPage = (props: Props) => {
-  const { progress, isUploading } = useVideoUpload();
+  // const { progress, isUploading } = useVideoUpload();
   const { clearVideo } = useUserInfo();
+
+  const [progress] = useState(1);
+  const [isUploading] = useState(false);
 
   useEffect(() => {
     // clear video draft when the upload is completed
@@ -34,7 +37,7 @@ const UploadingPage = (props: Props) => {
       >
         <motion.h1
           variants={AnimWrap.bounceUpA}
-          className="font-serif-2xl mx-auto origin-top-left self-start px-16 pb-4 text-center"
+          className="font-serif-2xl mx-auto origin-top-left self-start px-4 pb-4 text-center"
         >
           {progress < 1 ? "Don't leave just yet!" : "Check your inbox!"}
         </motion.h1>
