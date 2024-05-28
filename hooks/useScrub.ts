@@ -145,6 +145,9 @@ export function useScrub({
       // don't trigger update when the user scrolling on the wrong direction
       if (delta === 0) return;
 
+      e.preventDefault();
+      e.stopPropagation();
+
       const scrollDelta = -clamp(-maxWheelDelta, maxWheelDelta, delta * 1);
       target.set(
         getClampedNewValue(inverseGesture ? -scrollDelta : scrollDelta),
@@ -154,7 +157,7 @@ export function useScrub({
     };
 
     containerElm.addEventListener("wheel", handleContainerWheel, {
-      passive: true,
+      passive: false,
     });
 
     return () => {
