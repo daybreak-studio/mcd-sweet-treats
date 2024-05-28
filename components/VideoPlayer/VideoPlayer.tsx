@@ -134,7 +134,7 @@ const VideoPlayer = ({
   }, [hasPlayedSucecssfully, isScrubbing]);
 
   return (
-    <div className={`${className} relative touch-none`} ref={containerRef}>
+    <div className={`${className} relative touch-pan-y`} ref={containerRef}>
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
