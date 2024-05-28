@@ -16,6 +16,8 @@ import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useAVPermission } from "./hooks/useAVPermission";
+import VideoInstuction from "./Instruction/VideoInstuction";
+import FacePositionHint from "./FacePositionHint";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -34,13 +36,16 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   const [videoRef, videoElm] = useDynamicDOMRef<HTMLVideoElement>();
   const [canvasRef, canvasElm] = useDynamicDOMRef<HTMLCanvasElement>();
 
+  // for writing to the global state
+  const { videoBlob, savedVideoDuration, saveVideo, clearVideo } =
+    useUserInfo();
+
+  const [hasUserSeenInstruction, setHasUserSeenInstruction] = useState(false);
+
   const [recorderState, setRecorderState] = useState<RecorderStates>(
-    RecorderStates.INITIAL,
+    videoBlob ? RecorderStates.RECORDED : RecorderStates.INITIAL,
   );
   const [shouldShowNavButtons, setShouldShowNavButtons] = useState(true);
-
-  // for writing to the global state
-  const { videoBlob, setVideoBlob } = useUserInfo();
 
   const recorder = useVideoRecording(
     canvasElm,
@@ -62,8 +67,20 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
   // when there is data loaded, add to the user data
   useEffect(() => {
     // Move the blob data from recorded blob to the storage to reduce memory usage
-    setVideoBlob(recorder.recordedBlobData);
-  }, [recorder.recordedBlobData, setVideoBlob]);
+    if (!recorder.recordedBlobData) return;
+    console.log("saved video!");
+    saveVideo(recorder.recordedBlobData, approximateVideoDuration);
+  }, [recorder.recordedBlobData, approximateVideoDuration, saveVideo]);
+
+  // restore the previous saved video duration
+  useEffect(() => {
+    if (approximateVideoDuration === 0)
+      setApproimateVideoDuration(savedVideoDuration);
+  }, [approximateVideoDuration, savedVideoDuration]);
+
+  useEffect(() => {
+    if (videoBlob) setRecorderState(RecorderStates.RECORDED);
+  }, [videoBlob]);
 
   // control flow for starting a recording
   const startRecording = useCallback(() => {
@@ -94,13 +111,13 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     // remove the junk to create reduce memory usage
     recorder.clearRecordedBlobData();
     setRecorderState(RecorderStates.INITIAL);
+    clearVideo(); // clean up the blob when restart recording
     resetTimer();
-  }, [recorder, resetTimer]);
+  }, [recorder, resetTimer, clearVideo]);
 
-  const recordedURLObject = useMemo(
-    () => videoBlob && URL.createObjectURL(videoBlob),
-    [videoBlob],
-  );
+  const recordedURLObject = useMemo(() => {
+    return videoBlob && URL.createObjectURL(videoBlob);
+  }, [videoBlob]);
 
   const handleRecordButtonClick = () => {
     if (recorderState === RecorderStates.INITIAL) {
@@ -140,7 +157,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   return (
     <div className="fixed inset-0 flex h-svh">
-      <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
+      <div className="relative m-auto flex h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
         <AnimatePresence mode={"wait"}>
           {(recorderState === RecorderStates.INITIAL ||
             recorderState === RecorderStates.RECORDING) && (
@@ -174,6 +191,75 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   className="h-full w-full object-cover"
                 />
               </motion.div>
+              <AnimatePresence mode={"sync"}>
+                {!hasUserSeenInstruction && isCameraExperienceReady && (
+                  <React.Fragment key="instruction">
+                    <motion.div
+                      className="pointer-events-none fixed inset-0 z-50 bg-black"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.6 }}
+                      exit={{
+                        opacity: 0,
+                        transition: {
+                          duration: AnimationConfig.SLOW,
+                          ease: AnimationConfig.EASING,
+                        },
+                      }}
+                    />
+                    <motion.div
+                      className="absolute inset-0 overflow-hidden"
+                      key="instruction-container"
+                    >
+                      <motion.div
+                        initial={{
+                          // opacity: 0,
+                          y: "100%",
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            duration: AnimationConfig.SLOW,
+                            ease: AnimationConfig.EASING,
+                          },
+                        }}
+                        exit={{
+                          // opacity: 0,
+                          y: "100%",
+                          transition: {
+                            duration: AnimationConfig.NORMAL,
+                            ease: AnimationConfig.EASING_INVERTED,
+                          },
+                        }}
+                        className="absolute inset-0 z-50 flex items-end"
+                      >
+                        <VideoInstuction
+                          onProceed={() => setHasUserSeenInstruction(true)}
+                        />
+                      </motion.div>
+                    </motion.div>
+                  </React.Fragment>
+                )}
+                {hasUserSeenInstruction &&
+                  isCameraExperienceReady &&
+                  recorderState !== RecorderStates.RECORDING && (
+                    <motion.div
+                      key="face-position-hint"
+                      className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center"
+                      initial={{
+                        opacity: 0,
+                      }}
+                      animate={{
+                        opacity: 1,
+                      }}
+                      exit={{
+                        opacity: 0,
+                      }}
+                    >
+                      <FacePositionHint />
+                    </motion.div>
+                  )}
+              </AnimatePresence>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
@@ -301,6 +387,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   }}
                 >
                   <Button
+                    small
                     isVisible={shouldShowNavButtons}
                     onClick={restartRecording}
                     secondary
@@ -310,6 +397,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                     Redo
                   </Button>
                   <Button
+                    small
                     isVisible={shouldShowNavButtons}
                     onClick={() => videoBlob && onCompleteRecording(videoBlob)}
                     inverted

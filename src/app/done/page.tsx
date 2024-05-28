@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";

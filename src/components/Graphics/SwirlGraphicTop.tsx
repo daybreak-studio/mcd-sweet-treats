@@ -1,6 +1,5 @@
-import { delay, motion } from "framer-motion";
+import { SVGMotionProps, motion } from "framer-motion";
 import React from "react";
-
 
 const SwirlGraphicBottomVariants = {
   hidden: { opacity: 0, y: 16, rotate: -5, x: -12 },
@@ -12,13 +11,13 @@ const SwirlGraphicBottomVariants = {
     y: 0,
     transition: {
       ease: "easeIn",
-      duration: .2,
-      delay: .6,
+      duration: 0.2,
+      delay: 0.6,
     },
   },
 };
 
-type Props = React.SVGProps<SVGSVGElement>;
+type Props = SVGMotionProps<SVGSVGElement>;
 
 const SwirlGraphicTop = (props: Props) => {
   return (
