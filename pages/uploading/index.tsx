@@ -12,11 +12,11 @@ import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 type Props = {};
 
 const UploadingPage = (props: Props) => {
-  // const { progress, isUploading } = useVideoUpload();
+  const { progress, isUploading } = useVideoUpload();
   const { clearVideo } = useUserInfo();
 
-  const [progress] = useState(1);
-  const [isUploading] = useState(false);
+  // const [progress] = useState(1);
+  // const [isUploading] = useState(false);
 
   useEffect(() => {
     // clear video draft when the upload is completed
