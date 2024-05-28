@@ -138,7 +138,7 @@ const VideoPlayer = ({
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
-        className="h-full w-full object-cover"
+        className="h-full object-cover"
         playsInline
         autoPlay={autoPlay}
         loop

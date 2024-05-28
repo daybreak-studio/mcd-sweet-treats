@@ -66,7 +66,7 @@ export default function Home() {
           Send grandma a sweet message
         </motion.h1>
         <motion.div
-          className="relative z-10 flex w-full origin-top-left flex-col items-center"
+          className="z-10 flex origin-top-left flex-col items-center"
           variants={videoVariants}
         >
           <VideoPlayer
@@ -74,7 +74,7 @@ export default function Home() {
             src={
               "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
             }
-            className="mb-8 h-[40svh] min-h-64 w-auto"
+            className="mb-8 h-[40svh] min-h-64"
           />
           {/* <video
             ref={videoRef}
