@@ -8,12 +8,14 @@ import Textfield from "@/components/Textfield/Textfield";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import { useRouter } from "next/navigation";
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
-import { AnimatePresence, motion } from "framer-motion";
 import BottomBanner from "@/components/Banner/BottomBanner";
 import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
+import { useReCaptcha } from "next-recaptcha-v3";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { RecaptchaResponse } from "./RecaptchaResponse";
+import { useEffect } from "react";
 
 const TERMS_HASH = "#terms-and-conditions";
 
@@ -28,6 +30,7 @@ const UserInfoSchema = z.object({
   terms: z.literal(true, {
     errorMap: () => ({ message: "Accepting is required" }),
   }),
+  recaptcha: z.boolean().optional(),
 });
 type FormData = z.output<typeof UserInfoSchema>;
 
@@ -44,10 +47,14 @@ export default function UserInfoPage() {
   const { upload } = useVideoUpload();
   const router = useRouter();
 
+  const { executeRecaptcha } = useReCaptcha();
+
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    setError,
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     defaultValues: {
       name: "",
@@ -57,7 +64,10 @@ export default function UserInfoPage() {
     resolver: zodResolver(UserInfoSchema),
   });
 
-  const handleFormValid = (data: FormData) => {
+  useEffect(() => setValue("email", email), [email, setValue]);
+  useEffect(() => setValue("name", name), [name, setValue]);
+
+  const handleFormValid = async (data: FormData) => {
     if (inputLanguage === "" || outputLanguage === "") {
       console.log(
         "Input or output language is empty, redirecting to language page",
@@ -69,6 +79,30 @@ export default function UserInfoPage() {
       console.log("Video not recorded, redirecting to record page");
       router.push("/record");
       return;
+    }
+
+    const token = await executeRecaptcha("form_submit");
+
+    try {
+      const response = await fetch("/api/verify-recaptcha", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      const data: RecaptchaResponse = await response.json();
+      console.log(data);
+
+      if (!data.success) {
+        throw data.message;
+      }
+    } catch (error) {
+      console.warn(`Error verifying reCAPTCHA: ${error}`);
+      setError("recaptcha", {
+        message: "Error verifying reCAPTCHA, please refresh your browser.",
+      });
     }
 
     router.push("/uploading");
@@ -105,7 +139,10 @@ export default function UserInfoPage() {
               <Textfield
                 label={"Your full name"}
                 placeholder={"First Last"}
-                onChange={field.onChange}
+                onChange={(v) => {
+                  field.onChange(v);
+                  setName(v);
+                }}
                 value={field.value}
                 name={"name"}
                 error={errors.name?.message}
@@ -120,7 +157,10 @@ export default function UserInfoPage() {
               <Textfield
                 label={"Personal email address"}
                 placeholder={"example@gmail.com"}
-                onChange={field.onChange}
+                onChange={(v) => {
+                  field.onChange(v);
+                  setEmail(v);
+                }}
                 value={field.value}
                 name={"email"}
                 error={errors.email?.message}
@@ -149,8 +189,14 @@ export default function UserInfoPage() {
           />
         </div>
 
-        {/* ADD CAPTCHA HERE */}
-        <Button submit>{"Submit"}</Button>
+        <Button submit disabled={isSubmitting}>
+          {"Submit"}
+        </Button>
+        {errors.recaptcha && (
+          <p className="font-sans-sm py-4 text-red-900">
+            {errors.recaptcha.message}
+          </p>
+        )}
       </form>
       {/* <AnimatePresence>
         {hash === TERMS_HASH && (
@@ -169,7 +215,19 @@ export default function UserInfoPage() {
           </motion.div>
         )}
       </AnimatePresence> */}
-      <BottomBanner>Select languages available</BottomBanner>
+      <BottomBanner>
+        <span className="block max-w-[48ch] text-center">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a href="https://policies.google.com/privacy" className="font-bold">
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a href="https://policies.google.com/terms" className="font-bold">
+            Terms of Service
+          </a>{" "}
+          apply.
+        </span>
+      </BottomBanner>
     </AppFrame>
   );
 }

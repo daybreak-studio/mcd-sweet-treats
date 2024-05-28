@@ -5,6 +5,8 @@ import VideoUploadProvider from "@/components/VideoUploadProvider/VideoUploadPro
 import UserInfoProvider from "@/components/UserInfoProvider/UserInfoProvider";
 import { WindowDimensionContextProvider } from "@/hooks/useWindowDimension";
 
+import { ReCaptchaProvider } from "next-recaptcha-v3";
+
 const font_speedee = localFont({
   src: [
     {
@@ -35,11 +37,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`overscroll-none bg-accent ${font_speedee.variable}`}>
-        <WindowDimensionContextProvider>
-          <UserInfoProvider>
-            <VideoUploadProvider>{children}</VideoUploadProvider>
-          </UserInfoProvider>
-        </WindowDimensionContextProvider>
+        <ReCaptchaProvider>
+          <WindowDimensionContextProvider>
+            <UserInfoProvider>
+              <VideoUploadProvider>{children}</VideoUploadProvider>
+            </UserInfoProvider>
+          </WindowDimensionContextProvider>
+        </ReCaptchaProvider>
       </body>
     </html>
   );
