@@ -5,14 +5,15 @@ import React from "react";
 import Image from "next/image";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
+import BottomBanner from "@/components/Banner/BottomBanner";
 
 type Props = {};
 
 const DonePage = (props: Props) => {
   return (
-    <AppFrame caption={"At participating McDonald's for a limited time."}>
-      <LogoLockup />
-      <div className="z-30 flex flex-grow flex-col items-center pt-16 text-center">
+    <AppFrame>
+      <LogoLockup noWordmark />
+      <div className="z-30 my-auto flex flex-col items-center pb-16 text-center">
         <h5 className="font-serif-sm pb-4">
           Come to McDonald&apos;s to treat yourself to a
         </h5>
@@ -27,16 +28,21 @@ const DonePage = (props: Props) => {
         </Link>
       </div>
 
-      <div className="pointer-events-none fixed inset-0 flex flex-col overflow-hidden">
-        <Image
-          className="mt-auto origin-bottom translate-y-[10%] scale-[200%] md:w-full md:scale-150 xl:translate-y-[20%] xl:scale-100"
-          src="/images/meal.png"
-          alt="McFlurry"
-          quality={100}
-          width={500}
-          height={500}
-        />
+      <div className="pointer-events-none fixed inset-0 flex flex-col items-center overflow-hidden">
+        <div className="absolute -bottom-32 w-[65rem] lg:-bottom-[18vw] lg:w-full">
+          <Image
+            className="h-full w-full"
+            src="/images/meal.png"
+            alt="McFlurry"
+            quality={100}
+            width={500}
+            height={500}
+          />
+        </div>
       </div>
+      <BottomBanner>
+        {"At participating McDonald's for a limited time."}
+      </BottomBanner>
     </AppFrame>
   );
 };
