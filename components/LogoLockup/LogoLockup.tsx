@@ -15,7 +15,7 @@ const LogoLockupAnimation = {
 export const LogoLockup = ({ noWordmark }: Props) => {
   return (
     <motion.div
-      className="flex h-[12svh] flex-col items-center gap-2"
+      className="flex h-fit flex-col items-center gap-2"
       // initial="hidden"
       // animate="visible"
       // variants={LogoLockupAnimation}
@@ -51,7 +51,7 @@ const Logo = () => {
       height="54"
       viewBox="0 0 54 54"
       fill="none"
-      className="aspect-[54/54] h-full w-auto"
+      className="aspect-[54/54] h-[6svh] min-h-12 w-auto"
       xmlns="http://www.w3.org/2000/svg"
       // variants={LogoAnimation}
     >

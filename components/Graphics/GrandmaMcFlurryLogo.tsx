@@ -1,14 +1,17 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  className?: string;
+};
 
-const GrandmaMcFlurryLogo = (props: Props) => {
+const GrandmaMcFlurryLogo = ({ className }: Props) => {
   return (
     <svg
       width="300"
       height="121"
       viewBox="0 0 300 121"
       fill="none"
+      className={`${className}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
