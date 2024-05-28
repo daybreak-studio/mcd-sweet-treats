@@ -13,14 +13,16 @@ import {
 import React, { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import PorgressBar from "./PorgressBar";
 import PlayIcon from "./play.svg";
+import { useVideoInfo } from "./useVideoInfo";
 
 type Props = {
   src: string;
   className?: string;
   // the duration that roughly calculated by the video recording flow
-  approximateDuration: number;
+  approximateDuration?: number;
   onScrubStart?: () => void;
   onScrubEnd?: () => void;
+  onReady?: () => void;
 };
 
 const VideoPlayer = ({
@@ -29,12 +31,28 @@ const VideoPlayer = ({
   approximateDuration,
   onScrubEnd,
   onScrubStart,
+  onReady,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
-  const windowDim = useWindowDimension();
-  const [duration, setDuration] = useState(approximateDuration);
+  const { isVideoReady, duration: accurateDuration } = useVideoInfo(videoRef);
+  useEffect(() => {
+    if (isVideoReady) onReady?.();
+  }, [isVideoReady, onReady]);
 
+  const duration = useMemo(() => {
+    if (
+      accurateDuration &&
+      !isNaN(accurateDuration) &&
+      accurateDuration !== Infinity &&
+      accurateDuration !== 0
+    ) {
+      return accurateDuration;
+    }
+    return approximateDuration || 0;
+  }, [accurateDuration, approximateDuration]);
+
+  const windowDim = useWindowDimension();
   const videoWidth = useMemo(() => {
     if (!videoRef.current) return windowDim.width;
     return videoRef.current.getBoundingClientRect().width;
@@ -101,18 +119,8 @@ const VideoPlayer = ({
     videoRef.current.play().catch(() => setShouldPlay(false));
   }, [shouldPlay, isScrubbing]);
 
-  const handleDurationChange = () => {
-    const d = videoRef.current?.duration;
-
-    if (!d) return;
-    if (d === Infinity) return;
-
-    console.log(`duration change`, videoRef.current?.duration);
-    setDuration(videoRef.current?.duration);
-  };
-
   return (
-    <div className={`${className} touch-none`} ref={containerRef}>
+    <div className={`${className} relative touch-none`} ref={containerRef}>
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
@@ -122,10 +130,10 @@ const VideoPlayer = ({
         loop
         src={src}
         ref={videoRef}
-        onDurationChange={handleDurationChange}
         animate={{
           opacity: shouldPlay ? 1 : 0.9,
         }}
+        disableRemotePlayback
         // controls
       />
       <PlayIcon
