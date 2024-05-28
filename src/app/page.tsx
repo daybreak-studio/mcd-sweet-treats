@@ -21,7 +21,6 @@ export default function Home() {
     }
   }, []);
 
-
   return (
     <AppFrame caption={"Select Languages Available"}>
       <LogoLockup />
@@ -34,7 +33,7 @@ export default function Home() {
         variants={containerVariants}
       >
         <motion.h1
-          className="font-serif-lg mb-4 px-8 text-center origin-top-left"
+          className="font-serif-lg mb-4 origin-top-left px-8 text-center"
           variants={AnimWrap.bounceUpB}
         >
           Send grandma a sweet message
@@ -55,9 +54,7 @@ export default function Home() {
       </motion.div>
     </AppFrame>
   );
-
 }
-
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -73,88 +70,111 @@ const containerVariants = {
 };
 
 const childVariants = {
-  hidden: { opacity: 0, y: 40, rotate: 3, },
-  visible: { opacity: 1, y: 0, rotate: 0, transition: { type: "spring", bounce: .3, duration: 0.5 } },
+  hidden: { opacity: 0, y: 40, rotate: 3 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: { type: "spring", bounce: 0.3, duration: 0.5 },
+  },
 };
 const videoVariants = {
   hidden: {
     filter: "blur(10px)",
-    opacity: 0, scale: 1.2,
+    opacity: 0,
+    scale: 1.2,
     rotate: 10,
     y: 120,
   },
   visible: {
     filter: "blur(0px)",
-    opacity: 1, scale: 1, rotate: 0, y: 0, transition: { type: "spring", bounce: .2, duration: 0.75 }
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    y: 0,
+    transition: { type: "spring", bounce: 0.2, duration: 0.75 },
   },
 };
-
-
-
 
 const imageTransition = {
   ease: easing.EASE_OUT_QUINT,
   duration: 1,
-
 };
 
 const LandingImageAnimation = () => {
-
-
-  return <motion.section className="fixed z-[51] hidden lg:block w-[100vw] pointer-events-none touch-none h-screen" initial="hidden" animate="visible"
-    variants={{ hidden: {}, visible: { transition: { staggerChildren: .5 } } }} >
-
-    <motion.figure className="origin-top-right fixed bottom-0 right-0 "
-      transition={imageTransition}
+  return (
+    <motion.section
+      className="pointer-events-none fixed z-[51] hidden h-screen w-[100vw] touch-none lg:block"
+      initial="hidden"
+      animate="visible"
       variants={{
-        hidden: { rotate: -150, x: "120vw", y: "15vh", },
-        visible: {
-          rotate: 10, x: "5vw", y: "-10vh",
-        }
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.5 } },
       }}
     >
-      <Image
-        width={320} height={200} className="object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-        src="/images/landing-1.webp" alt="image of child with their grandparent"
-      />
-    </motion.figure>
+      <motion.figure
+        className="fixed bottom-0 right-0 origin-top-right "
+        transition={imageTransition}
+        variants={{
+          hidden: { rotate: -150, x: "120vw", y: "15vh" },
+          visible: {
+            rotate: 10,
+            x: "5vw",
+            y: "-10vh",
+          },
+        }}
+      >
+        <Image
+          width={320}
+          height={200}
+          className="shadow-[rgba(34, 5, 5, 0.50)] object-contain shadow-md"
+          src="/images/landing-1.webp"
+          alt="image of child with their grandparent"
+        />
+      </motion.figure>
 
-    <motion.figure className="origin-top-right fixed -left-12"
-      transition={imageTransition}
-
-      variants={{
-        hidden: { rotate: -150, x: "-215%", y: "100vh", scale: 1.5 },
-        visible: { rotate: 12, x: "6%", y: "40vh", scale: 1 }
-      }}
-      initial={{
-        rotate: -100,
-        x: "-215%",
-        y: "100vh",
-      }}
-      animate={{
-        rotate: 12,
-        x: "6%",
-        y: "40vh",
-      }}
-    >
-      <Image
-        width={350} height={200} className="object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-        src="/images/landing-3.webp" alt="image of child with their grandparent"
-      />
-    </motion.figure>
-    <motion.figure className="origin-bottom-left fixed z-[52] "
-      variants={{
-        hidden: { rotate: -150, x: "-120%", scale: 1.5 },
-        visible: { rotate: -8, x: "10%", y: "15vh", scale: 1 }
-      }}
-      transition={imageTransition}
-    >
-      <Image
-        width={300} height={200} className="h-auto max-w-[30vw] object-contain shadow-md shadow-[rgba(34, 5, 5, 0.50)]"
-        src="/images/landing-2.webp" alt="image of child with their grandparent"
-      />
-    </motion.figure>
-
-  </motion.section>
-}
-
+      <motion.figure
+        className="fixed -left-12 origin-top-right"
+        transition={imageTransition}
+        variants={{
+          hidden: { rotate: -150, x: "-215%", y: "100vh", scale: 1.5 },
+          visible: { rotate: 12, x: "6%", y: "40vh", scale: 1 },
+        }}
+        initial={{
+          rotate: -100,
+          x: "-215%",
+          y: "100vh",
+        }}
+        animate={{
+          rotate: 12,
+          x: "6%",
+          y: "40vh",
+        }}
+      >
+        <Image
+          width={350}
+          height={200}
+          className="shadow-[rgba(34, 5, 5, 0.50)] object-contain shadow-md"
+          src="/images/landing-3.webp"
+          alt="image of child with their grandparent"
+        />
+      </motion.figure>
+      <motion.figure
+        className="fixed z-[52] origin-bottom-left "
+        variants={{
+          hidden: { rotate: -150, x: "-120%", scale: 1.5 },
+          visible: { rotate: -8, x: "10%", y: "15vh", scale: 1 },
+        }}
+        transition={imageTransition}
+      >
+        <Image
+          width={300}
+          height={200}
+          className="shadow-[rgba(34, 5, 5, 0.50)] h-auto max-w-[30vw] object-contain shadow-md"
+          src="/images/landing-2.webp"
+          alt="image of child with their grandparent"
+        />
+      </motion.figure>
+    </motion.section>
+  );
+};
