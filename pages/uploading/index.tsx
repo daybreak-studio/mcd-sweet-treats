@@ -1,10 +1,9 @@
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { motion, useTransform, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 import { AnimWrap } from "@/components/AnimWrap";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
@@ -14,9 +13,6 @@ type Props = {};
 const UploadingPage = (props: Props) => {
   const { progress, isUploading } = useVideoUpload();
   const { clearVideo } = useUserInfo();
-
-  // const [progress] = useState(1);
-  // const [isUploading] = useState(false);
 
   useEffect(() => {
     // clear video draft when the upload is completed
@@ -46,8 +42,8 @@ const UploadingPage = (props: Props) => {
           className="font-serif-base origin-top-left pb-8"
         >
           {progress < 1
-            ? "We’re getting your video ready."
-            : "Your results are in."}
+            ? "We’re uploading your video!"
+            : "We'll email you when it's ready."}
         </motion.h5>
         <motion.div
           variants={{

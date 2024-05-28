@@ -14,8 +14,8 @@ const DonePage = (props: Props) => {
     <AppFrame>
       <LogoLockup noWordmark />
       <div className="z-30 my-auto flex flex-col items-center pb-16 text-center">
-        <h5 className="font-serif-sm pb-4">
-          Come to McDonald&apos;s to treat yourself to a
+        <h5 className="font-serif-sm max-w-[30ch] pb-4">
+          {"Check you inbox and come to McDonald's to treat yourself to a"}
         </h5>
         <div className="pb-8">
           <GrandmaMcFlurryLogo />
