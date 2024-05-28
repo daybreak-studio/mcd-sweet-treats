@@ -16,6 +16,7 @@ type Props = {
   noShadow?: boolean;
   isVisible?: boolean;
   submit?: boolean;
+  small?: boolean;
 };
 
 const Button = ({
@@ -28,6 +29,7 @@ const Button = ({
   noShadow,
   isVisible = true,
   submit,
+  small,
 }: Props) => {
   const invertedPrimaryStyles = "bg-light text-dark";
   const invertedSecondaryStyles =
@@ -48,7 +50,7 @@ const Button = ({
       type={submit ? "submit" : "button"}
       disabled={disabled}
       onClick={onClick}
-      className={`${styling} ${disabled ? "cursor-default" : "cursor-pointer"} overflow-hidden rounded-full outline-accent ${className}`}
+      className={`${styling} ${disabled ? "cursor-default" : "cursor-pointer"} ${small ? "" : "min-w-64"} overflow-hidden rounded-full outline-accent ${className}`}
       whileTap={{
         scale: disabled ? 1 : 0.98,
       }}
