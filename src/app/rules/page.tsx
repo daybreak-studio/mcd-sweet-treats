@@ -3,12 +3,10 @@
 import { AnimWrap } from "@/components/AnimWrap";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
-import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import SwirlGraphicBottom from "@/components/Graphics/SwirlGraphicBottom";
 import SwirlGraphicTop from "@/components/Graphics/SwirlGraphicTop";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 export default function RulesPage() {
   return (

@@ -7,9 +7,12 @@ import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import Textfield from "@/components/Textfield/Textfield";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import { useRouter } from "next/navigation";
+
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
 import BottomBanner from "@/components/Banner/BottomBanner";
 import TermsAndCondition from "@/components/TermsAndCondition/TermsAndCondition";
+
+import { AnimWrap } from "@/components/AnimWrap";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { useReCaptcha } from "next-recaptcha-v3";

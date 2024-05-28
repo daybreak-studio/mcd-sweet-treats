@@ -78,6 +78,7 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             ref={selectRef}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            title="lang-select"
             value={internalValue}
             onChange={handleChange}
             className="font-sans-base w-full cursor-pointer rounded-full border border-dark bg-light px-3 py-4 text-center font-bold text-dark outline-none focus-within:border focus-within:border-accent focus-within:text-accent"
