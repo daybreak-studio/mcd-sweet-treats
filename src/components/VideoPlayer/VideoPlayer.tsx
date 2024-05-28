@@ -71,10 +71,10 @@ const VideoPlayer = ({
     seek(-latest / pixelPerSec);
   });
 
-  const currentTime = useTransform(
-    scrubOffset,
-    (latest) => duration * (-latest / scrubWidth),
-  );
+  const currentTime = useTransform(scrubOffset, (latest) => {
+    const t = duration * (-latest / scrubWidth);
+    return t;
+  });
 
   useEffect(() => {
     if (isScrubbing && hasScrubbed) {
@@ -90,11 +90,15 @@ const VideoPlayer = ({
   // useMotionValueEvent(currentTime, "change", (latest) => console.log(latest));
 
   useEffect(() => {
+    if (!videoRef.current) return;
+
     if (!shouldPlay || isScrubbing) {
-      videoRef.current?.pause();
+      videoRef.current.pause();
       return;
     }
-    videoRef.current?.play();
+
+    // enter pause state if the browser rejects playing initially
+    videoRef.current.play().catch(() => setShouldPlay(false));
   }, [shouldPlay, isScrubbing]);
 
   const handleDurationChange = () => {
@@ -104,11 +108,11 @@ const VideoPlayer = ({
     if (d === Infinity) return;
 
     console.log(`duration change`, videoRef.current?.duration);
-    setDuration(duration);
+    setDuration(videoRef.current?.duration);
   };
 
   return (
-    <div className={`${className} touch-pan-y`} ref={containerRef}>
+    <div className={`${className} touch-none`} ref={containerRef}>
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
@@ -130,7 +134,7 @@ const VideoPlayer = ({
           visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
         }}
       />
-      <div className="pointer-events-none absolute bottom-12 left-16 right-16 z-20 flex justify-center">
+      <div className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex max-w-72 justify-center">
         <PorgressBar
           duration={duration}
           currentTime={currentTime}

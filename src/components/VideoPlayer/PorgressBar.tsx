@@ -4,7 +4,7 @@ import {
   useMotionTemplate,
   useTransform,
 } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import Timestamp, { formatTime } from "./Timestamp";
 
 type Props = {

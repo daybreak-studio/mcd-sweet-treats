@@ -1,9 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import RecordStartSVG from "./RecordButtonGraphic.svg";
 import RecordStopSVG from "./RecordButtonStopGraphic.svg";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { ProgressRing } from "./ProgressRing";
 import { AnimationConfig } from "../AnimationConfig";
 
@@ -11,6 +11,7 @@ type Props = {
   maxDuration: number;
   currentTime: number;
   isRecording: boolean;
+  isLoading: boolean;
   onClick: () => void;
 };
 
@@ -20,17 +21,60 @@ const RecordButton = ({
   maxDuration,
   currentTime,
   isRecording,
+  isLoading,
   onClick,
 }: Props) => {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    if (isLoading) {
+      controls.set({
+        scale: 0.8,
+        y: 30,
+      });
+      controls.start({
+        rotate: 360,
+        transition: {
+          repeat: Infinity,
+          ease: "linear",
+          duration: 1,
+        },
+      });
+    } else {
+      controls.stop();
+      controls.start({
+        rotate: 360,
+        scale: 1,
+        y: 0,
+        transition: {
+          ease: AnimationConfig.EASING,
+          duration: AnimationConfig.SLOW,
+        },
+      });
+    }
+  }, [isLoading, controls]);
+
   return (
     <motion.button
-      className="relative"
-      onClick={onClick}
+      className={`relative ${isLoading ? "cursor-default" : "cursor-pointer"}`}
+      onClick={() => {
+        if (!isLoading) onClick();
+      }}
+      animate={controls}
       whileTap={{
-        scale: 0.97,
+        scale: !isLoading ? 0.97 : 1,
       }}
     >
-      <motion.div>
+      <motion.div
+        animate={{
+          opacity: isLoading ? 0 : 1,
+          scale: isLoading ? 0.9 : 1,
+          transition: {
+            druation: AnimationConfig.NORMAL,
+            ease: AnimationConfig.EASING,
+          },
+        }}
+      >
         <ProgressRing
           radius={44}
           progress={(currentTime / maxDuration) * 100}

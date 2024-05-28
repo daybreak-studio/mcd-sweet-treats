@@ -1,3 +1,5 @@
+"use client";
+
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
 import Link from "next/link";
