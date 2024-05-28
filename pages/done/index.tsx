@@ -1,15 +1,30 @@
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
 import Link from "next/link";
-import React from "react";
+import React, { useCallback } from "react";
 import Image from "next/image";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import BottomBanner from "@/components/Banner/BottomBanner";
+import ShareIconSVG from "./share-icon.svg";
 
 type Props = {};
 
 const DonePage = (props: Props) => {
+  const share = useCallback(async () => {
+    const shareData = {
+      title: "Grandma McFlurry",
+      text: "Learn web development on MDN!",
+      url: "https://sweetconnections.ai",
+    };
+
+    try {
+      await navigator.share(shareData);
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
   return (
     <AppFrame>
       <LogoLockup noWordmark />
@@ -23,9 +38,14 @@ const DonePage = (props: Props) => {
         <LinkButton href={"https://www.mcdonalds.com/ca/en-ca.html"}>
           Order Online
         </LinkButton>
-        <Link href="/" className="mt-8">
-          <h5 className="font-serif-sm">Record another message</h5>
-        </Link>
+        <div className="mt-8 flex flex-row divide-x divide-dark divide-opacity-20">
+          <button className="mr-3" onClick={() => share()}>
+            <ShareIconSVG />
+          </button>
+          <Link href="/" className="px-3">
+            <h5 className="font-serif-base">Record another message</h5>
+          </Link>
+        </div>
       </div>
 
       <div className="pointer-events-none fixed inset-0 flex flex-col items-center overflow-hidden">
