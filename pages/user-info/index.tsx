@@ -12,7 +12,7 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { useReCaptcha } from "next-recaptcha-v3";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RecaptchaResponse } from "./RecaptchaResponse";
+import { RecaptchaResponse } from "@/types/RecaptchaResponse";
 import { useEffect } from "react";
 
 const TERMS_HASH = "#terms-and-conditions";
