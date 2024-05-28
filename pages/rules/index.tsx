@@ -1,5 +1,6 @@
 import { AnimWrap } from "@/components/AnimWrap";
 import AppFrame from "@/components/AppFrame/AppFrame";
+import BottomBanner from "@/components/Banner/BottomBanner";
 import LinkButton from "@/components/Button/LinkButton";
 import SwirlGraphicBottom from "@/components/Graphics/SwirlGraphicBottom";
 import SwirlGraphicTop from "@/components/Graphics/SwirlGraphicTop";
@@ -8,17 +9,13 @@ import { motion } from "framer-motion";
 
 export default function RulesPage() {
   return (
-    <AppFrame
-      caption={
-        "McDonald’s reserves the right to not render videos that contain offensive items."
-      }
-    >
+    <AppFrame>
       <LogoLockup />
       <motion.div
         initial="hidden"
         animate="visible"
         variants={AnimWrap.AnimParentA}
-        className="relative my-8 flex h-full flex-grow flex-col items-center justify-center text-center"
+        className="relative my-8 flex flex-grow flex-col items-center justify-center text-center"
       >
         <SwirlGraphicTop className="relative left-4 mb-6" />
         <motion.h1
@@ -40,6 +37,12 @@ export default function RulesPage() {
         <SwirlGraphicBottom className="relative -left-16 -top-16" />
         <LinkButton href={"/language"}>{"I promise"}</LinkButton>
       </motion.div>
+
+      <BottomBanner>
+        {
+          "McDonald’s reserves the right to not render videos that contain offensive items."
+        }
+      </BottomBanner>
     </AppFrame>
   );
 }
