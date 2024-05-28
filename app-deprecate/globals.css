@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  overscroll-behavior: none;
 }
 
 @layer utilities {

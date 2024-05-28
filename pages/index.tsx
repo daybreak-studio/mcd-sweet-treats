@@ -5,6 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { Variants, motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
+import BottomBanner from "@/components/Banner/BottomBanner";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -47,18 +48,10 @@ const videoVariants: Variants = {
 };
 
 export default function Home() {
-  // const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
 
-  // useEffect(() => {
-  //   const video = videoRef.current;
-  //   if (video !== null) {
-  //     setVideoLoaded(true);
-  //   }
-  // }, []);
-
   return (
-    <AppFrame caption={"Select Languages Available"}>
+    <AppFrame>
       <LogoLockup />
       <motion.div
         className="my-8 flex flex-col items-center"
@@ -92,6 +85,7 @@ export default function Home() {
         <motion.div variants={childVariants}>
           <LinkButton href={"/get-started"}>Continue</LinkButton>
         </motion.div>
+        <BottomBanner>{"Select language available"}</BottomBanner>
       </motion.div>
     </AppFrame>
   );
