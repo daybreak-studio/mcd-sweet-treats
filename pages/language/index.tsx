@@ -11,6 +11,7 @@ import {
 } from "@/components/VideoUploadProvider/Languages";
 import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
+import BottomBanner from "@/components/Banner/BottomBanner";
 const supportedInputLanguages = Object.keys(inputLanguageMap);
 const supportedOutputLanguages = Object.keys(outputLanguageMap);
 
@@ -19,7 +20,7 @@ export default function LanguagePage() {
     useUserInfo();
 
   return (
-    <AppFrame caption={"Select Languages Available"}>
+    <AppFrame>
       <LogoLockup />
       <motion.div
         variants={AnimWrap.AnimParentA}
@@ -61,6 +62,7 @@ export default function LanguagePage() {
         </div>
         <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
       </motion.div>
+      <BottomBanner>{"Select Languages Available"}</BottomBanner>
     </AppFrame>
   );
 }
