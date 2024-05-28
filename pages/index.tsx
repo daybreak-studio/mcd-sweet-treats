@@ -54,13 +54,13 @@ export default function Home() {
     <AppFrame>
       <LogoLockup />
       <motion.div
-        className="my-8 flex flex-col items-center"
+        className="mt-auto flex flex-col items-center"
         initial="hidden"
         animate={videoReady ? "visible" : "hidden"}
         variants={containerVariants}
       >
         <motion.h1
-          className="font-serif-lg mb-4 origin-top-left px-8 text-center"
+          className="font-serif-lg mb-4 max-w-[16ch] origin-top-left px-8 text-center"
           variants={AnimWrap.bounceUpB}
         >
           Send grandma a sweet message
@@ -74,7 +74,7 @@ export default function Home() {
             src={
               "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
             }
-            className="mb-8 w-10/12 rounded-lg md:w-8/12 xl:w-1/4"
+            className="mb-8 h-[40svh] min-h-64 w-auto"
           />
           {/* <video
             ref={videoRef}
@@ -85,8 +85,8 @@ export default function Home() {
         <motion.div variants={childVariants}>
           <LinkButton href={"/get-started"}>Continue</LinkButton>
         </motion.div>
-        <BottomBanner>{"Select language available"}</BottomBanner>
       </motion.div>
+      <BottomBanner>{"Select language available"}</BottomBanner>
     </AppFrame>
   );
 }

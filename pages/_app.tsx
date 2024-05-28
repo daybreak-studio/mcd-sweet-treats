@@ -29,10 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <WindowDimensionContextProvider>
         <UserInfoProvider>
           <VideoUploadProvider>
-            <Component
-              {...pageProps}
-              className={`overscroll-none bg-accent ${font_speedee.variable}`}
-            />
+            <Component {...pageProps} className={` ${font_speedee.variable}`} />
           </VideoUploadProvider>
         </UserInfoProvider>
       </WindowDimensionContextProvider>
