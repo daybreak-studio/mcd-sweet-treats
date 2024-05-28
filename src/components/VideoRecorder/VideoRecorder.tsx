@@ -213,7 +213,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                       <motion.div
                         initial={{
                           // opacity: 0,
-                          y: "50%",
+                          y: "100%",
                         }}
                         animate={{
                           opacity: 1,
@@ -225,10 +225,10 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                         }}
                         exit={{
                           // opacity: 0,
-                          y: "50%",
+                          y: "100%",
                           transition: {
                             duration: AnimationConfig.NORMAL,
-                            ease: AnimationConfig.EASING_DRAMATIC,
+                            ease: AnimationConfig.EASING_INVERTED,
                           },
                         }}
                         className="absolute inset-0 z-50 flex items-end"
