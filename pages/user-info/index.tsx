@@ -99,13 +99,13 @@ export default function UserInfoPage() {
       });
     }
 
-    router.push("/uploading");
     upload(videoBlob, {
       name: data.name,
       email: data.email,
       inputLanguage,
       outputLanguage,
     });
+    router.push("/uploading");
   };
 
   return (
