@@ -14,7 +14,7 @@ type Props = {
 
 const VideoInstuction = ({ onProceed }: Props) => {
   return (
-    <div className="flex w-full flex-col items-center bg-light p-12 text-center">
+    <div className="flex w-full flex-col items-center bg-light px-4 py-12  text-center">
       <h2 className="font-serif-xl mb-8 max-w-[15ch]">
         A few tips on looking your best for Grandma
       </h2>
@@ -39,7 +39,7 @@ const VideoInstuction = ({ onProceed }: Props) => {
         </div>
         <div>
           <ScriptNumber number={4} />
-          Choose a clean,{" "}
+          Choose a clean, &#8203;{" "}
           <HanddrawnLine LineComponent={Line4SVG}>
             uncluttered background
           </HanddrawnLine>

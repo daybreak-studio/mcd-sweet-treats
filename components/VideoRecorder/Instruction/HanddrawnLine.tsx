@@ -14,9 +14,9 @@ type Props = {
 const HanddrawnLine = ({ LineComponent, children }: Props) => {
   const containerRef = useRef() as MutableRefObject<HTMLElement>;
   return (
-    <em ref={containerRef} className="relative not-italic">
+    <em ref={containerRef} className="relative inline-block not-italic">
       {children}
-      {<LineComponent className="absolute -bottom-2 left-0 right-0" />}
+      {<LineComponent className="absolute -bottom-1 left-0 right-0" />}
     </em>
   );
 };
