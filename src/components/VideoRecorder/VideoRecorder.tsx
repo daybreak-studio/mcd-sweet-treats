@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useAVPermission } from "./hooks/useAVPermission";
 import VideoInstuction from "./Instruction/VideoInstuction";
+import FacePositionHint from "./FacePositionHint";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -156,7 +157,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   return (
     <div className="fixed inset-0 flex h-svh">
-      <div className="relative m-auto flex  h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
+      <div className="relative m-auto flex h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
         <AnimatePresence mode={"wait"}>
           {(recorderState === RecorderStates.INITIAL ||
             recorderState === RecorderStates.RECORDING) && (
@@ -191,44 +192,60 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 />
               </motion.div>
 
-              <AnimatePresence>
-                {!hasUserSeenInstruction && isCameraExperienceReady && (
-                  <>
+              {!hasUserSeenInstruction && isCameraExperienceReady && (
+                <>
+                  <motion.div
+                    className="pointer-events-none fixed inset-0 z-50 bg-black"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.6 }}
+                    exit={{ opacity: 0 }}
+                  />
+                  <div className="absolute inset-0 overflow-hidden">
                     <motion.div
-                      className="pointer-events-none fixed inset-0 z-50 bg-black"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 0.6 }}
-                      exit={{ opacity: 0 }}
-                    />
-                    <div className="absolute inset-0 overflow-hidden">
-                      <motion.div
-                        initial={{ opacity: 0, y: 200 }}
-                        animate={{
-                          opacity: 1,
-                          y: 0,
-                          transition: {
-                            duration: AnimationConfig.SLOW,
-                            ease: AnimationConfig.EASING,
-                          },
-                        }}
-                        exit={{
-                          // opacity: 0,
-                          y: "50%",
-                          transition: {
-                            duration: AnimationConfig.NORMAL,
-                            ease: AnimationConfig.EASING,
-                          },
-                        }}
-                        className="absolute inset-0 z-50 flex items-end"
-                      >
-                        <VideoInstuction
-                          onProceed={() => setHasUserSeenInstruction(true)}
-                        />
-                      </motion.div>
-                    </div>
-                  </>
+                      initial={{ opacity: 0, y: 200 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          duration: AnimationConfig.SLOW,
+                          ease: AnimationConfig.EASING,
+                        },
+                      }}
+                      exit={{
+                        opacity: 0,
+                        y: 200,
+                        // transition: {
+                        //   duration: AnimationConfig.SLOW,
+                        //   ease: AnimationConfig.EASING,
+                        // },
+                      }}
+                      className="absolute inset-0 z-50 flex items-end"
+                    >
+                      <VideoInstuction
+                        onProceed={() => setHasUserSeenInstruction(true)}
+                      />
+                    </motion.div>
+                  </div>
+                </>
+              )}
+              {hasUserSeenInstruction &&
+                isCameraExperienceReady &&
+                recorderState !== RecorderStates.RECORDING && (
+                  <motion.div
+                    className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center"
+                    initial={{
+                      opacity: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                    }}
+                  >
+                    <FacePositionHint />
+                  </motion.div>
                 )}
-              </AnimatePresence>
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
