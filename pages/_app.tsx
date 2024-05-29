@@ -34,8 +34,22 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Sweet Connections</title>
+        <title>Sweet Connections | McDonalds</title>
         <meta name="description" content="Send grandma a sweet message" />
+        <meta property="og:title" content="Sweet Connections | McDonalds" />
+        <meta
+          property="og:description"
+          content="Send grandma a sweet message"
+        />
+        <meta property="og:url" content="https://sweetconnections.ai" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:image"
+          content="https://sweetconnections.ai/og.jpg"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Send grandma a sweet message" />
       </Head>
       <ReCaptchaProvider>
         <WindowDimensionContextProvider>
