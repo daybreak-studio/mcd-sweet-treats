@@ -24,6 +24,8 @@ const ImageCollage = (props: Props) => {
   const shuffledFamilyImage = useShuffledImagePool(familyImages);
   const shuffledMcdImage = useShuffledImagePool(mcdImages);
 
+  const shouldSwapMCDImage = useMemo(() => Math.random() >= 0.5, []);
+
   return (
     <>
       {shouldShowCollage && (
@@ -38,7 +40,7 @@ const ImageCollage = (props: Props) => {
             rotation={-14}
             entrance="left"
           >
-            {shuffledMcdImage[0]}
+            {shouldSwapMCDImage ? shuffledMcdImage[0] : shuffledFamilyImage[1]}
           </ImageItem>
           <ImageItem
             width={20}
@@ -47,7 +49,7 @@ const ImageCollage = (props: Props) => {
             rotation={-4}
             entrance="right"
           >
-            {shuffledFamilyImage[1]}
+            {shouldSwapMCDImage ? shuffledFamilyImage[1] : shuffledMcdImage[0]}
           </ImageItem>
         </>
       )}
