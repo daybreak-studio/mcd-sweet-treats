@@ -14,7 +14,7 @@ const AppFrame = ({ children, caption }: Props) => {
           {caption && <BottomBanner>{caption}</BottomBanner>}
         </div>
       </div>
-      <div className="relative flex min-h-[100svh] flex-col bg-gradient-to-t from-[#F3BAC3] to-[#F9D0D6] p-8 text-dark">
+      <div className="relative flex min-h-[100svh] flex-col overflow-hidden bg-gradient-to-t from-[#F3BAC3] to-[#F9D0D6] p-8 text-dark">
         {children}
       </div>
     </main>

@@ -1,11 +1,16 @@
+import dynamic from "next/dynamic";
+
 import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, MutableRefObject } from "react";
 import { Variants, motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 import BottomBanner from "@/components/Banner/BottomBanner";
+
+import swirlAnimation from "@/public/mcdonald-sprite-3.json";
+import { LottieRefCurrentProps } from "lottie-react";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -13,8 +18,8 @@ const containerVariants: Variants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      staggerChildren: 0.4,
-      delayChildren: 1,
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
       // delay: 1,
     },
   },
@@ -47,8 +52,23 @@ const videoVariants: Variants = {
   },
 };
 
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
+
 export default function Home() {
+  const lottieRef = useRef() as MutableRefObject<LottieRefCurrentProps | null>;
+
   const [videoReady, setVideoReady] = useState(false);
+  useEffect(() => {
+    const lottie = lottieRef.current;
+    if (!lottie) return;
+    if (!videoReady) return;
+
+    setTimeout(() => {
+      lottie.play();
+    }, 1000);
+
+    return () => {};
+  }, [videoReady, lottieRef]);
 
   return (
     <AppFrame>
@@ -66,7 +86,7 @@ export default function Home() {
           Send grandma a sweet message
         </motion.h1>
         <motion.div
-          className="z-10 flex origin-top-left flex-col items-center"
+          className="relative z-10 mb-8 flex origin-top-left flex-col items-center "
           variants={videoVariants}
         >
           <VideoPlayer
@@ -74,7 +94,14 @@ export default function Home() {
             src={
               "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
             }
-            className="mb-8 h-[40svh] min-h-64"
+            className="h-[40svh] min-h-64"
+          />
+          <Lottie
+            animationData={swirlAnimation}
+            loop={false}
+            autoPlay={false}
+            lottieRef={lottieRef}
+            className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
           />
           {/* <video
             ref={videoRef}
