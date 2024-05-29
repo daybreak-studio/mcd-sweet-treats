@@ -10,7 +10,6 @@ type Props = {
   inverted?: boolean;
   disabled?: boolean;
   secondary?: boolean;
-  href?: string;
   onClick?: () => void;
   className?: string;
   noShadow?: boolean;

@@ -25,6 +25,7 @@ type Props = {
   onReady?: () => void;
   autoPlay?: boolean;
   poster?: string;
+  dangerouslySetVideoFullWidth?: boolean;
 };
 
 const VideoPlayer = ({
@@ -36,6 +37,7 @@ const VideoPlayer = ({
   onReady,
   autoPlay,
   poster,
+  dangerouslySetVideoFullWidth,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
@@ -137,13 +139,13 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`${className} relative w-fit touch-pan-y`}
+      className={`${className} relative touch-none select-none`}
       ref={containerRef}
+      onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
     >
       <motion.video
         // click to play/pause
-        onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
-        className="h-full object-cover"
+        className={`h-full object-cover ${dangerouslySetVideoFullWidth && "w-full"} pointer-events-none`}
         playsInline
         autoPlay={autoPlay}
         loop

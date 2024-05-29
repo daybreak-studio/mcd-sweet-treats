@@ -1,7 +1,7 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import ArrowDown from "../Graphics/ArrowDown";
 import TracyShadow from "../TracyShadow";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Heart from "../Graphics/Heart";
 import { AnimWrap } from "../AnimWrap";
 
@@ -9,10 +9,11 @@ type Props = {
   label: string;
   value?: string;
   children: React.ReactNode;
+  error?: string | false;
   onChange?: (newValue: string) => void;
 };
 
-const DropdownMenu = ({ label, value, onChange, children }: Props) => {
+const DropdownMenu = ({ label, value, onChange, children, error }: Props) => {
   const selectRef = useRef() as MutableRefObject<HTMLSelectElement>;
 
   const [internalValue, setInternalValue] = useState(value);
@@ -56,17 +57,20 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
   }, []);
 
   return (
-    <motion.label className="relative flex flex-col text-center">
-      <motion.div variants={AnimWrap.bounceUpB}
-        className="font-sans-sm select-none px-3 py-2 font-bold uppercase origin-top-left">
+    <motion.label className="relative flex select-none flex-col text-center">
+      <motion.div
+        variants={AnimWrap.bounceUpB}
+        className="font-sans-sm origin-top-left select-none px-3 py-2 font-bold uppercase"
+      >
         {label}
       </motion.div>
-      <TracyShadow color={"#643525"}
+      <TracyShadow
+        color={"#643525"}
         variants={AnimWrap.bounceUpA}
-        elevation={1}>
+        elevation={1}
+      >
         <motion.div
           className="relative w-full"
-
           animate={{
             scale: isFocused ? 0.98 : 1,
           }}
@@ -80,7 +84,11 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
             onBlur={() => setIsFocused(false)}
             value={internalValue}
             onChange={handleChange}
-            className="font-sans-base w-full cursor-pointer rounded-full border border-dark bg-light px-3 py-4 text-center font-bold text-dark outline-none focus-within:border focus-within:border-accent focus-within:text-accent"
+            className={` outline-offset-0: font-sans-base w-full cursor-pointer rounded-full border border-dark
+             bg-light px-3 py-4 text-center font-bold text-dark focus:border-accent 
+              focus:text-accent focus:outline focus:outline-1 focus:outline-accent
+              ${error ? "border-red-700 text-red-700 outline outline-red-700 " : ""}
+             `}
           >
             <option disabled value="">
               Select
@@ -117,6 +125,18 @@ const DropdownMenu = ({ label, value, onChange, children }: Props) => {
           <Heart />
         </motion.div>
       </TracyShadow>
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            className="font-sans-xs flex justify-center overflow-hidden text-red-700"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+          >
+            <span className="my-1">{error}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.label>
   );
 };

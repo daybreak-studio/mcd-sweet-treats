@@ -414,6 +414,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 approximateDuration={approximateVideoDuration}
                 onScrubEnd={() => setShouldShowNavButtons(true)}
                 onScrubStart={() => setShouldShowNavButtons(false)}
+                dangerouslySetVideoFullWidth
               />
             </React.Fragment>
           )}

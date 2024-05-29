@@ -13,12 +13,37 @@ import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import BottomBanner from "@/components/Banner/BottomBanner";
 import ImageCollage from "@/components/ImageCollage/ImageCollage";
+import { useMemo, useState } from "react";
+import Button from "@/components/Button/Button";
+import { useRouter } from "next/router";
 const supportedInputLanguages = Object.keys(inputLanguageMap);
 const supportedOutputLanguages = Object.keys(outputLanguageMap);
+
+const INPUT_LANG_EMPTY_ERROR = "Please select an input language";
+const OUTPUT_LANG_EMPTY_ERROR = "Please select an output language";
 
 export default function LanguagePage() {
   const { setInputLanguage, setOutputLanguage, outputLanguage, inputLanguage } =
     useUserInfo();
+
+  const isInputLangEmpty = useMemo(
+    () => (inputLanguage ? false : true),
+    [inputLanguage],
+  );
+
+  const isOutputLangEmpty = useMemo(
+    () => (outputLanguage ? false : true),
+    [outputLanguage],
+  );
+
+  const [hasUserSubmitted, setHasUserSubmitted] = useState(false);
+
+  const router = useRouter();
+  const handleSubmitClicked = () => {
+    setHasUserSubmitted(true);
+    if (isInputLangEmpty || isOutputLangEmpty) return;
+    router.push("/record");
+  };
 
   return (
     <>
@@ -42,6 +67,9 @@ export default function LanguagePage() {
               onChange={(latest) =>
                 setInputLanguage(latest as InputLanguageKey)
               }
+              error={
+                hasUserSubmitted && isInputLangEmpty && INPUT_LANG_EMPTY_ERROR
+              }
               value={inputLanguage}
             >
               {supportedInputLanguages.map((language, index) => (
@@ -55,6 +83,9 @@ export default function LanguagePage() {
               onChange={(latest) =>
                 setOutputLanguage(latest as OutputLanguageKey)
               }
+              error={
+                hasUserSubmitted && isOutputLangEmpty && OUTPUT_LANG_EMPTY_ERROR
+              }
               value={outputLanguage}
             >
               {supportedOutputLanguages.map((language, index) => (
@@ -64,7 +95,7 @@ export default function LanguagePage() {
               ))}
             </Dropdown.menu>
           </div>
-          <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
+          <Button onClick={handleSubmitClicked}>{"Let's go"}</Button>
         </motion.div>
         <BottomBanner>{"Select languages available"}</BottomBanner>
       </AppFrame>
