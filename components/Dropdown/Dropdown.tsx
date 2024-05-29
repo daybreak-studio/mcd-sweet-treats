@@ -84,11 +84,14 @@ const DropdownMenu = ({ label, value, onChange, children, error }: Props) => {
             onBlur={() => setIsFocused(false)}
             value={internalValue}
             onChange={handleChange}
-            className={` outline-offset-0: font-sans-base w-full cursor-pointer rounded-full border border-dark
-             bg-light px-3 py-4 text-center font-bold text-dark focus:border-accent 
+            className={`font-sans-base w-full cursor-pointer rounded-full border border-dark bg-light px-3
+             py-4 text-center font-bold text-dark outline-offset-0 focus:border-accent 
               focus:text-accent focus:outline focus:outline-1 focus:outline-accent
               ${error ? "border-red-700 text-red-700 outline outline-red-700 " : ""}
              `}
+            style={{
+              textAlignLast: "center",
+            }}
           >
             <option disabled value="">
               Select
@@ -128,7 +131,7 @@ const DropdownMenu = ({ label, value, onChange, children, error }: Props) => {
       <AnimatePresence>
         {error && (
           <motion.div
-            className="font-sans-xs flex justify-center overflow-hidden text-red-700"
+            className="font-sans-xs flex justify-center overflow-hidden pl-4 text-red-700"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
