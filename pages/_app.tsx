@@ -5,6 +5,8 @@ import { WindowDimensionContextProvider } from "@/hooks/useWindowDimension";
 import { ReCaptchaProvider } from "next-recaptcha-v3";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
+import { AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 const font_speedee = localFont({
   src: [
@@ -24,12 +26,19 @@ const font_speedee = localFont({
 });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  const pathname = usePathname();
   return (
     <ReCaptchaProvider>
       <WindowDimensionContextProvider>
         <UserInfoProvider>
           <VideoUploadProvider>
-            <Component {...pageProps} className={` ${font_speedee.variable}`} />
+            <AnimatePresence mode="wait">
+              <Component
+                {...pageProps}
+                key={pathname}
+                className={` ${font_speedee.variable}`}
+              />
+            </AnimatePresence>
           </VideoUploadProvider>
         </UserInfoProvider>
       </WindowDimensionContextProvider>
