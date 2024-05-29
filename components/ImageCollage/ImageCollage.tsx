@@ -4,6 +4,9 @@ import Image from "next/image";
 import { AnimationConfig } from "../AnimationConfig";
 import { useMediaQuery } from "usehooks-ts";
 import { shuffleArray } from "@/util/shuffleArray";
+import { familyImages } from "./FamilyImages";
+import { mcdImages } from "./McdImages";
+import { constrainDimensions } from "./contrainDimensions";
 
 type Props = {};
 
@@ -13,45 +16,8 @@ interface ImageInfo {
   height: number;
 }
 
-const familyImages = [
-  // left
-  {
-    src: "/collage/MCWK664X24I_Sweet_Treat_GrandmaDisposables_CAR_IG_FB_1080x1080_FR_RT.png",
-    width: 1080,
-    height: 1080,
-  },
-  {
-    src: "/collage/MCWK680X24I_Sweet_Treat_GrandmaDisposables_KISS_IG_FB_1080x1080_FR_RT.png",
-    width: 1080,
-    height: 1080,
-  },
-  {
-    src: "/collage/MCWK679X24I_Sweet_Treat_GrandmaDisposables_GARDEN_IG_FB_1080x1080_FR_RT.png",
-    width: 1080,
-    height: 1080,
-  },
-];
-
-const mcdImages = [
-  {
-    src: "/collage/mcd-images-1.jpg",
-    width: 1080,
-    height: 1080,
-  },
-  {
-    src: "/collage/mcd-images-2.jpg",
-    width: 1080,
-    height: 1080,
-  },
-  {
-    src: "/collage/mcd-images-2.jpg",
-    width: 1080,
-    height: 1080,
-  },
-];
-
 const ImageCollage = (props: Props) => {
-  const shouldShowCollage = useMediaQuery("(min-width:800px)", {
+  const shouldShowCollage = useMediaQuery("(min-width:1000px)", {
     initializeWithValue: false,
   });
 
@@ -69,7 +35,7 @@ const ImageCollage = (props: Props) => {
             width={20}
             left={-5}
             top={50}
-            rotation={-10}
+            rotation={-14}
             entrance="left"
           >
             {shuffledMcdImage[0]}
@@ -78,7 +44,7 @@ const ImageCollage = (props: Props) => {
             width={20}
             right={-5}
             bottom={10}
-            rotation={-7}
+            rotation={-4}
             entrance="right"
           >
             {shuffledFamilyImage[1]}
@@ -109,16 +75,21 @@ const ImageItem = ({
   entrance: "left" | "right";
 }) => {
   const animDirection = entrance === "left" ? -1 : 1;
+  const shouldMoveAway = useMediaQuery("(max-width:1200px)", {
+    initializeWithValue: false,
+  });
 
   return (
     <motion.div
       style={{
-        maxWidth: `${width}vw`,
-        minWidth: `${width * 1}rem`,
+        width: `${width}vw`,
+        minWidth: `${width}rem`,
         top: top ? `${top}vh` : "auto",
         right: right ? `${right}vw` : "auto",
         bottom: bottom ? `${bottom}vh` : "auto",
         left: left ? `${left}vw` : "auto",
+        marginLeft: left ? (shouldMoveAway ? `${1.4 * left}rem` : 0) : 0,
+        marginRight: right ? (shouldMoveAway ? `${1.4 * right}rem` : 0) : 0,
       }}
       initial={{
         x: `${40 * animDirection}vw`,
@@ -139,13 +110,13 @@ const ImageItem = ({
         rotate: rotation * 8,
         y: -40 * rotation,
       }}
-      className="fixed z-50 flex flex-row"
+      className="fixed z-50 flex origin-center flex-row"
     >
       <motion.div
         drag={true}
         whileDrag={{ scale: 1.2 }}
         dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-        className="cursor-grab shadow-md shadow-[rgba(0,0,0,.2)]"
+        className="h-full w-full cursor-grab shadow-md shadow-[rgba(0,0,0,.2)]"
       >
         {children}
       </motion.div>
@@ -157,14 +128,16 @@ function useShuffledImagePool(srcList: ImageInfo[]) {
   const ALlImages = useMemo(() => {
     return shuffleArray(
       srcList.map(({ src, width, height }, index) => {
+        const constrainedSize = constrainDimensions(width, height, 200);
+
         return (
           <Image
             key={index}
             src={src}
-            width={width}
-            height={height}
+            width={constrainedSize.width}
+            height={constrainedSize.height}
             alt=""
-            className="pointer-events-none"
+            className="pointer-events-none w-full"
           />
         );
       }),
