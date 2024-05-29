@@ -35,7 +35,9 @@ const UploadingPage = (props: Props) => {
           variants={AnimWrap.bounceUpA}
           className="font-serif-2xl mx-auto origin-top-left self-start px-4 pb-4 text-center"
         >
-          {progress < 1 ? "Don't leave just yet!" : "Check your inbox!"}
+          {progress < 1
+            ? "Don't leave just yet!"
+            : "Your message is being translated"}
         </motion.h1>
         <motion.h5
           variants={AnimWrap.bounceUpB}

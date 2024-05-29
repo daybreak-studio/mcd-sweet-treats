@@ -66,7 +66,7 @@ export default function LanguagePage() {
           </div>
           <LinkButton href={"/record"}>{"Let's go"}</LinkButton>
         </motion.div>
-        <BottomBanner>{"Select Languages Available"}</BottomBanner>
+        <BottomBanner>{"Select languages available"}</BottomBanner>
       </AppFrame>
       <ImageCollage />
     </>

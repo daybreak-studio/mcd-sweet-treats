@@ -169,7 +169,7 @@ const VideoPlayer = ({
         animate={{
           opacity: hasInteracted ? 1 : 0,
         }}
-        className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex max-w-72 justify-center"
+        className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex w-full max-w-[21.5rem] justify-center px-8"
       >
         <PorgressBar
           duration={duration}
