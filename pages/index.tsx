@@ -25,6 +25,15 @@ const containerVariants: Variants = {
       // delay: 1,
     },
   },
+  exit: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+      // delay: 1,
+    },
+  },
 };
 
 const childVariants: Variants = {
@@ -33,6 +42,12 @@ const childVariants: Variants = {
     opacity: 1,
     y: 0,
     rotate: 0,
+    transition: { type: "spring", bounce: 0.3, duration: 0.5 },
+  },
+  exit: {
+    opacity: 0,
+    y: 40,
+    rotate: -3,
     transition: { type: "spring", bounce: 0.3, duration: 0.5 },
   },
 };
@@ -50,6 +65,13 @@ const videoVariants: Variants = {
     scale: 1,
     rotate: 0,
     y: [64, 32, 0],
+    transition: { type: "spring", bounce: 0.3, duration: 0.65 },
+  },
+  exit: {
+    opacity: 0,
+    scale: 1,
+    rotate: -1,
+    y: 64,
     transition: { type: "spring", bounce: 0.3, duration: 0.65 },
   },
 };
@@ -80,6 +102,7 @@ export default function Home() {
           className="mt-auto flex flex-col items-center"
           initial="hidden"
           animate={videoReady ? "visible" : "hidden"}
+          exit="exit"
           variants={containerVariants}
         >
           <motion.h1
@@ -98,7 +121,7 @@ export default function Home() {
                 "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
               }
               className="h-[40svh] min-h-64"
-              poster={"/opening/visual-1-placeholder.png"}
+              poster={"/opening/poster.jpg"}
             />
             <Lottie
               animationData={swirlAnimation}
@@ -107,11 +130,6 @@ export default function Home() {
               lottieRef={lottieRef}
               className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
             />
-            {/* <video
-            ref={videoRef}
-            className="mb-8 w-10/12 rounded-lg md:w-8/12 xl:w-1/4"
-            src="https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
-          /> */}
           </motion.div>
           <motion.div variants={childVariants}>
             <LinkButton href={"/get-started"}>Continue</LinkButton>

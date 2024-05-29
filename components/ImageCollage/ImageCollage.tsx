@@ -139,7 +139,7 @@ const ImageItem = ({
         rotate: rotation * 8,
         y: -40 * rotation,
       }}
-      className="fixed z-50 flex"
+      className="fixed z-50 flex flex-row"
     >
       <motion.div
         drag={true}

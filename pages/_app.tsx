@@ -9,6 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import ComingSoon from "./coming-soon";
 import useIsDev from "@/hooks/useIsDev";
+import Head from "next/head";
 
 const font_speedee = localFont({
   src: [
@@ -31,24 +32,30 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
   const hash = useIsDev();
   return (
-    <ReCaptchaProvider>
-      <WindowDimensionContextProvider>
-        <UserInfoProvider>
-          <VideoUploadProvider>
-            <AnimatePresence mode="wait">
-              {hash ? (
-                <Component
-                  {...pageProps}
-                  key={pathname}
-                  className={` ${font_speedee.variable}`}
-                />
-              ) : (
-                <ComingSoon />
-              )}
-            </AnimatePresence>
-          </VideoUploadProvider>
-        </UserInfoProvider>
-      </WindowDimensionContextProvider>
-    </ReCaptchaProvider>
+    <>
+      <Head>
+        <title>Sweet Connections</title>
+        <meta name="description" content="Send grandma a sweet message" />
+      </Head>
+      <ReCaptchaProvider>
+        <WindowDimensionContextProvider>
+          <UserInfoProvider>
+            <VideoUploadProvider>
+              <AnimatePresence mode="wait">
+                {hash ? (
+                  <Component
+                    {...pageProps}
+                    key={pathname}
+                    className={` ${font_speedee.variable}`}
+                  />
+                ) : (
+                  <ComingSoon />
+                )}
+              </AnimatePresence>
+            </VideoUploadProvider>
+          </UserInfoProvider>
+        </WindowDimensionContextProvider>
+      </ReCaptchaProvider>
+    </>
   );
 }
