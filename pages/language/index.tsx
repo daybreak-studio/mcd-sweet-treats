@@ -42,7 +42,7 @@ export default function LanguagePage() {
   const handleSubmitClicked = () => {
     setHasUserSubmitted(true);
     if (isInputLangEmpty || isOutputLangEmpty) return;
-    // router.push("/record");
+    router.push("/record");
   };
 
   return (
