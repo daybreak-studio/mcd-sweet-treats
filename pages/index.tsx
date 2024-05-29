@@ -13,6 +13,7 @@ import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
 import ImageCollage from "@/components/ImageCollage/ImageCollage";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
+import { AnimationConfig } from "@/components/AnimationConfig";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -123,6 +124,7 @@ export default function Home() {
               lottieRef={lottieRef}
               className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
             />
+            <ExamplePromptTagSVG className="absolute hidden sm:bottom-[20%] sm:left-[105%] sm:block" />
           </motion.div>
           <motion.div variants={childVariants}>
             <LinkButton href={"/get-started"}>Continue</LinkButton>
