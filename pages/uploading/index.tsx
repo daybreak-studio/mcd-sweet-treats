@@ -52,13 +52,24 @@ const UploadingPage = (props: Props) => {
           }}
           className="relative flex w-fit origin-top-left justify-center"
         >
-          <Image
+          <motion.div
+            animate={{
+              opacity: [0.1, 0.25],
+              transition: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 0.5,
+              },
+            }}
             className="w-1/2 opacity-25"
-            src="/images/mcflurry.png"
-            alt="McFlurry Transparent"
-            width={300}
-            height={300}
-          />
+          >
+            <Image
+              src="/images/mcflurry.png"
+              alt="McFlurry Transparent"
+              width={300}
+              height={300}
+            />
+          </motion.div>
           <motion.img
             className="absolute bottom-0 w-1/2 opacity-100"
             src="/images/mcflurry.png"
