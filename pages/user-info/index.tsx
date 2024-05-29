@@ -177,6 +177,7 @@ export default function UserInfoPage() {
                   <a
                     href={`https://www.heygen.com/policy`}
                     className="font-sans-sm font-bold"
+                    target="_blank"
                   >
                     Terms & Conditions
                   </a>
@@ -198,11 +199,19 @@ export default function UserInfoPage() {
       <BottomBanner>
         <span className="block max-w-[48ch] text-center">
           This site is protected by reCAPTCHA and the Google{" "}
-          <a href="https://policies.google.com/privacy" className="font-bold">
+          <a
+            href="https://policies.google.com/privacy"
+            className="font-bold"
+            target="_blank"
+          >
             Privacy Policy
           </a>{" "}
           and{" "}
-          <a href="https://policies.google.com/terms" className="font-bold">
+          <a
+            href="https://policies.google.com/terms"
+            className="font-bold"
+            target="_blank"
+          >
             Terms of Service
           </a>{" "}
           apply.
