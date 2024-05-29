@@ -67,8 +67,9 @@ const videoVariants: Variants = {
   },
   exit: {
     opacity: 0,
+    filter: "blur(5px)",
     transition: {
-      delay: 0.3,
+      delay: 0.35,
     },
   },
 };
@@ -92,7 +93,7 @@ export default function Home() {
   const isPresent = useIsPresent();
   if (!isPresent && lottieRef.current) {
     lottieRef.current.setDirection(-1);
-    lottieRef.current.setSpeed(3);
+    lottieRef.current.setSpeed(4);
     lottieRef.current.play();
   }
 
