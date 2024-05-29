@@ -139,13 +139,13 @@ const VideoPlayer = ({
 
   return (
     <div
-      className={`${className} relative flex flex-grow touch-none items-stretch justify-stretch`}
+      className={`${className} relative touch-none select-none`}
       ref={containerRef}
+      onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
     >
       <motion.video
         // click to play/pause
-        onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
-        className={`h-full object-cover ${dangerouslySetVideoFullWidth && "w-full"}`}
+        className={`h-full object-cover ${dangerouslySetVideoFullWidth && "w-full"} pointer-events-none`}
         playsInline
         autoPlay={autoPlay}
         loop
