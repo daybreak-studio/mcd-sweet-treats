@@ -4,7 +4,7 @@ import AppFrame from "@/components/AppFrame/AppFrame";
 import LinkButton from "@/components/Button/LinkButton";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { useRef, useState, useEffect, MutableRefObject } from "react";
-import { Variants, motion } from "framer-motion";
+import { Variants, motion, useIsPresent } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 import BottomBanner from "@/components/Banner/BottomBanner";
@@ -67,6 +67,9 @@ const videoVariants: Variants = {
   },
   exit: {
     opacity: 0,
+    transition: {
+      delay: 0.3,
+    },
   },
 };
 
@@ -84,9 +87,14 @@ export default function Home() {
     setTimeout(() => {
       lottie.play();
     }, 1000);
-
-    return () => {};
   }, [videoReady, lottieRef]);
+
+  const isPresent = useIsPresent();
+  if (!isPresent && lottieRef.current) {
+    lottieRef.current.setDirection(-1);
+    lottieRef.current.setSpeed(3);
+    lottieRef.current.play();
+  }
 
   return (
     <>
