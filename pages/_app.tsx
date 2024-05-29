@@ -7,6 +7,8 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
+import ComingSoon from "./coming-soon";
+import useIsDev from "@/hooks/useIsDev";
 
 const font_speedee = localFont({
   src: [
@@ -27,17 +29,22 @@ const font_speedee = localFont({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
+  const hash = useIsDev();
   return (
     <ReCaptchaProvider>
       <WindowDimensionContextProvider>
         <UserInfoProvider>
           <VideoUploadProvider>
             <AnimatePresence mode="wait">
-              <Component
-                {...pageProps}
-                key={pathname}
-                className={` ${font_speedee.variable}`}
-              />
+              {hash ? (
+                <Component
+                  {...pageProps}
+                  key={pathname}
+                  className={` ${font_speedee.variable}`}
+                />
+              ) : (
+                <ComingSoon />
+              )}
             </AnimatePresence>
           </VideoUploadProvider>
         </UserInfoProvider>
