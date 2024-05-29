@@ -11,6 +11,8 @@ import BottomBanner from "@/components/Banner/BottomBanner";
 
 import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
+import ImageCollage from "@/components/ImageCollage/ImageCollage";
+import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -71,50 +73,53 @@ export default function Home() {
   }, [videoReady, lottieRef]);
 
   return (
-    <AppFrame>
-      <LogoLockup />
-      <motion.div
-        className="mt-auto flex flex-col items-center"
-        initial="hidden"
-        animate={videoReady ? "visible" : "hidden"}
-        variants={containerVariants}
-      >
-        <motion.h1
-          className="font-serif-lg mb-4 max-w-[16ch] origin-top-left px-8 text-center"
-          variants={AnimWrap.bounceUpB}
-        >
-          Send grandma a sweet message
-        </motion.h1>
+    <>
+      <AppFrame>
+        <LogoLockup />
         <motion.div
-          className="relative z-10 mb-8 flex origin-top-left flex-col items-center "
-          variants={videoVariants}
+          className="mt-auto flex flex-col items-center"
+          initial="hidden"
+          animate={videoReady ? "visible" : "hidden"}
+          variants={containerVariants}
         >
-          <VideoPlayer
-            onReady={() => setVideoReady(true)}
-            src={
-              "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
-            }
-            className="h-[40svh] min-h-64"
-            poster={"/opening/visual-1-placeholder.png"}
-          />
-          <Lottie
-            animationData={swirlAnimation}
-            loop={false}
-            autoPlay={false}
-            lottieRef={lottieRef}
-            className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
-          />
-          {/* <video
+          <motion.h1
+            className="font-serif-lg mb-4 max-w-[16ch] origin-top-left px-8 text-center"
+            variants={AnimWrap.bounceUpB}
+          >
+            Send grandma a sweet message
+          </motion.h1>
+          <motion.div
+            className="relative z-10 mb-8 flex origin-top-left flex-col items-center "
+            variants={videoVariants}
+          >
+            <VideoPlayer
+              onReady={() => setVideoReady(true)}
+              src={
+                "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
+              }
+              className="h-[40svh] min-h-64"
+              poster={"/opening/visual-1-placeholder.png"}
+            />
+            <Lottie
+              animationData={swirlAnimation}
+              loop={false}
+              autoPlay={false}
+              lottieRef={lottieRef}
+              className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
+            />
+            {/* <video
             ref={videoRef}
             className="mb-8 w-10/12 rounded-lg md:w-8/12 xl:w-1/4"
             src="https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
           /> */}
+          </motion.div>
+          <motion.div variants={childVariants}>
+            <LinkButton href={"/get-started"}>Continue</LinkButton>
+          </motion.div>
         </motion.div>
-        <motion.div variants={childVariants}>
-          <LinkButton href={"/get-started"}>Continue</LinkButton>
-        </motion.div>
-      </motion.div>
-      <BottomBanner>{"Select language available"}</BottomBanner>
-    </AppFrame>
+        <BottomBanner>{"Select language available"}</BottomBanner>
+      </AppFrame>
+      <ImageCollage />
+    </>
   );
 }
