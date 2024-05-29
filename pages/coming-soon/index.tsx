@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useCallback } from "react";
 import Image from "next/image";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
+import Cookies from "@/components/Cookies";
 
 type Props = {};
 
@@ -25,6 +26,7 @@ const DonePage = (props: Props) => {
   return (
     <AppFrame>
       <LogoLockup />
+      <Cookies />
       <div className="flex flex-grow flex-col items-center justify-center text-center">
         <h1 className="font-serif-2xl pb-8">
           Check back soon to send a sweet message to grandma.
