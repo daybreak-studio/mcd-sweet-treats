@@ -9,6 +9,9 @@ export const AnimWrap = {
         delayChildren: 0.5,
       },
     },
+    exit: {
+      opacity: 0,
+    },
   },
   bounceUpA: {
     //this is the animation that will be applied to the element
@@ -28,6 +31,9 @@ export const AnimWrap = {
         type: "spring",
         bounce: 0.3,
       },
+    },
+    exit: {
+      opacity: 0,
     },
   },
   bounceUpB: {
@@ -50,6 +56,9 @@ export const AnimWrap = {
         type: "spring",
         bounce: 0.3,
       },
+    },
+    exit: {
+      opacity: 0,
     },
   },
 };

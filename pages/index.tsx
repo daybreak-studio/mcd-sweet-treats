@@ -29,8 +29,8 @@ const containerVariants: Variants = {
     opacity: 1,
     transition: {
       duration: 0.5,
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      // staggerChildren: 0.1,
+      // delayChildren: 0.2,
       // delay: 1,
     },
   },
@@ -46,9 +46,6 @@ const childVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    y: 40,
-    rotate: -3,
-    transition: { type: "spring", bounce: 0.3, duration: 0.5 },
   },
 };
 const videoVariants: Variants = {
@@ -69,10 +66,6 @@ const videoVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    scale: 1,
-    rotate: -1,
-    y: 64,
-    transition: { type: "spring", bounce: 0.3, duration: 0.65 },
   },
 };
 
