@@ -24,6 +24,7 @@ type Props = {
   onScrubEnd?: () => void;
   onReady?: () => void;
   autoPlay?: boolean;
+  poster?: string;
 };
 
 const VideoPlayer = ({
@@ -34,6 +35,7 @@ const VideoPlayer = ({
   onScrubStart,
   onReady,
   autoPlay,
+  poster,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
@@ -134,7 +136,10 @@ const VideoPlayer = ({
   }, [hasPlayedSucecssfully, isScrubbing]);
 
   return (
-    <div className={`${className} relative touch-pan-y`} ref={containerRef}>
+    <div
+      className={`${className} relative w-fit touch-pan-y`}
+      ref={containerRef}
+    >
       <motion.video
         // click to play/pause
         onClickCapture={() => !hasScrubbed && setShouldPlay(!shouldPlay)}
@@ -148,6 +153,7 @@ const VideoPlayer = ({
           opacity: shouldPlay ? 1 : 0.9,
         }}
         disableRemotePlayback
+        poster={poster}
         // controls
       />
       <PlayIcon

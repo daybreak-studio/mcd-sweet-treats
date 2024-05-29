@@ -95,6 +95,7 @@ export default function Home() {
               "https://stream.mux.com/pbozK8F7GIzEwN7kmGRKEap501jQAOifwpXBjStku01eE/capped-1080p.mp4"
             }
             className="h-[40svh] min-h-64"
+            poster={"/opening/visual-1-placeholder.png"}
           />
           <Lottie
             animationData={swirlAnimation}
