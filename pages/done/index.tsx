@@ -14,7 +14,7 @@ const DonePage = (props: Props) => {
   const share = useCallback(async () => {
     const shareData = {
       title: "Grandma McFlurry",
-      text: "Learn web development on MDN!",
+      text: "Send grandma a sweet message",
       url: "https://sweetconnections.ai",
     };
 
