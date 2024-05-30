@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         to: [{ email, type: "to" }],
         from_email: "no-reply@sweetconnections.ai",
         from_name: "Sweet Connections",
-        subject: "Your video for grandma is on it's way!",
+        subject: "Your video for grandma is on its way!",
         headers: {
           "X-MC-PREVIEWTEXT":
             "Hold tight! This video is going to make grandma's day.",
