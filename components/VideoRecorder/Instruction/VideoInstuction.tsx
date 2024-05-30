@@ -16,7 +16,7 @@ const VideoInstuction = ({ onProceed }: Props) => {
   return (
     <div className="flex w-full flex-col items-center bg-light px-4 py-12  text-center">
       <h2 className="font-serif-xl mb-8 max-w-[15ch]">
-        A few tips on looking your best for Grandma
+        A few tips on looking your best for grandma
       </h2>
       <div className="mb-12 flex flex-col gap-4 font-bold">
         <div>

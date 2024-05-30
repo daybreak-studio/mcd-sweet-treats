@@ -73,7 +73,7 @@ export function useBodySegmentation(
           // console.log(videoElm);
           const segmentation = await segmenter.segmentPeople(videoElm);
           const foregroundThreshold = 0.5;
-          const backgroundBlurAmount = 7;
+          const backgroundBlurAmount = 8;
           const edgeBlurAmount = 5;
           const flipHorizontal = true;
 

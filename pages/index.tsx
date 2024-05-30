@@ -137,7 +137,7 @@ export default function Home() {
             <LinkButton href={"/get-started"}>Continue</LinkButton>
           </motion.div>
         </motion.div>
-        <BottomBanner>{"Select language available"}</BottomBanner>
+        <BottomBanner>{"Select languages available"}</BottomBanner>
       </>
     </>
   );

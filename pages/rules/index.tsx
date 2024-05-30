@@ -56,7 +56,7 @@ export default function RulesPage() {
             variants={AnimWrap.bounceUpA}
             className="font-serif-xl relative z-10 mb-3 w-8/12 text-center md:font-serif-xl xl:font-serif-2xl"
           >
-            Be good for <br /> Grandma
+            Be good for <br /> grandma!
           </motion.h1>
           <motion.div
             variants={{

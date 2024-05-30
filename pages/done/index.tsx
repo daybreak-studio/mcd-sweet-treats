@@ -89,7 +89,7 @@ const DonePage = (props: Props) => {
         </div>
       </motion.div>
       <BottomBanner>
-        {"At participating McDonald's for a limited time."}
+        {"Grandma McFlurry available for a limited time."}
       </BottomBanner>
     </>
   );

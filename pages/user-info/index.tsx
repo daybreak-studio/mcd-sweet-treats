@@ -130,7 +130,7 @@ export default function UserInfoPage() {
           variants={AnimWrap.bounceUpA}
         >
           Who&apos;s grandma&apos;s
-          <br /> favourite? It&apos;s you!
+          <br /> favorite? It&apos;s you!
         </motion.h1>
         <motion.div
           className="font-serif-sm max-w-[26ch]"

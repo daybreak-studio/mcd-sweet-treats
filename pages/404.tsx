@@ -43,7 +43,7 @@ const Custom404: NextPage = () => {
         </div>
       </div>
       <BottomBanner>
-        {"At participating McDonald's for a limited time."}
+        {"Grandma McFlurry available for a limited time."}
       </BottomBanner>
     </AppFrame>
   );
