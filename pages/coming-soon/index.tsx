@@ -9,24 +9,9 @@ import Cookies from "@/components/Cookies";
 type Props = {};
 
 const DonePage = (props: Props) => {
-  const share = useCallback(async () => {
-    const shareData = {
-      title: "Grandma McFlurry",
-      text: "Learn web development on MDN!",
-      url: "https://sweetconnections.ai",
-    };
-
-    try {
-      await navigator.share(shareData);
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
   return (
     <AppFrame>
       <LogoLockup />
-      <Cookies />
       <div className="flex flex-grow flex-col items-center justify-center text-center">
         <h1 className="font-serif-2xl pb-8">
           Check back soon to send a sweet message to grandma.
