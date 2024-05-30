@@ -16,6 +16,7 @@
     "@aws-sdk/lib-dynamodb": "^3.582.0",
     "@aws-sdk/lib-storage": "^3.582.0",
     "@hookform/resolvers": "^3.4.2",
+    "@mailchimp/mailchimp_transactional": "^1.0.59",
     "@mediapipe/selfie_segmentation": "^0.1.1675465747",
     "@tensorflow-models/body-segmentation": "^1.0.2",
     "@tensorflow/tfjs": "^4.19.0",
