@@ -47,16 +47,17 @@ const childVariants: Variants = {
     opacity: 0,
   },
 };
+
 const videoVariants: Variants = {
   hidden: {
-    filter: "blur(10px)",
+    // filter: "blur(10px)",
     opacity: 0,
     scale: 0.8,
     rotate: 3,
     y: 64,
   },
   visible: {
-    filter: "blur(0px)",
+    // filter: "blur(0px)",
     opacity: 1,
     scale: 1,
     rotate: 0,
@@ -65,7 +66,7 @@ const videoVariants: Variants = {
   },
   exit: {
     opacity: 0,
-    filter: "blur(5px)",
+    // filter: "blur(5px)",
     transition: {
       delay: 0.35,
     },
