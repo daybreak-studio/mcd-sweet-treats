@@ -158,12 +158,14 @@ const VideoPlayer = ({
         poster={poster}
         // controls
       />
-      <PlayIcon
-        className="pointer-events-none absolute left-1/2 top-1/2 z-20 scale-150"
+      <div
+        className="pointer-events-none absolute inset-0 z-20 m-auto flex h-12 w-12 items-center justify-center rounded-full bg-light text-dark"
         style={{
           visibility: !shouldPlay && !isScrubbing ? "visible" : "hidden",
         }}
-      />
+      >
+        <PlayIcon />
+      </div>
       <motion.div
         initial={{
           opacity: 0,
