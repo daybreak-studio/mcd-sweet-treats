@@ -129,27 +129,27 @@ export const ImageCollageItem = ({
   );
 };
 
-export function useShuffledImagePool(srcList: ImageInfo[]) {
-  const ALlImages = useMemo(() => {
-    return shuffleArray(
-      srcList.map(({ src, width, height }, index) => {
-        const constrainedSize = constrainDimensions(width, height, 200);
+// export function useShuffledImagePool(srcList: ImageInfo[]) {
+//   const ALlImages = useMemo(() => {
+//     return shuffleArray(
+//       srcList.map(({ src, width, height }, index) => {
+//         const constrainedSize = constrainDimensions(width, height, 200);
 
-        return (
-          <Image
-            key={index}
-            src={src}
-            width={constrainedSize.width}
-            height={constrainedSize.height}
-            alt=""
-            className="pointer-events-none w-full"
-          />
-        );
-      }),
-    );
-  }, []);
+//         return (
+//           <Image
+//             key={index}
+//             src={src}
+//             width={constrainedSize.width}
+//             height={constrainedSize.height}
+//             alt=""
+//             className="pointer-events-none w-full"
+//           />
+//         );
+//       }),
+//     );
+//   }, []);
 
-  return ALlImages;
-}
+//   return ALlImages;
+// }
 
 export default ImageCollage;

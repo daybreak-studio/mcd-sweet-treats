@@ -13,6 +13,7 @@ import ImagePoolProvider from "@/components/ImagePool/ImagePoolProvider";
 import IMAGES_MANIFEST from "@/data/images-manifest.json";
 import ImageCollageLayoutSwitcher from "@/components/ImageCollage/Layouts/ImageCollageLayoutSwitcher";
 import AppFrame from "@/components/AppFrame/AppFrame";
+import { Analytics } from "@vercel/analytics/react";
 
 const font_speedee = localFont({
   src: [
@@ -54,6 +55,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Send grandma a sweet message" />
       </Head>
+      <Analytics />
       <ReCaptchaProvider>
         <WindowDimensionContextProvider>
           <ImagePoolProvider
