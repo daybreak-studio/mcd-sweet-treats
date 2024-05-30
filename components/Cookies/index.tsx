@@ -4,12 +4,29 @@ import { useState, useEffect, useContext, createContext } from "react";
 import { motion, cubicBezier, AnimatePresence, easeInOut } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage } from "usehooks-ts";
+import useViewport from "@/hooks/useViewport";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
   isAskingPermission: false,
 });
 export const useCookiePreference = () => useContext(CookiesContext);
+
+export const OpenInNewTab = ({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className={className}>
+      {children}
+    </a>
+  );
+};
 
 export default function CookiesGate({
   children,
@@ -28,7 +45,8 @@ export default function CookiesGate({
       initializeWithValue: false,
     });
   const [isCookieChecked, setIsCookieChecked] = useState(true);
-  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(true);
+  const { isMobile } = useViewport();
 
   useEffect(() => {
     if (hasInit && !hasAskedCookiePreference) {
@@ -73,59 +91,55 @@ export default function CookiesGate({
                 opacity: 0,
                 transition: { duration: 0.75, delay: 0, ease: "easeInOut" },
               }}
-              className="fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-75"
+              className="xl:bg-opacity- fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50 xl:bg-opacity-65"
             ></motion.div>
             <motion.div
               initial={{
-                // opacity: 0,
+                opacity: 0,
                 y: "100%",
               }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  delay: 1,
-                  duration: AnimationConfig.SLOW,
-                  ease: AnimationConfig.EASING,
-                },
-              }}
+              animate={
+                isMobile
+                  ? {
+                      y: 0,
+                      opacity: 1,
+                      transition: {
+                        delay: 1,
+                        duration: AnimationConfig.SLOW,
+                        ease: AnimationConfig.EASING,
+                      },
+                    }
+                  : { opacity: 1, transition: { duration: 1, delay: 1.2 } }
+              }
               exit={{
-                // opacity: 0,
+                opacity: 0,
                 y: "100%",
                 transition: {
                   duration: AnimationConfig.NORMAL,
                   ease: AnimationConfig.EASING_INVERTED,
                 },
               }}
-              className="fixed bottom-0 left-0 z-50 flex flex-col gap-4 bg-[#F9D0D6] p-8"
+              className="fixed bottom-0 left-0 z-50 flex w-screen flex-col gap-4 bg-[#F9D0D6] p-8 xl:bottom-0 xl:left-0 xl:right-0 xl:top-0 xl:mx-auto xl:h-fit xl:w-1/4 xl:rounded-xl"
             >
               <h1 className="font-serif-lg">Before you begin...</h1>
               <h2 className="text-sm">
                 This site is intended for US residents who are 13 years or
                 older. Minors must have permission from a parent or legal
                 guardian to submit a video. Information submitted via this site
-                is subject to the HeyGen{" "}
-                <a
-                  href="#"
-                  className="font-bold underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open("https://www.example.com", "_blank");
-                  }}
+                is subject to{" "}
+                <OpenInNewTab
+                  href="https://www.heygen.com/terms"
+                  className="font-medium underline"
                 >
-                  Privacy Policy
-                </a>{" "}
-                and MailChimp{" "}
-                <a
-                  href="#"
-                  className="font-bold underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.open("https://www.example.com", "_blank");
-                  }}
+                  terms and conditions
+                </OpenInNewTab>
+                . For privacy policy,{" "}
+                <OpenInNewTab
+                  href="https://www.heygen.com/policy"
+                  className="font-medium underline"
                 >
-                  Privacy Policy
-                </a>
+                  click here
+                </OpenInNewTab>
                 .
               </h2>
               <Checkbox
@@ -135,8 +149,22 @@ export default function CookiesGate({
                 value={isCookieChecked}
               >
                 <h3 className="pl-2 text-xs">
-                  By accepting cookies, you agree to our use of Google Analytics
-                  for site performance and usage insights.
+                  By accepting{" "}
+                  <a
+                    href="#"
+                    className="font-medium underline"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(
+                        "https://policies.google.com/technologies/cookies?hl=en-US",
+                        "_blank",
+                      );
+                    }}
+                  >
+                    cookies
+                  </a>
+                  , you agree to our use of Google Analytics for site
+                  performance and usage insights.
                 </h3>
               </Checkbox>
 

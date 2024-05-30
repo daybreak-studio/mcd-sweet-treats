@@ -18,6 +18,7 @@
     "@hookform/resolvers": "^3.4.2",
     "@mailchimp/mailchimp_transactional": "^1.0.59",
     "@mediapipe/selfie_segmentation": "^0.1.1675465747",
+    "@next/third-parties": "^14.2.3",
     "@tensorflow-models/body-segmentation": "^1.0.2",
     "@tensorflow/tfjs": "^4.19.0",
     "@tensorflow/tfjs-backend-webgl": "^4.19.0",
