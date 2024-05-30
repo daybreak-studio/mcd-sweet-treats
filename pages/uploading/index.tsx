@@ -42,7 +42,7 @@ const UploadingPage = (props: Props) => {
   }, [progress, isUploading, clearVideo]);
 
   return (
-    <AppFrame>
+    <>
       <LogoLockup />
       <motion.div
         initial="hidden"
@@ -114,7 +114,7 @@ const UploadingPage = (props: Props) => {
           {progress === 1 && <LinkButton href="/done">Continue</LinkButton>}
         </div>
       </motion.div>
-    </AppFrame>
+    </>
   );
 };
 
