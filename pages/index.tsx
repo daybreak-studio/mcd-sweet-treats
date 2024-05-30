@@ -107,13 +107,13 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.h1
-            className="font-serif-xl mb-8 origin-top-left px-8 text-center md:font-serif-2xl lg:font-serif-2xl"
+            className="xs:font-serif-xl font-serif-md my-4 origin-top-left px-8 text-center md:font-serif-2xl lg:font-serif-2xl md:my-8 xl:w-1/3"
             variants={AnimWrap.bounceUpB}
           >
             Send grandma a <br /> sweet message
           </motion.h1>
           <motion.div
-            className="relative z-10 mb-8 flex origin-top-left flex-col items-center "
+            className="relative z-10 mb-6 flex origin-top-left flex-col items-center "
             variants={videoVariants}
           >
             <VideoPlayer
@@ -129,7 +129,7 @@ export default function Home() {
               loop={false}
               autoPlay={false}
               lottieRef={lottieRef}
-              className="pointer-events-none absolute inset-0 translate-y-[-30%] scale-[2.9]"
+              className="pointer-events-none absolute inset-0 z-20 translate-y-[-40%] scale-[2.9]"
             />
             <ExamplePromptTagSVG className="absolute hidden sm:bottom-[20%] sm:left-[105%] sm:block" />
           </motion.div>

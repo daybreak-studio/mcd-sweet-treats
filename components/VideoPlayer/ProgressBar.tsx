@@ -13,13 +13,13 @@ type Props = {
   isActive: boolean;
 };
 
-const PorgressBar = ({ currentTime, duration, isActive }: Props) => {
+const ProgressBar = ({ currentTime, duration, isActive }: Props) => {
   const barWdith = useTransform(currentTime, [0, duration], [0, 100]);
   const barWidthPercent = useMotionTemplate`${barWdith}%`;
 
   return (
     <motion.div
-      className="w-full"
+      className="z-30 w-full"
       animate={{
         scale: isActive ? 1.1 : 1,
       }}
@@ -53,4 +53,4 @@ const PorgressBar = ({ currentTime, duration, isActive }: Props) => {
   );
 };
 
-export default PorgressBar;
+export default ProgressBar;

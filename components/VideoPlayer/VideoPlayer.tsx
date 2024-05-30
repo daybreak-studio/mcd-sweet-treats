@@ -11,7 +11,7 @@ import {
   useTransform,
 } from "framer-motion";
 import React, { RefObject, useEffect, useMemo, useRef, useState } from "react";
-import PorgressBar from "./PorgressBar";
+import ProgressBar from "./ProgressBar";
 import PlayIcon from "./play.svg";
 import { useVideoInfo } from "./useVideoInfo";
 
@@ -137,6 +137,15 @@ const VideoPlayer = ({
     }
   }, [hasPlayedSucecssfully, isScrubbing]);
 
+  useEffect(() => {
+    if (hasInteracted) {
+      const timeout = setTimeout(() => {
+        setHasInteracted(false);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [hasInteracted]);
+
   return (
     <div
       className={`${className} relative touch-none select-none`}
@@ -145,7 +154,7 @@ const VideoPlayer = ({
     >
       <motion.video
         // click to play/pause
-        className={`h-full object-cover ${dangerouslySetVideoFullWidth && "w-full"} pointer-events-none`}
+        className={`h-full object-cover ${dangerouslySetVideoFullWidth && "w-full"} pointer-events-none overflow-hidden`}
         playsInline
         autoPlay={autoPlay}
         loop
@@ -173,9 +182,10 @@ const VideoPlayer = ({
         animate={{
           opacity: hasInteracted ? 1 : 0,
         }}
-        className="pointer-events-none absolute bottom-12 left-0 right-0 z-20 mx-auto flex w-full max-w-[21.5rem] justify-center px-8"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 mx-auto flex h-1/4 w-full max-w-[21.5rem] items-end justify-center px-8 pb-8"
       >
-        <PorgressBar
+        <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-full w-full bg-gradient-to-t from-[rgba(0,0,0,0.75)] to-transparent"></div>
+        <ProgressBar
           duration={duration}
           currentTime={currentTime}
           isActive={isScrubbing && hasScrubbed}

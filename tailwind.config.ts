@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import TypeSystemPlugin from "./TypeSystemPlugin";
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 const config: Config = {
   content: [
@@ -14,6 +15,10 @@ const config: Config = {
         dark: "#220505",
         accent: "#FF4F14",
       },
+    },
+    screens: {
+      xs: "380px",
+      ...defaultTheme.screens,
     },
   },
   plugins: [
