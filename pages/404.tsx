@@ -8,6 +8,8 @@ import LinkButton from "@/components/Button/LinkButton";
 import Image from "next/image";
 import BottomBanner from "@/components/Banner/BottomBanner";
 
+import ScribbleTextSVG from "./done/scribble-text.svg";
+
 const Custom404: NextPage = () => {
   return (
     <AppFrame inverted>
@@ -37,6 +39,7 @@ const Custom404: NextPage = () => {
             width={500}
             height={500}
           />
+          <ScribbleTextSVG className="k absolute rotate-6 text-accent lg:bottom-[37vw] lg:right-[12vw] 2xl:bottom-[39vw] 2xl:right-[calc(16vw+2rem)]" />
         </div>
       </div>
       <BottomBanner>

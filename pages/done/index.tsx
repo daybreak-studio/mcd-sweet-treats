@@ -7,6 +7,7 @@ import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import BottomBanner from "@/components/Banner/BottomBanner";
 import ShareIconSVG from "./share-icon.svg";
+import ScribbleTextSVG from "./scribble-text.svg";
 
 type Props = {};
 
@@ -29,9 +30,9 @@ const DonePage = (props: Props) => {
     <AppFrame>
       <LogoLockup noWordmark />
       <div className="z-30 my-auto flex flex-col items-center pb-16 text-center">
-        <h2 className="font-serif-sm max-w-[30ch] pb-4">
+        <h5 className="font-serif-sm max-w-[20ch] pb-4">
           {"Come to McDonald's and treat yourself to a"}
-        </h2>
+        </h5>
         <div className="pb-8">
           <GrandmaMcFlurryLogo />
         </div>
@@ -54,10 +55,10 @@ const DonePage = (props: Props) => {
             className="h-full w-full"
             src="/images/meal.png"
             alt="McFlurry"
-            quality={100}
-            width={500}
-            height={500}
+            width={1600}
+            height={900}
           />
+          <ScribbleTextSVG className="k absolute rotate-6 text-dark lg:bottom-[37vw] lg:right-[12vw] 2xl:bottom-[39vw] 2xl:right-[calc(16vw+2rem)]" />
         </div>
       </div>
       <BottomBanner>

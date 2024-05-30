@@ -5,14 +5,6 @@ import { motion, cubicBezier, AnimatePresence, easeInOut } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
-
-import {
-  GoogleAnalytics,
-  GoogleTagManager,
-  sendGTMEvent,
-} from "@next/third-parties/google";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/router";
 import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
 
 const CookiesContext = createContext({
@@ -75,17 +67,8 @@ export default function CookiesGate({
     setHasInit(true);
   }, []);
 
-  // const { asPath } = useRouter();
-  // useEffect(() => {
-  //   sendGTMEvent({
-  //     page_title: document.title,
-  //     page_location: location.href,
-  //   });
-  // }, [asPath]);
-
   return (
     <>
-      {/* {isCookiesAccepted && <GoogleAnalytics gaId="G-JNW1SSN9K2" />} */}
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,

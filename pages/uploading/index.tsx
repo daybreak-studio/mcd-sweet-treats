@@ -52,7 +52,7 @@ const UploadingPage = (props: Props) => {
       >
         <motion.h1
           variants={AnimWrap.bounceUpA}
-          className="font-serif-2xl mx-auto origin-top-left self-start px-4 pb-4 text-center"
+          className="font-serif-xl mx-auto mt-8 origin-top-left self-start px-4 pb-2 text-center md:font-serif-2xl max-md:max-w-[12ch]"
         >
           {progress < 1
             ? "Don't leave just yet!"
@@ -71,7 +71,7 @@ const UploadingPage = (props: Props) => {
             hidden: { opacity: 0, scale: 0.5, rotate: -5, y: 40 },
             visible: { opacity: [0, 0.9, 1], scale: 1, rotate: 0, y: 0 },
           }}
-          className="relative flex w-fit origin-top-left justify-center"
+          className="relative flex w-[50vh] origin-top-left justify-center"
         >
           <motion.div
             animate={{

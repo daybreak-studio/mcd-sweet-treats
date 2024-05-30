@@ -112,8 +112,8 @@ export default function UserInfoPage() {
   return (
     <>
       <AppFrame>
-        <div className="mb-auto mt-8">
-          <LogoLockup noWordmark />
+        <div className="mb-auto mt-2">
+          <LogoLockup />
         </div>
 
         <form

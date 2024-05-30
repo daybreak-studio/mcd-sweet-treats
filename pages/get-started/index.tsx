@@ -14,12 +14,12 @@ export default function GetStartedPage() {
       <AppFrame>
         <LogoLockup noWordmark />
         <div className="mt-auto flex h-full flex-grow flex-col items-center justify-center">
-          <h1 className="font-serif-md my-4 w-[20ch] text-center">
+          <h1 className="font-serif-md my-4 text-center sm:font-serif-md xl:font-serif-xl">
             Record your video
             <br /> then treat yourself to a
           </h1>
-          <div className="max-w-8/12 mb-8 h-[10svh] min-h-20">
-            <GrandmaMcFlurryLogo className="h-full" />
+          <div className="max-w-8/12 mb-8 h-[20svh] min-h-20">
+            <GrandmaMcFlurryLogo className="h-full w-auto" />
           </div>
           <Image
             src="/images/mcflurry.png"

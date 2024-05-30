@@ -62,7 +62,7 @@ export default function LanguagePage() {
           >
             Select your language
           </motion.h1>
-          <div className="mb-12 flex w-64 flex-col gap-4">
+          <div className="md:flex-c mb-12 flex w-64 flex-col gap-4">
             <Dropdown.menu
               label={"From"}
               onChange={(latest) =>
