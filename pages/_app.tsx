@@ -31,7 +31,6 @@ const font_speedee = localFont({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
-  const hash = useIsDev();
   return (
     <>
       <Head>
@@ -58,15 +57,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <VideoUploadProvider>
               <CookiesGate>
                 <AnimatePresence mode="wait">
-                  {hash ? (
-                    <Component
-                      {...pageProps}
-                      key={pathname}
-                      className={` ${font_speedee.variable}`}
-                    />
-                  ) : (
-                    <ComingSoon />
-                  )}
+                  <Component
+                    {...pageProps}
+                    key={pathname}
+                    className={` ${font_speedee.variable}`}
+                  />
                 </AnimatePresence>
               </CookiesGate>
             </VideoUploadProvider>
