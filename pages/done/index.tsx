@@ -22,7 +22,11 @@ const DonePage = (props: Props) => {
     };
 
     try {
-      await navigator.share(shareData);
+      if (navigator.share && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        navigator.clipboard.writeText(shareData.url);
+      }
     } catch (err) {
       console.log(err);
     }
