@@ -3,7 +3,7 @@ import Checkbox from "../Checkbox/Checkbox";
 import { useState, useEffect, useContext, createContext } from "react";
 import { motion, cubicBezier, AnimatePresence, easeInOut } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
-import { useLocalStorage } from "usehooks-ts";
+import { useLocalStorage, useMediaQuery } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
 import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
 
@@ -47,7 +47,6 @@ export default function CookiesGate({
     });
   const [isCookieChecked, setIsCookieChecked] = useState(true);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-  const { isMobile } = useViewport();
 
   useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
 
@@ -66,6 +65,8 @@ export default function CookiesGate({
   useEffect(() => {
     setHasInit(true);
   }, []);
+
+  const isMobile = useMediaQuery("(max-width:1024px)");
 
   return (
     <>
@@ -90,12 +91,12 @@ export default function CookiesGate({
                 opacity: 0,
                 transition: { duration: 0.75, delay: 0, ease: "easeInOut" },
               }}
-              className="fixed left-0 top-0 z-50 h-screen w-full bg-black bg-opacity-50 xl:bg-opacity-65"
+              className="fixed left-0 top-0 z-50 h-screen w-full bg-black bg-opacity-50 lg:bg-opacity-65"
             ></motion.div>
             <motion.div
               initial={{
                 opacity: 0,
-                y: "100%",
+                y: isMobile ? "100%" : "20%",
               }}
               animate={
                 isMobile
@@ -108,17 +109,25 @@ export default function CookiesGate({
                         ease: AnimationConfig.EASING,
                       },
                     }
-                  : { opacity: 1, transition: { duration: 1, delay: 1.2 } }
+                  : {
+                      opacity: 1,
+                      y: 0,
+                      transition: {
+                        delay: 1,
+                        duration: AnimationConfig.SLOW,
+                        ease: AnimationConfig.EASING,
+                      },
+                    }
               }
               exit={{
                 opacity: 0,
-                y: "100%",
+                y: "20%",
                 transition: {
-                  duration: AnimationConfig.NORMAL,
+                  duration: AnimationConfig.FAST,
                   ease: AnimationConfig.EASING_INVERTED,
                 },
               }}
-              className="fixed bottom-0 left-0 z-50 flex w-full flex-col gap-4 bg-[#F9D0D6] p-8 xl:bottom-0 xl:left-0 xl:right-0 xl:top-0 xl:mx-auto xl:h-fit xl:w-1/4 xl:rounded-xl"
+              className="fixed bottom-0 left-0 z-50 flex w-full flex-col gap-4 bg-[#F9D0D6] p-8 lg:bottom-0 lg:left-0 lg:right-0 lg:top-0 lg:mx-auto lg:my-auto lg:h-fit lg:w-96 lg:rounded-xl"
             >
               <h1 className="font-serif-lg">Before you begin...</h1>
               <h2 className="text-sm">
