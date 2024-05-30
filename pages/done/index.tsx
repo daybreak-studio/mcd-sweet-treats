@@ -54,7 +54,7 @@ const DonePage = (props: Props) => {
         >
           <GrandmaMcFlurryLogo className="h-full w-auto" />
         </motion.div>
-        <LinkButton href={"https://www.mcdonalds.com/ca/en-ca.html"}>
+        <LinkButton href={"https://www.mcdonalds.com/"}>
           Order Online
         </LinkButton>
         <motion.div
