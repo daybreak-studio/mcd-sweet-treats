@@ -1,16 +1,34 @@
-declare global {
-  interface Window {
-    dataLayer: {
-      [key: string]: any;
-    }[];
-  }
-}
+//@ts-nocheck
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const useGoogleAnalytics = (trackingId: string, hasConsented: boolean) => {
+  const [hasSetupAnalytics, setHasSetupAnalytics] = useState(false);
+
+  useEffect(() => {
+    if (!hasSetupAnalytics) return;
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+
+    function handlePageChange() {
+      //@ts-ignore
+      ga("send", "pageview", {
+        page: location.pathname + location.search + location.hash,
+      });
+    }
+
+    // listen for hash change
+    window.addEventListener("popstate", handlePageChange);
+
+    return () => window.removeEventListener("popstate", handlePageChange);
+  }, [hasSetupAnalytics]);
+
   // setup the initial data layer to reject the consent
   useEffect(() => {
+    if (!trackingId) return;
     const setupInitialDataLayer = () => {
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -64,6 +82,8 @@ const useGoogleAnalytics = (trackingId: string, hasConsented: boolean) => {
       gtag("js", new Date());
       //@ts-ignore
       gtag("config", trackingId);
+
+      setHasSetupAnalytics(true);
     };
 
     // Load the script and initialize Google Analytics

@@ -5,7 +5,10 @@ import { motion, cubicBezier, AnimatePresence, easeInOut } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
-import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
+
+import { GoogleTagManager, sendGTMEvent } from "@next/third-parties/google";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/router";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
@@ -49,7 +52,7 @@ export default function CookiesGate({
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const { isMobile } = useViewport();
 
-  useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
+  // useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
 
   useEffect(() => {
     if (hasInit && !hasAskedCookiePreference) {
@@ -67,8 +70,17 @@ export default function CookiesGate({
     setHasInit(true);
   }, []);
 
+  const { asPath } = useRouter();
+  useEffect(() => {
+    sendGTMEvent({
+      page_title: document.title,
+      page_location: location.href,
+    });
+  }, [asPath]);
+
   return (
     <>
+      {isCookiesAccepted && <GoogleTagManager gtmId="G-JNW1SSN9K2" />}
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,
