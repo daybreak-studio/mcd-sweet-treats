@@ -15,9 +15,13 @@ const useGoogleAnalytics = (trackingId: string, hasConsented: boolean) => {
 
     function handlePageChange() {
       //@ts-ignore
-      ga("send", "pageview", {
-        page: location.pathname + location.search + location.hash,
-      });
+      try {
+        ga("send", "pageview", {
+          page: location.pathname + location.search + location.hash,
+        });
+      } catch (e) {
+        // do nothing because i am actually not sure if this code doing anything
+      }
     }
 
     // listen for hash change
