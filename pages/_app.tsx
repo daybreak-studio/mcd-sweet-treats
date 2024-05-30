@@ -7,10 +7,11 @@ import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
-import ComingSoon from "./coming-soon";
-import useIsDev from "@/hooks/useIsDev";
 import Head from "next/head";
 import CookiesGate from "@/components/Cookies";
+import ImagePoolProvider from "@/components/ImagePool/ImagePoolProvider";
+import IMAGES_MANIFEST from "@/data/images-manifest.json";
+import ImageCollageLayoutSwitcher from "@/components/ImageCollage/Layouts/ImageCollageLayoutSwitcher";
 
 const font_speedee = localFont({
   src: [
@@ -31,6 +32,7 @@ const font_speedee = localFont({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const pathname = usePathname();
+
   return (
     <>
       <Head>
@@ -53,19 +55,27 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       </Head>
       <ReCaptchaProvider>
         <WindowDimensionContextProvider>
-          <UserInfoProvider>
-            <VideoUploadProvider>
-              <CookiesGate>
-                <AnimatePresence mode="wait">
-                  <Component
-                    {...pageProps}
-                    key={pathname}
-                    className={` ${font_speedee.variable}`}
-                  />
-                </AnimatePresence>
-              </CookiesGate>
-            </VideoUploadProvider>
-          </UserInfoProvider>
+          <ImagePoolProvider
+            srcList={IMAGES_MANIFEST}
+            constraint={{
+              width: 200,
+            }}
+          >
+            <UserInfoProvider>
+              <VideoUploadProvider>
+                <CookiesGate>
+                  <AnimatePresence mode="wait">
+                    <Component
+                      {...pageProps}
+                      key={pathname}
+                      className={` ${font_speedee.variable}`}
+                    />
+                  </AnimatePresence>
+                  <ImageCollageLayoutSwitcher />
+                </CookiesGate>
+              </VideoUploadProvider>
+            </UserInfoProvider>
+          </ImagePoolProvider>
         </WindowDimensionContextProvider>
       </ReCaptchaProvider>
     </>

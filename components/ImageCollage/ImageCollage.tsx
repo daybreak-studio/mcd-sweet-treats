@@ -4,9 +4,7 @@ import Image from "next/image";
 import { AnimationConfig } from "../AnimationConfig";
 import { useMediaQuery, useResizeObserver } from "usehooks-ts";
 import { shuffleArray } from "@/util/shuffleArray";
-import { familyImages } from "./FamilyImages";
-import { mcdImages } from "./McdImages";
-import { constrainDimensions } from "./contrainDimensions";
+import { constrainDimensions } from "../../util/contrainDimensions";
 import { useWindowDimension } from "@/hooks/useWindowDimension";
 
 type Props = {
@@ -126,39 +124,6 @@ export const ImageCollageItem = ({
     </>
   );
 };
-
-export function useImagePool(srcList: ImageInfo[]) {
-  const ALlImages = useMemo(
-    () =>
-      srcList.map(({ src, width, height }, index) => {
-        const constrainedSize = constrainDimensions(width, height, 200);
-
-        return (
-          <Image
-            key={index}
-            src={src}
-            width={constrainedSize.width}
-            height={constrainedSize.height}
-            alt=""
-            className="pointer-events-none w-full"
-          />
-        );
-      }),
-    [],
-  );
-
-  return ALlImages;
-}
-
-export function useImageInPool(
-  pool: ReturnType<typeof useImagePool>,
-  srcIncludes: string,
-) {
-  return useMemo(
-    () => pool.find((image) => image.props.src.includes(srcIncludes)),
-    [pool, srcIncludes],
-  );
-}
 
 export function useShuffledImagePool(srcList: ImageInfo[]) {
   const ALlImages = useMemo(() => {

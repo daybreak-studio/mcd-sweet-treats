@@ -3,6 +3,7 @@ import BottomBanner from "@/components/Banner/BottomBanner";
 import LinkButton from "@/components/Button/LinkButton";
 import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import ImageCollage from "@/components/ImageCollage/ImageCollage";
+import LandingCollageImageLayout from "@/components/ImageCollage/Layouts/LandingCollageImageLayout";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
 import { motion } from "framer-motion";
 import Image from "next/image";

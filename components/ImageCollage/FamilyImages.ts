@@ -1,24 +1,23 @@
 export const familyImages = [
-  // left
   {
     src: "/collage/MCWK664X24I_Sweet_Treat_GrandmaDisposables_CAR_IG_FB_1080x1080_FR_RT.png",
-    width: 826,
-    height: 1033,
+    width: 1080,
+    height: 1080,
   },
   {
-    src: "/collage/MCWK680X24I_Sweet_Treat_GrandmaDisposables_KISS_IG_FB_1080x1080_FR_RT.png",
-    width: 1080,
-    height: 866,
+    src: "/collage/MCWK680X24I_Sweet_Treat_GrandmaDisposables_KISS_IG_FB_1080x1080_FR_RT.jpg",
+    width: 622,
+    height: 498,
   },
   {
     src: "/collage/MCWK668X24I_Sweet_Treat_GrandmaDisposables_SOLO_IG_FB_1080x1920_FR_RT.png",
-    width: 1267,
-    height: 1580,
+    width: 1080,
+    height: 1080,
   },
   {
-    src: "/collage/MCWK679X24I_Sweet_Treat_GrandmaDisposables_GARDEN_IG_FB_1080x1080_FR_RT.png",
-    width: 1018,
-    height: 816,
+    src: "/collage/MCWK679X24I_Sweet_Treat_GrandmaDisposables_GARDEN_IG_FB_1080x1080_FR_RT.jpg",
+    width: 623,
+    height: 498,
   },
   {
     src: "/collage/McD_ST_Archival_Hindi-1_RT.png",

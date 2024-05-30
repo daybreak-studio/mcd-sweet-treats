@@ -4,22 +4,21 @@ import { useImageFromPool } from "@/components/ImagePool/ImagePoolProvider";
 
 type Props = {};
 
-const LandingCollageImageLayout = (props: Props) => {
-  const imgLeftTop = useImageFromPool("landing-left-top");
-  const imgLeftMiddle = useImageFromPool("landing-left-middle");
-  const imgLeftBottom = useImageFromPool("landing-left-bottom");
-  const imgRightTop = useImageFromPool("landing-right-top");
-  const imgRightMiddle = useImageFromPool("landing-right-middle");
-  const imgRightBottom = useImageFromPool("landing-right-bottom");
+const LanguageCollageImageLayout = (props: Props) => {
+  const imgLeftTop = useImageFromPool("language-left-top");
+  const imgLeftMiddle = useImageFromPool("language-left-middle");
+  const imgLeftBottom = useImageFromPool("language-left-bottom");
+  const imgRightTop = useImageFromPool("language-right-top");
+  const imgRightBottom = useImageFromPool("language-right-bottom");
 
   return (
     <ImageCollage>
       {/* left items */}
       <ImageCollageItem
-        width={25}
+        width={22}
         left={-5}
         top={40}
-        rotation={8}
+        rotation={6}
         entrance="left"
       >
         {imgLeftMiddle}
@@ -28,7 +27,7 @@ const LandingCollageImageLayout = (props: Props) => {
         width={15}
         left={2}
         top={8}
-        rotation={-3}
+        rotation={-5}
         entrance="left"
       >
         {imgLeftTop}
@@ -36,8 +35,8 @@ const LandingCollageImageLayout = (props: Props) => {
       <ImageCollageItem
         width={18}
         left={-1}
-        top={64}
-        rotation={-10}
+        top={65}
+        rotation={-4}
         entrance="left"
       >
         {imgLeftBottom}
@@ -62,17 +61,8 @@ const LandingCollageImageLayout = (props: Props) => {
       >
         {imgRightBottom}
       </ImageCollageItem>
-      <ImageCollageItem
-        width={18}
-        right={-2}
-        top={35}
-        rotation={-10}
-        entrance="right"
-      >
-        {imgRightMiddle}
-      </ImageCollageItem>
     </ImageCollage>
   );
 };
 
-export default LandingCollageImageLayout;
+export default LanguageCollageImageLayout;

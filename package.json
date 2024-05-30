@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node make-images-manifest public/ data/ && next dev",
+    "build": "node make-images-manifest public/ data/ && next build",
     "start": "next start",
     "lint": "next lint"
   },

@@ -16,6 +16,7 @@ import ImageCollage from "@/components/ImageCollage/ImageCollage";
 import { useMemo, useState } from "react";
 import Button from "@/components/Button/Button";
 import { useRouter } from "next/router";
+import LanguageCollageImageLayout from "@/components/ImageCollage/Layouts/LanguageCollageImageLayout";
 const supportedInputLanguages = Object.keys(inputLanguageMap);
 const supportedOutputLanguages = Object.keys(outputLanguageMap);
 

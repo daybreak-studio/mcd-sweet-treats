@@ -45,7 +45,7 @@ export default function CookiesGate({
       initializeWithValue: false,
     });
   const [isCookieChecked, setIsCookieChecked] = useState(true);
-  const [isDrawerVisible, setIsDrawerVisible] = useState(true);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const { isMobile } = useViewport();
 
   useEffect(() => {
@@ -62,6 +62,7 @@ export default function CookiesGate({
   useEffect(() => {
     setHasInit(true);
   }, []);
+
   useEffect(() => {
     if (isDrawerVisible) {
       setHasAskedCookiePreference(true);
@@ -91,7 +92,7 @@ export default function CookiesGate({
                 opacity: 0,
                 transition: { duration: 0.75, delay: 0, ease: "easeInOut" },
               }}
-              className="xl:bg-opacity- fixed left-0 top-0 z-50 h-screen w-screen bg-black bg-opacity-50 xl:bg-opacity-65"
+              className="fixed left-0 top-0 z-50 h-screen w-full bg-black bg-opacity-50 xl:bg-opacity-65"
             ></motion.div>
             <motion.div
               initial={{
@@ -119,7 +120,7 @@ export default function CookiesGate({
                   ease: AnimationConfig.EASING_INVERTED,
                 },
               }}
-              className="fixed bottom-0 left-0 z-50 flex w-screen flex-col gap-4 bg-[#F9D0D6] p-8 xl:bottom-0 xl:left-0 xl:right-0 xl:top-0 xl:mx-auto xl:h-fit xl:w-1/4 xl:rounded-xl"
+              className="fixed bottom-0 left-0 z-50 flex w-full flex-col gap-4 bg-[#F9D0D6] p-8 xl:bottom-0 xl:left-0 xl:right-0 xl:top-0 xl:mx-auto xl:h-fit xl:w-1/4 xl:rounded-xl"
             >
               <h1 className="font-serif-lg">Before you begin...</h1>
               <h2 className="text-sm">
