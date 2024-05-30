@@ -9,7 +9,7 @@ const CookiesContext = createContext({
   isCookiesAccepted: false,
   isAskingPermission: false,
 });
-export const useHasUserConsented = () => useContext(CookiesContext);
+export const useCookiePreference = () => useContext(CookiesContext);
 
 export default function CookiesGate({
   children,
