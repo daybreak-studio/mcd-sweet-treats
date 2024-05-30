@@ -182,9 +182,9 @@ const VideoPlayer = ({
         animate={{
           opacity: hasInteracted ? 1 : 0,
         }}
-        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 mx-auto flex h-1/4 w-full max-w-[21.5rem] items-end justify-center px-8 pb-8"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 flex h-1/4 w-full items-end justify-center px-8 pb-8"
       >
-        <div className="pointer-events-none absolute bottom-0 left-0 z-10 h-full w-full bg-gradient-to-t from-[rgba(0,0,0,0.75)] to-transparent"></div>
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 z-10 h-full w-full bg-gradient-to-t from-[rgba(0,0,0,0.75)] to-transparent"></div>
         <ProgressBar
           duration={duration}
           currentTime={currentTime}
