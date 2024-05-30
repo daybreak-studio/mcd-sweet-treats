@@ -113,128 +113,126 @@ export default function UserInfoPage() {
 
   return (
     <>
-      <AppFrame>
-        <div className="mb-auto mt-2">
-          <LogoLockup />
-        </div>
+      <div className="mb-auto mt-2">
+        <LogoLockup />
+      </div>
 
-        <motion.form
-          onSubmit={handleSubmit(handleFormValid)}
-          className="relative my-8 mb-auto flex flex-col items-center text-center"
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-          variants={AnimWrap.AnimParentA}
+      <motion.form
+        onSubmit={handleSubmit(handleFormValid)}
+        className="relative my-8 mb-auto flex flex-col items-center text-center"
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={AnimWrap.AnimParentA}
+      >
+        <motion.h1
+          className="font-serif-xl mb-4 text-center"
+          variants={AnimWrap.bounceUpA}
         >
-          <motion.h1
-            className="font-serif-xl mb-4 text-center"
-            variants={AnimWrap.bounceUpA}
-          >
-            Who&apos;s grandma&apos;s
-            <br /> favourite? It&apos;s you!
-          </motion.h1>
-          <motion.div
-            className="font-serif-sm max-w-[26ch]"
-            variants={AnimWrap.bounceUpA}
-          >
-            Enter your information to ensure that the video makes it your way.
-          </motion.div>
-          <motion.div
-            className="my-10 flex w-full max-w-[22rem] flex-col gap-2 px-4"
-            variants={AnimWrap.bounceUpB}
-          >
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <Textfield
-                  label={"Your full name"}
-                  placeholder={"First Last"}
-                  onChange={(v) => {
-                    field.onChange(v);
-                    setName(v);
-                  }}
-                  value={field.value}
-                  name={"name"}
-                  error={errors.name?.message}
-                  autoFocus
-                />
-              )}
-            />
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <Textfield
-                  label={"Personal email address"}
-                  placeholder={"example@gmail.com"}
-                  onChange={(v) => {
-                    field.onChange(v);
-                    setEmail(v);
-                  }}
-                  value={field.value}
-                  name={"email"}
-                  error={errors.email?.message}
-                />
-              )}
-            />
-            <Controller
-              name="terms"
-              control={control}
-              render={({ field }) => (
-                <Checkbox
-                  name={"terms"}
-                  className="mt-12 self-center"
-                  onChange={field.onChange}
-                  value={field.value}
-                  error={errors.terms?.message}
-                >
-                  <span>
-                    I accept the{" "}
-                    <a
-                      href={`https://www.heygen.com/policy`}
-                      className="font-sans-sm font-bold"
-                      target="_blank"
-                    >
-                      Terms & Conditions
-                    </a>
-                  </span>
-                </Checkbox>
-              )}
-            />
-          </motion.div>
+          Who&apos;s grandma&apos;s
+          <br /> favourite? It&apos;s you!
+        </motion.h1>
+        <motion.div
+          className="font-serif-sm max-w-[26ch]"
+          variants={AnimWrap.bounceUpA}
+        >
+          Enter your information to ensure that the video makes it your way.
+        </motion.div>
+        <motion.div
+          className="my-10 flex w-full max-w-[22rem] flex-col gap-2 px-4"
+          variants={AnimWrap.bounceUpA}
+        >
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => (
+              <Textfield
+                label={"Your full name"}
+                placeholder={"First Last"}
+                onChange={(v) => {
+                  field.onChange(v);
+                  setName(v);
+                }}
+                value={field.value}
+                name={"name"}
+                error={errors.name?.message}
+                autoFocus
+              />
+            )}
+          />
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Textfield
+                label={"Personal email address"}
+                placeholder={"example@gmail.com"}
+                onChange={(v) => {
+                  field.onChange(v);
+                  setEmail(v);
+                }}
+                value={field.value}
+                name={"email"}
+                error={errors.email?.message}
+              />
+            )}
+          />
+          <Controller
+            name="terms"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                name={"terms"}
+                className="mt-12 self-center"
+                onChange={field.onChange}
+                value={field.value}
+                error={errors.terms?.message}
+              >
+                <span>
+                  I accept the{" "}
+                  <a
+                    href={`https://www.heygen.com/policy`}
+                    className="font-sans-sm font-bold"
+                    target="_blank"
+                  >
+                    Terms & Conditions
+                  </a>
+                </span>
+              </Checkbox>
+            )}
+          />
+        </motion.div>
 
-          <Button submit disabled={isSubmitting}>
-            {"Submit"}
-          </Button>
-          {errors.recaptcha && (
-            <p className="font-sans-sm py-4 text-red-900">
-              {errors.recaptcha.message}
-            </p>
-          )}
-        </motion.form>
-        <BottomBanner>
-          <span className="block max-w-[48ch] text-center">
-            This site is protected by reCAPTCHA and the Google{" "}
-            <a
-              href="https://policies.google.com/privacy"
-              className="font-bold"
-              target="_blank"
-            >
-              Privacy Policy
-            </a>{" "}
-            and{" "}
-            <a
-              href="https://policies.google.com/terms"
-              className="font-bold"
-              target="_blank"
-            >
-              Terms of Service
-            </a>{" "}
-            apply.
-          </span>
-        </BottomBanner>
-      </AppFrame>
+        <Button submit disabled={isSubmitting}>
+          {"Submit"}
+        </Button>
+        {errors.recaptcha && (
+          <p className="font-sans-sm py-4 text-red-900">
+            {errors.recaptcha.message}
+          </p>
+        )}
+      </motion.form>
+      <BottomBanner>
+        <span className="block max-w-[48ch] text-center">
+          This site is protected by reCAPTCHA and the Google{" "}
+          <a
+            href="https://policies.google.com/privacy"
+            className="font-bold"
+            target="_blank"
+          >
+            Privacy Policy
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://policies.google.com/terms"
+            className="font-bold"
+            target="_blank"
+          >
+            Terms of Service
+          </a>{" "}
+          apply.
+        </span>
+      </BottomBanner>
     </>
   );
 }

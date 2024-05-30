@@ -69,12 +69,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                     {pathname === "/record" && (
                       <Component
                         {...pageProps}
-                        key={pathname}
+                        key={"record"}
                         className={` ${font_speedee.variable}`}
                       />
                     )}
                     {pathname !== "/record" && (
-                      <AppFrame>
+                      <AppFrame key={"frame"}>
                         <AnimatePresence mode="wait">
                           <Component
                             {...pageProps}
