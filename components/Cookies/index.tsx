@@ -7,7 +7,7 @@ import { useLocalStorage } from "usehooks-ts";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
-  hasAskedPermission: false,
+  isAskingPermission: false,
 });
 export const useHasUserConsented = () => useContext(CookiesContext);
 
@@ -55,7 +55,7 @@ export default function CookiesGate({
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,
-          hasAskedPermission: !isDrawerVisible,
+          isAskingPermission: !isDrawerVisible,
         }}
       >
         {children}
