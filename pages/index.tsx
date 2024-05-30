@@ -11,9 +11,12 @@ import BottomBanner from "@/components/Banner/BottomBanner";
 
 import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
-import ImageCollage from "@/components/ImageCollage/ImageCollage";
+import ImageCollage, {
+  ImageCollageItem,
+} from "@/components/ImageCollage/ImageCollage";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
 import { AnimationConfig } from "@/components/AnimationConfig";
+import LandingCollageImageLayout from "@/components/ImageCollage/Layouts/LandingCollageImageLayout";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -141,7 +144,7 @@ export default function Home() {
         </motion.div>
         <BottomBanner>{"Select language available"}</BottomBanner>
       </AppFrame>
-      <ImageCollage />
+      <LandingCollageImageLayout />
     </>
   );
 }
