@@ -163,7 +163,7 @@ export default function CookiesGate({
 
               <div className="flex justify-center">
                 <Button className="w-full" onClick={handleAccept}>
-                  I understand
+                  I Understand
                 </Button>
               </div>
             </motion.div>

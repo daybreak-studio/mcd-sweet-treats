@@ -6,7 +6,7 @@ export const inputLanguageMap = {
   Korean: "Korean (Korea)",
   Mandarin: "Chinese (Mandarin, Simplified)",
   Portuguese: "Portuguese (Portugal)",
-  Spanish: "Spanish (Spain)",
+  Spanish: "Spanish (United States)",
   Tagalog: "Filipino (Philippines)",
   Thai: "Thai (Thailand)",
   Turkish: "Turkish (Türkiye)",
