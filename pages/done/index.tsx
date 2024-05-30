@@ -33,8 +33,8 @@ const DonePage = (props: Props) => {
         <h5 className="font-serif-sm max-w-[20ch] pb-4">
           {"Come to McDonald's and treat yourself to a"}
         </h5>
-        <div className="pb-8">
-          <GrandmaMcFlurryLogo />
+        <div className="h-[16vh] min-h-24 pb-8">
+          <GrandmaMcFlurryLogo className="h-full w-auto" />
         </div>
         <LinkButton href={"https://www.mcdonalds.com/ca/en-ca.html"}>
           Order Online
