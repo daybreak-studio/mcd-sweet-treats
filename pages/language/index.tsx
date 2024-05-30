@@ -99,7 +99,7 @@ export default function LanguagePage() {
           </div>
           <Button onClick={handleSubmitClicked}>{"Let's go"}</Button>
         </motion.div>
-        <BottomBanner>{"Select languages available"}</BottomBanner>
+        <BottomBanner>Select languages available.</BottomBanner>
       </>
     </>
   );

@@ -40,7 +40,7 @@ export default function Home() {
       <div className="mb-12 mt-4">
         <Button>Continue</Button>
       </div>
-      <BottomBanner>Select languages available</BottomBanner>
+      <BottomBanner>Select languages available.</BottomBanner>
     </AppFrame>
   );
 }

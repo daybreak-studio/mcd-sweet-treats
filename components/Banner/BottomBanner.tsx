@@ -7,8 +7,9 @@ const BottomBanner = ({ children }: { children: React.ReactNode }) => {
       <motion.div
         className="font-sans-xs z-40 mx-auto mb-0 mt-auto pt-6 text-center opacity-50"
         transition={{ delay: 1 }}
-        initial={{ opacity: 0, y: 0 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
         {children}
         <h1>

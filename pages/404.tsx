@@ -7,7 +7,6 @@ import GrandmaMcFlurryLogo from "@/components/Graphics/GrandmaMcFlurryLogo";
 import LinkButton from "@/components/Button/LinkButton";
 import Image from "next/image";
 import BottomBanner from "@/components/Banner/BottomBanner";
-
 import ScribbleTextSVG from "./done/scribble-text.svg";
 
 const Custom404: NextPage = () => {
@@ -43,9 +42,8 @@ const Custom404: NextPage = () => {
         </div>
       </div>
       <BottomBanner>
-        {
-          "Grandma McFlurry available at participating McDonald’s for a limited time."
-        }
+        Grandma McFlurry available at participating McDonald’s for a limited
+        time.
       </BottomBanner>
     </AppFrame>
   );

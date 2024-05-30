@@ -8,7 +8,6 @@ import { Variants, motion, useIsPresent } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 import BottomBanner from "@/components/Banner/BottomBanner";
-
 import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
@@ -138,7 +137,7 @@ export default function Home() {
             <LinkButton href={"/get-started"}>Continue</LinkButton>
           </motion.div>
         </motion.div>
-        <BottomBanner>{"Select languages available"}</BottomBanner>
+        <BottomBanner>Select languages available.</BottomBanner>
       </>
     </>
   );

@@ -76,9 +76,8 @@ export default function RulesPage() {
       </motion.div>
 
       <BottomBanner>
-        {
-          "McDonald’s reserves the right to not render videos that contain offensive items."
-        }
+        McDonald’s reserves the right to not render videos that contain
+        offensive items.
       </BottomBanner>
     </>
   );
