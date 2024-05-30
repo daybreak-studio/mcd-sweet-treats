@@ -1,12 +1,18 @@
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
-import React, { useEffect } from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { motion } from "framer-motion";
+import { motion, useIsPresent } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 import { AnimWrap } from "@/components/AnimWrap";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
+
+import swirlAnimation from "@/public/Sprite - 4.json";
+import dynamic from "next/dynamic";
+import { LottieRefCurrentProps } from "lottie-react";
+//@ts-ignore
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 type Props = {};
 
@@ -41,12 +47,30 @@ const UploadingPage = (props: Props) => {
     }
   }, [progress, isUploading, clearVideo]);
 
+  const lottieRef = useRef() as MutableRefObject<LottieRefCurrentProps | null>;
+  useEffect(() => {
+    const lottie = lottieRef.current;
+    if (!lottie) return;
+
+    setTimeout(() => {
+      lottie.play();
+    }, 0);
+  }, [lottieRef]);
+
+  const isPresent = useIsPresent();
+  if (!isPresent && lottieRef.current) {
+    lottieRef.current.setDirection(-1);
+    lottieRef.current.setSpeed(4);
+    lottieRef.current.play();
+  }
+
   return (
     <>
       <LogoLockup />
       <motion.div
         initial="hidden"
         animate="visible"
+        exit="exit"
         variants={AnimWrap.AnimParentA}
         className="flex flex-grow origin-top-left flex-col items-center justify-center text-center"
       >
@@ -108,6 +132,13 @@ const UploadingPage = (props: Props) => {
               overflow: "hidden",
               transition: "height .3 cubic-bezier(0.16, 1, 0.3, 1)",
             }}
+          />
+          <Lottie
+            animationData={swirlAnimation}
+            loop={false}
+            autoPlay={false}
+            lottieRef={lottieRef}
+            className="pointer-events-none absolute inset-0 translate-y-[-65%] scale-[3.3]"
           />
         </motion.div>
         <div className="mt-8">
