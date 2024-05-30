@@ -6,28 +6,13 @@ import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage, useMediaQuery } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
 import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
+import { OpenInNewTab } from "@/components/OpenInNewTab";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
   isAskingPermission: false,
 });
 export const useCookiePreference = () => useContext(CookiesContext);
-
-export const OpenInNewTab = ({
-  href,
-  children,
-  className,
-}: {
-  href: string;
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <a href={href} target="_blank" rel="noreferrer" className={className}>
-      {children}
-    </a>
-  );
-};
 
 export default function CookiesGate({
   children,
