@@ -22,27 +22,33 @@ export default function CookiesGate({
     false,
     { initializeWithValue: false },
   );
+  const [hasInit, setHasInit] = useState(false);
   const [hasAskedCookiePreference, setHasAskedCookiePreference] =
     useLocalStorage("has-asked-cookies-preference", false, {
       initializeWithValue: false,
     });
   const [isCookieChecked, setIsCookieChecked] = useState(true);
-  const [isDrawerVisible, setIsDrawerVisible] = useState(true);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
   useEffect(() => {
-    if (hasAskedCookiePreference) return;
-    setIsDrawerVisible(!isCookiesAccepted);
-    setHasAskedCookiePreference(true);
-  }, [
-    isCookiesAccepted,
-    hasAskedCookiePreference,
-    setHasAskedCookiePreference,
-  ]);
+    if (hasInit && !hasAskedCookiePreference) {
+      setIsDrawerVisible(true);
+    }
+  }, [hasAskedCookiePreference, setHasAskedCookiePreference, hasInit]);
 
   const handleAccept = () => {
     setIsCookiesAccepted(isCookieChecked);
     setIsDrawerVisible(false);
   };
+
+  useEffect(() => {
+    setHasInit(true);
+  }, []);
+  useEffect(() => {
+    if (isDrawerVisible) {
+      setHasAskedCookiePreference(true);
+    }
+  }, [isDrawerVisible, setHasAskedCookiePreference]);
 
   return (
     <>
