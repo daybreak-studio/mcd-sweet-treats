@@ -108,7 +108,7 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.h1
-            className="font-serif-xl mb-8 origin-top-left px-8 text-center md:font-serif-lg lg:font-serif-2xl"
+            className="font-serif-xl mb-8 origin-top-left px-8 text-center md:font-serif-2xl lg:font-serif-2xl"
             variants={AnimWrap.bounceUpB}
           >
             Send grandma a <br /> sweet message
