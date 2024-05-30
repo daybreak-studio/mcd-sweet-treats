@@ -5,6 +5,7 @@ import { motion, cubicBezier, AnimatePresence, easeInOut } from "framer-motion";
 import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
+import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
@@ -48,6 +49,8 @@ export default function CookiesGate({
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const { isMobile } = useViewport();
 
+  useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
+
   useEffect(() => {
     if (hasInit && !hasAskedCookiePreference) {
       setIsDrawerVisible(true);
@@ -55,6 +58,7 @@ export default function CookiesGate({
   }, [hasAskedCookiePreference, setHasAskedCookiePreference, hasInit]);
 
   const handleAccept = () => {
+    setHasAskedCookiePreference(true);
     setIsCookiesAccepted(isCookieChecked);
     setIsDrawerVisible(false);
   };
@@ -62,12 +66,6 @@ export default function CookiesGate({
   useEffect(() => {
     setHasInit(true);
   }, []);
-
-  useEffect(() => {
-    if (isDrawerVisible) {
-      setHasAskedCookiePreference(true);
-    }
-  }, [isDrawerVisible, setHasAskedCookiePreference]);
 
   return (
     <>
