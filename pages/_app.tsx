@@ -39,11 +39,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Sweet Connections | McDonalds</title>
-        <meta name="description" content="Send grandma a sweet message" />
-        <meta property="og:title" content="Sweet Connections | McDonalds" />
+        <meta name="description" content="Send grandma a sweet message." />
+        <meta property="og:title" content="Sweet Connections | McDonald's" />
+        {/* <meta property="og:site_name" content="McDonald's" /> */}
+
         <meta
           property="og:description"
-          content="Send grandma a sweet message"
+          content="Send grandma a sweet message."
         />
         <meta property="og:url" content="https://sweetconnections.ai" />
         <meta property="og:type" content="website" />
@@ -53,7 +55,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Send grandma a sweet message" />
+        <meta property="og:image:alt" content="Send grandma a sweet message." />
       </Head>
       <Analytics />
       <ReCaptchaProvider>

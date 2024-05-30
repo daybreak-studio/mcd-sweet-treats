@@ -17,7 +17,7 @@ const DonePage = (props: Props) => {
   const share = useCallback(async () => {
     const shareData = {
       title: "Grandma McFlurry",
-      text: "Send grandma a sweet message",
+      text: "Hi! Try this AI translation tool from McDonald’s. It lets you record a video for grandma then translates it into her native language. 🥰",
       url: "https://sweetconnections.ai",
     };
 
