@@ -37,7 +37,7 @@ export const outputLanguageMap = {
   Polish: "Polish (Poland)",
   Portuguese: "Portuguese (Portugal)",
   Russian: "Russian (Russia)",
-  Spanish: "Spanish (Spain)",
+  Spanish: "Spanish (United States)",
   Tagalog: "Filipino (Philippines)",
   Tamil: "Tamil (India)",
   Telugu: "Telugu (India)",
