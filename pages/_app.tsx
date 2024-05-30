@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 import ComingSoon from "./coming-soon";
 import useIsDev from "@/hooks/useIsDev";
 import Head from "next/head";
+import CookiesGate from "@/components/Cookies";
 
 const font_speedee = localFont({
   src: [
@@ -55,17 +56,19 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <WindowDimensionContextProvider>
           <UserInfoProvider>
             <VideoUploadProvider>
-              <AnimatePresence mode="wait">
-                {hash ? (
-                  <Component
-                    {...pageProps}
-                    key={pathname}
-                    className={` ${font_speedee.variable}`}
-                  />
-                ) : (
-                  <ComingSoon />
-                )}
-              </AnimatePresence>
+              <CookiesGate>
+                <AnimatePresence mode="wait">
+                  {hash ? (
+                    <Component
+                      {...pageProps}
+                      key={pathname}
+                      className={` ${font_speedee.variable}`}
+                    />
+                  ) : (
+                    <ComingSoon />
+                  )}
+                </AnimatePresence>
+              </CookiesGate>
             </VideoUploadProvider>
           </UserInfoProvider>
         </WindowDimensionContextProvider>

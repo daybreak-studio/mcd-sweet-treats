@@ -34,7 +34,7 @@ const Checkbox = ({
     <label className={`flex flex-col items-start ${className}`}>
       <div className="font-sans-sm flex select-none flex-row items-center ">
         <input
-          className="w-0"
+          className="w-0 opacity-0"
           type="checkbox"
           name={name}
           checked={isChecked}
