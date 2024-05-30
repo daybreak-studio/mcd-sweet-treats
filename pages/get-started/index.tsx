@@ -95,7 +95,9 @@ export default function GetStartedPage() {
           <LinkButton href={"/rules"}>{"Let's go"}</LinkButton>
         </motion.div>
         <BottomBanner>
-          {"Grandma McFlurry available for a limited time."}
+          {
+            "Grandma McFlurry available at participating McDonald’s for a limited time."
+          }
         </BottomBanner>
       </>
     </>
