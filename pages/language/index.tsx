@@ -99,7 +99,6 @@ export default function LanguagePage() {
         </motion.div>
         <BottomBanner>{"Select languages available"}</BottomBanner>
       </AppFrame>
-      <ImageCollage />
     </>
   );
 }

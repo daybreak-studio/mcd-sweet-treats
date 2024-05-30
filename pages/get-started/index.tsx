@@ -34,7 +34,6 @@ export default function GetStartedPage() {
           {"At participating McDonald’s for a limited time."}
         </BottomBanner>
       </AppFrame>
-      <ImageCollage />
     </>
   );
 }
