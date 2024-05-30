@@ -65,6 +65,8 @@ export const ImageCollageItem = ({
     ? `${shouldMoveAway ? left - width * 0.5 : left}rem`
     : "auto";
 
+  const delay = useMemo(() => Math.random() * 0.1, []);
+
   return (
     <>
       {!shouldHide ? (
@@ -98,6 +100,7 @@ export const ImageCollageItem = ({
             transition: {
               duration: AnimationConfig.SLOW,
               ease: AnimationConfig.EASING,
+              delay: delay,
             },
           }}
           exit={{
@@ -107,6 +110,7 @@ export const ImageCollageItem = ({
             transition: {
               duration: AnimationConfig.SLOW,
               ease: AnimationConfig.EASING_INVERTED,
+              delay: delay * 4,
             },
           }}
           className="fixed z-50 flex origin-center flex-row"
