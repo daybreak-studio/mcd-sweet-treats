@@ -6,7 +6,11 @@ import { AnimationConfig } from "../AnimationConfig";
 import { useLocalStorage } from "usehooks-ts";
 import useViewport from "@/hooks/useViewport";
 
-import { GoogleTagManager, sendGTMEvent } from "@next/third-parties/google";
+import {
+  GoogleAnalytics,
+  GoogleTagManager,
+  sendGTMEvent,
+} from "@next/third-parties/google";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 
@@ -70,17 +74,17 @@ export default function CookiesGate({
     setHasInit(true);
   }, []);
 
-  const { asPath } = useRouter();
-  useEffect(() => {
-    sendGTMEvent({
-      page_title: document.title,
-      page_location: location.href,
-    });
-  }, [asPath]);
+  // const { asPath } = useRouter();
+  // useEffect(() => {
+  //   sendGTMEvent({
+  //     page_title: document.title,
+  //     page_location: location.href,
+  //   });
+  // }, [asPath]);
 
   return (
     <>
-      {isCookiesAccepted && <GoogleTagManager gtmId="G-JNW1SSN9K2" />}
+      {isCookiesAccepted && <GoogleAnalytics gaId="G-JNW1SSN9K2" />}
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,
