@@ -12,11 +12,30 @@ type Props = {};
 
 const UploadingPage = (props: Props) => {
   const { progress, isUploading } = useVideoUpload();
-  const { clearVideo } = useUserInfo();
+  const { email, clearVideo } = useUserInfo();
+
+  const handleEmail = async () => {
+    if (!email) return;
+
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error("Failed to send email");
+    }
+  };
 
   useEffect(() => {
     // clear video draft when the upload is completed
     if (progress >= 1 && !isUploading) {
+      handleEmail();
       clearVideo();
       return;
     }
