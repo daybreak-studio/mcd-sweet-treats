@@ -8,7 +8,7 @@ type Props = {
 
 const AppFrame = ({ children, inverted }: Props) => {
   const defaultModeStyiles =
-    "bg-gradient-to-t from-[#F3BAC3] to-[#F9D0D6] text-dark";
+    "bg-gradient-to-t from-[#E3959C] from-opacity-50 to-40% to-[#F9D0D6] text-dark";
   const invertedModeStyles = "bg-dark text-light";
 
   return (

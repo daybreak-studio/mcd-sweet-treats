@@ -14,4 +14,9 @@ export const mcdImages = [
     width: 1080,
     height: 1080,
   },
+  {
+    src: "/collage/mcd-images-3.jpg",
+    width: 1080,
+    height: 1080,
+  },
 ];

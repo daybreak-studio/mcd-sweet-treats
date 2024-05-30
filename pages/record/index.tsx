@@ -14,7 +14,7 @@ const RecordPage = (props: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 h-full w-full bg-dark">
+    <div className="fixed inset-0 h-full w-full bg-gradient-to-t from-[#581619] to-dark to-30% ">
       <VideoRecorder onCompleteRecording={handleRecordingComplete} />
     </div>
   );
