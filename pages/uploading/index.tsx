@@ -68,7 +68,7 @@ const UploadingPage = (props: Props) => {
         </motion.h5>
         <motion.div
           variants={{
-            hidden: { opacity: 0, scale: 0.5, rotate: -5, y: 40 },
+            hidden: { opacity: 0, scale: 0.7, rotate: -5, y: 40 },
             visible: { opacity: [0, 0.9, 1], scale: 1, rotate: 0, y: 0 },
           }}
           className="relative flex w-[50vh] origin-top-left justify-center"
@@ -96,6 +96,9 @@ const UploadingPage = (props: Props) => {
             src="/images/mcflurry.png"
             alt="McFlurry Full"
             transition={{ delay: 1.5 }}
+            initial={{
+              height: `0%`,
+            }}
             animate={{
               height: `${progress * 100}%`,
             }}

@@ -14,6 +14,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RecaptchaResponse } from "@/types/RecaptchaResponse";
 import { useEffect } from "react";
 import UserInfoCollageImageLayout from "@/components/ImageCollage/Layouts/UserInfoCollageImageLayout";
+import { motion } from "framer-motion";
+import { AnimWrap } from "@/components/AnimWrap";
 
 const UserInfoSchema = z.object({
   name: z
@@ -116,18 +118,31 @@ export default function UserInfoPage() {
           <LogoLockup />
         </div>
 
-        <form
+        <motion.form
           onSubmit={handleSubmit(handleFormValid)}
           className="relative my-8 mb-auto flex flex-col items-center text-center"
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+          variants={AnimWrap.AnimParentA}
         >
-          <h1 className="font-serif-xl mb-4 text-center">
+          <motion.h1
+            className="font-serif-xl mb-4 text-center"
+            variants={AnimWrap.bounceUpA}
+          >
             Who&apos;s grandma&apos;s
             <br /> favourite? It&apos;s you!
-          </h1>
-          <div className="font-serif-sm max-w-[26ch]">
+          </motion.h1>
+          <motion.div
+            className="font-serif-sm max-w-[26ch]"
+            variants={AnimWrap.bounceUpA}
+          >
             Enter your information to ensure that the video makes it your way.
-          </div>
-          <div className="my-10 flex w-full max-w-[22rem] flex-col gap-2 px-4">
+          </motion.div>
+          <motion.div
+            className="my-10 flex w-full max-w-[22rem] flex-col gap-2 px-4"
+            variants={AnimWrap.bounceUpB}
+          >
             <Controller
               name="name"
               control={control}
@@ -187,7 +202,7 @@ export default function UserInfoPage() {
                 </Checkbox>
               )}
             />
-          </div>
+          </motion.div>
 
           <Button submit disabled={isSubmitting}>
             {"Submit"}
@@ -197,7 +212,7 @@ export default function UserInfoPage() {
               {errors.recaptcha.message}
             </p>
           )}
-        </form>
+        </motion.form>
         <BottomBanner>
           <span className="block max-w-[48ch] text-center">
             This site is protected by reCAPTCHA and the Google{" "}

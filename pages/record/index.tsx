@@ -1,5 +1,6 @@
 import AppFrame from "@/components/AppFrame/AppFrame";
 import VideoRecorder from "@/components/VideoRecorder/VideoRecorder";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -14,9 +15,9 @@ const RecordPage = (props: Props) => {
   };
 
   return (
-    <div className="fixed inset-0 h-full w-full bg-gradient-to-t from-[#581619] to-dark to-30% ">
+    <motion.div className="fixed inset-0 h-full w-full bg-gradient-to-t from-[#581619] to-dark to-30% ">
       <VideoRecorder onCompleteRecording={handleRecordingComplete} />
-    </div>
+    </motion.div>
   );
 };
 

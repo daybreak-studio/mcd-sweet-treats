@@ -33,7 +33,7 @@ const containerVariants: Variants = {
       duration: 0.5,
       // staggerChildren: 0.1,
       // delayChildren: 0.2,
-      // delay: 1,
+      delay: 0.5,
     },
   },
 };
@@ -59,7 +59,7 @@ export default function GetStartedPage() {
 
   return (
     <>
-      <AppFrame>
+      <>
         <LogoLockup noWordmark />
         <motion.div
           initial="hidden"
@@ -72,10 +72,10 @@ export default function GetStartedPage() {
             Record your video
             <br /> then treat yourself to a
           </h1>
-          <div className="max-w-8/12 mb-8 h-[20svh] min-h-20">
+          <div className="mb-8 flex h-[20vh] max-w-[80%]">
             <GrandmaMcFlurryLogo className="h-full w-auto" />
           </div>
-          <div className="relative">
+          <div className="relative ">
             <Image
               src="/images/mcflurry.png"
               width={300}
@@ -97,7 +97,7 @@ export default function GetStartedPage() {
         <BottomBanner>
           {"At participating McDonald’s for a limited time."}
         </BottomBanner>
-      </AppFrame>
+      </>
     </>
   );
 }

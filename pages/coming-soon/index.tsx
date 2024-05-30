@@ -10,7 +10,7 @@ type Props = {};
 
 const DonePage = (props: Props) => {
   return (
-    <AppFrame>
+    <>
       <LogoLockup />
       <div className="flex flex-grow flex-col items-center justify-center text-center">
         <h1 className="font-serif-2xl pb-8">
@@ -20,7 +20,7 @@ const DonePage = (props: Props) => {
           In the meantime, come to McDonald’s to try the Grandma McFlurry today.
         </h2>
       </div>
-    </AppFrame>
+    </>
   );
 };
 

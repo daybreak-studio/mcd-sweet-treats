@@ -12,6 +12,7 @@ import CookiesGate from "@/components/Cookies";
 import ImagePoolProvider from "@/components/ImagePool/ImagePoolProvider";
 import IMAGES_MANIFEST from "@/data/images-manifest.json";
 import ImageCollageLayoutSwitcher from "@/components/ImageCollage/Layouts/ImageCollageLayoutSwitcher";
+import AppFrame from "@/components/AppFrame/AppFrame";
 
 const font_speedee = localFont({
   src: [
@@ -64,12 +65,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
             <UserInfoProvider>
               <VideoUploadProvider>
                 <CookiesGate>
-                  <AnimatePresence mode="wait">
-                    <Component
-                      {...pageProps}
-                      key={pathname}
-                      className={` ${font_speedee.variable}`}
-                    />
+                  <AnimatePresence initial={false} mode="wait">
+                    {pathname === "/record" && (
+                      <Component
+                        {...pageProps}
+                        key={pathname}
+                        className={` ${font_speedee.variable}`}
+                      />
+                    )}
+                    {pathname !== "/record" && (
+                      <AppFrame>
+                        <AnimatePresence mode="wait">
+                          <Component
+                            {...pageProps}
+                            key={pathname}
+                            className={` ${font_speedee.variable}`}
+                          />
+                        </AnimatePresence>
+                      </AppFrame>
+                    )}
                   </AnimatePresence>
                   <ImageCollageLayoutSwitcher />
                 </CookiesGate>

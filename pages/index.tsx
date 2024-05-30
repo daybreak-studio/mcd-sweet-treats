@@ -97,7 +97,7 @@ export default function Home() {
 
   return (
     <>
-      <AppFrame>
+      <>
         <LogoLockup />
         <motion.div
           className="mt-auto flex flex-col items-center"
@@ -138,7 +138,7 @@ export default function Home() {
           </motion.div>
         </motion.div>
         <BottomBanner>{"Select language available"}</BottomBanner>
-      </AppFrame>
+      </>
     </>
   );
 }

@@ -81,7 +81,12 @@ const Button = ({
   return noShadow ? (
     buttonContent
   ) : (
-    <TracyShadow color={"#643525"} elevation={1} className={className}>
+    <TracyShadow
+      color={"#643525"}
+      elevation={1}
+      className={className}
+      variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+    >
       {buttonContent}
     </TracyShadow>
   );

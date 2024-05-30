@@ -1,5 +1,6 @@
 import React from "react";
 import BottomBanner from "../Banner/BottomBanner";
+import { motion } from "framer-motion";
 
 type Props = {
   children: React.ReactNode;
@@ -13,12 +14,35 @@ const AppFrame = ({ children, inverted }: Props) => {
 
   return (
     <main>
-      <div className="pointer-events-none fixed inset-0 z-50 h-[100dvh] border-[1rem] border-accent xl:border-[1rem]"></div>
-      <div
+      <motion.div
+        initial={{
+          borderWidth: 0,
+          opacity: 0,
+        }}
+        animate={{
+          borderWidth: 16,
+          opacity: 1,
+        }}
+        exit={{
+          borderWidth: 0,
+          opacity: 0,
+        }}
+        className="pointer-events-none fixed inset-0 z-50 h-[100dvh] border-[1rem] border-accent xl:border-[1rem]"
+      />
+      <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        exit={{
+          opacity: 0,
+        }}
         className={`relative flex min-h-[100svh] flex-col  overflow-hidden p-8 ${inverted ? invertedModeStyles : defaultModeStyiles}`}
       >
         {children}
-      </div>
+      </motion.div>
     </main>
   );
 };

@@ -48,12 +48,13 @@ export default function LanguagePage() {
 
   return (
     <>
-      <AppFrame>
+      <>
         <LogoLockup />
         <motion.div
           variants={AnimWrap.AnimParentA}
           initial="hidden"
           animate="visible"
+          exit="exit"
           className="my-8 flex flex-grow flex-col items-center justify-center"
         >
           <motion.h1
@@ -99,7 +100,7 @@ export default function LanguagePage() {
           <Button onClick={handleSubmitClicked}>{"Let's go"}</Button>
         </motion.div>
         <BottomBanner>{"Select languages available"}</BottomBanner>
-      </AppFrame>
+      </>
     </>
   );
 }

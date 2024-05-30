@@ -157,7 +157,22 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
 
   return (
     <div className="fixed inset-0 flex h-svh">
-      <div className="relative m-auto flex h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto">
+      <motion.div
+        initial={{
+          borderWidth: 0,
+          opacity: 0,
+        }}
+        animate={{
+          borderWidth: 16,
+          opacity: 1,
+          y: 0,
+        }}
+        exit={{
+          borderWidth: 0,
+          opacity: 0,
+        }}
+        className="relative m-auto flex h-full max-h-full w-full max-w-full items-center justify-center border-[1rem] border-accent bg-black sm:aspect-[9/16] sm:h-[90vh] sm:w-auto"
+      >
         <AnimatePresence mode={"wait"}>
           {(recorderState === RecorderStates.INITIAL ||
             recorderState === RecorderStates.RECORDING) && (
@@ -419,7 +434,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
             </React.Fragment>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </div>
   );
 };

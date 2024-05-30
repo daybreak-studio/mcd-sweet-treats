@@ -11,6 +11,12 @@ export const AnimWrap = {
     },
     exit: {
       opacity: 0,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.5,
+        duration: 0.5,
+        delay: 0.5,
+      },
     },
   },
   bounceUpA: {
