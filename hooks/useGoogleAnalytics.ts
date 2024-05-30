@@ -61,7 +61,9 @@ const useGoogleAnalytics = (trackingId: string, hasConsented: boolean) => {
       const script = document.createElement("script");
       script.src = `https://www.googletagmanager.com/gtag/js?id=${trackingId}`;
       script.async = true;
-      document.head.appendChild(script);
+      // document.head.appendChild(script);
+      var firstScript = document.getElementsByTagName("script")[0];
+      firstScript.parentNode.insertBefore(script, firstScript);
     };
 
     // Function to initialize Google Analytics
@@ -79,9 +81,9 @@ const useGoogleAnalytics = (trackingId: string, hasConsented: boolean) => {
       });
 
       //@ts-ignore
-      gtag("js", new Date());
-      //@ts-ignore
-      gtag("config", trackingId);
+      // gtag("js", new Date());
+      // //@ts-ignore
+      // gtag("config", trackingId);
 
       setHasSetupAnalytics(true);
     };

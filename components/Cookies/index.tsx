@@ -13,6 +13,7 @@ import {
 } from "@next/third-parties/google";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
+import useGoogleAnalytics from "@/hooks/useGoogleAnalytics";
 
 const CookiesContext = createContext({
   isCookiesAccepted: false,
@@ -56,7 +57,7 @@ export default function CookiesGate({
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const { isMobile } = useViewport();
 
-  // useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
+  useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
 
   useEffect(() => {
     if (hasInit && !hasAskedCookiePreference) {
@@ -84,7 +85,7 @@ export default function CookiesGate({
 
   return (
     <>
-      {isCookiesAccepted && <GoogleAnalytics gaId="G-JNW1SSN9K2" />}
+      {/* {isCookiesAccepted && <GoogleAnalytics gaId="G-JNW1SSN9K2" />} */}
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,
