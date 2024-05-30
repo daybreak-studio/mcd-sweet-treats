@@ -92,7 +92,7 @@ export default function GetStartedPage() {
               className="pointer-events-none absolute inset-0 translate-y-[-60%] scale-[3.3]"
             />
           </div>
-          <LinkButton href={"/rules"}>{"Let's go"}</LinkButton>
+          <LinkButton href={"/rules"}>{"Let's Go"}</LinkButton>
         </motion.div>
         <BottomBanner>
           Grandma McFlurry available at participating McDonald’s for a limited

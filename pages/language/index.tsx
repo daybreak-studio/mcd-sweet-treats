@@ -97,7 +97,7 @@ export default function LanguagePage() {
               ))}
             </Dropdown.menu>
           </div>
-          <Button onClick={handleSubmitClicked}>{"Let's go"}</Button>
+          <Button onClick={handleSubmitClicked}>{"Let's Go"}</Button>
         </motion.div>
         <BottomBanner>Select languages available.</BottomBanner>
       </>

@@ -45,7 +45,7 @@ const VideoInstuction = ({ onProceed }: Props) => {
           </HanddrawnLine>
         </div>
       </div>
-      <Button onClick={onProceed}>Got it</Button>
+      <Button onClick={onProceed}>Got It</Button>
     </div>
   );
 };
