@@ -18,7 +18,7 @@ interface ImageInfo {
 }
 
 const ImageCollage = ({ children }: Props) => {
-  const shouldShowCollage = useMediaQuery("(min-width:1200px)", {
+  const shouldShowCollage = useMediaQuery("(min-width:700px)", {
     initializeWithValue: false,
   });
 
@@ -45,9 +45,9 @@ export const ImageCollageItem = ({
   entrance: "left" | "right";
 }) => {
   const animDirection = entrance === "left" ? -1 : 1;
-  const shouldMoveAway = useMediaQuery("(max-width:1500px)", {
-    initializeWithValue: false,
-  });
+  // const shouldMoveAway = useMediaQuery("(max-width:1500px)", {
+  //   initializeWithValue: false,
+  // });
   const ref = useRef() as MutableRefObject<HTMLDivElement>;
 
   const windowDim = useWindowDimension();
@@ -56,75 +56,83 @@ export const ImageCollageItem = ({
     box: "border-box",
   });
 
-  const shouldHide = windowDim.width / elmWidth < 3;
+  const offsetvalue = left ? left * 16 : (right as number) * 16;
+
+  // 1st threshold: move away
+  const shouldMoveAway =
+    windowDim.width < (elmWidth + offsetvalue) * 2.5 + windowDim.height * 0.5;
+  // 2nd threshold: move away
+  const shouldHide =
+    windowDim.width < (elmWidth + offsetvalue) * 1.5 + windowDim.height * 0.5;
+
+  const hidingFactor = shouldHide ? 2 : 1;
 
   const rightValue = right
-    ? `${shouldMoveAway ? right - width * 0.5 : right}rem`
+    ? `${shouldMoveAway ? right - width * 0.5 * hidingFactor : right}rem`
     : "auto";
   const leftValue = left
-    ? `${shouldMoveAway ? left - width * 0.5 : left}rem`
+    ? `${shouldMoveAway ? left - width * 0.5 * hidingFactor : left}rem`
     : "auto";
 
   const delay = useMemo(() => Math.random() * 0.1, []);
 
   return (
     <>
-      {!shouldHide ? (
+      <motion.div
+        ref={ref}
+        style={{
+          // visibility: shouldHide ? "hidden" : "visible",
+          width: `${width * 1.8}vh`,
+          // width: `${width}rem`,
+          minWidth: `${width}rem`,
+          maxHeight: `${width}rem`,
+          top: top ? `${top}vh` : "auto",
+
+          bottom: bottom ? `${bottom}vh` : "auto",
+
+          // marginLeft: left ? (shouldMoveAway ? `${1.4 * left}rem` : 0) : 0,
+          // marginRight: right ? (shouldMoveAway ? `${1.4 * right}rem` : 0) : 0,
+        }}
+        initial={{
+          x: `${40 * animDirection}vw`,
+          rotate: rotation - 20,
+          y: 0,
+          right: rightValue,
+          left: leftValue,
+        }}
+        animate={{
+          rotate: rotation,
+          x: 0,
+          y: 0,
+          right: rightValue,
+          left: leftValue,
+          transition: {
+            duration: AnimationConfig.SLOW,
+            ease: AnimationConfig.EASING,
+            delay: delay,
+          },
+        }}
+        exit={{
+          x: `${40 * animDirection}vw`,
+          rotate: rotation * 4,
+          y: 0,
+          transition: {
+            duration: AnimationConfig.SLOW,
+            ease: AnimationConfig.EASING_INVERTED,
+            delay: delay * 4,
+          },
+        }}
+        className="fixed z-50 flex origin-center flex-row"
+      >
         <motion.div
-          ref={ref}
-          style={{
-            width: `${width * 1.8}vh`,
-            // width: `${width}rem`,
-            minWidth: `${width}rem`,
-            maxHeight: `${width}rem`,
-            top: top ? `${top}vh` : "auto",
-
-            bottom: bottom ? `${bottom}vh` : "auto",
-
-            // marginLeft: left ? (shouldMoveAway ? `${1.4 * left}rem` : 0) : 0,
-            // marginRight: right ? (shouldMoveAway ? `${1.4 * right}rem` : 0) : 0,
-          }}
-          initial={{
-            x: `${40 * animDirection}vw`,
-            rotate: rotation - 20,
-            y: 0,
-            right: rightValue,
-            left: leftValue,
-          }}
-          animate={{
-            rotate: rotation,
-            x: 0,
-            y: 0,
-            right: rightValue,
-            left: leftValue,
-            transition: {
-              duration: AnimationConfig.SLOW,
-              ease: AnimationConfig.EASING,
-              delay: delay,
-            },
-          }}
-          exit={{
-            x: `${40 * animDirection}vw`,
-            rotate: rotation * 4,
-            y: 0,
-            transition: {
-              duration: AnimationConfig.SLOW,
-              ease: AnimationConfig.EASING_INVERTED,
-              delay: delay * 4,
-            },
-          }}
-          className="fixed z-50 flex origin-center flex-row"
+          drag={true}
+          whileDrag={{ scale: 1.2 }}
+          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          className="h-full w-full cursor-grab shadow-md shadow-[rgba(0,0,0,.2)]"
         >
-          <motion.div
-            drag={true}
-            whileDrag={{ scale: 1.2 }}
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-            className="h-full w-full cursor-grab shadow-md shadow-[rgba(0,0,0,.2)]"
-          >
-            {children}
-          </motion.div>
+          {children}
         </motion.div>
-      ) : null}
+      </motion.div>
     </>
   );
 };
