@@ -24,7 +24,7 @@ export function useVideoRecording(
         : "";
     const mobile = Boolean(
       userAgent.match(
-        /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i,
+        /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i,
       ),
     );
     const tablet = Boolean(userAgent.match(/Tablet|iPad/i));
