@@ -131,7 +131,7 @@ export default function Home() {
               lottieRef={lottieRef}
               className="pointer-events-none absolute inset-0 z-20 translate-y-[-40%] scale-[2.9]"
             />
-            <ExamplePromptTagSVG className="absolute hidden sm:bottom-[20%] sm:left-[105%] sm:block" />
+            <ExamplePromptTagSVG className="absolute hidden md:bottom-[20%] md:left-[105%] md:block" />
           </motion.div>
           <motion.div variants={childVariants}>
             <LinkButton href={"/get-started"}>Continue</LinkButton>
