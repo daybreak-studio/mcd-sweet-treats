@@ -18,7 +18,7 @@ interface ImageInfo {
 }
 
 const ImageCollage = ({ children }: Props) => {
-  const shouldShowCollage = useMediaQuery("(min-width:700px)", {
+  const shouldShowCollage = useMediaQuery("(min-width:800px)", {
     initializeWithValue: false,
   });
 
