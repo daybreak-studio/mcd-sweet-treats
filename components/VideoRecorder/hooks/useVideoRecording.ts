@@ -46,7 +46,7 @@ export function useVideoRecording(
       case "mobile":
         return 16 / 9;
       case "tablet":
-        return 9 / 16;
+        return 16 / 9;
       case "desktop":
         return 9 / 16;
       default:
