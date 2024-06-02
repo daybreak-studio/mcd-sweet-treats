@@ -10,9 +10,7 @@ export function useVideoRecording(
   const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  // const [aspectRatio, setAspectRatio] = useState<number>(9 / 16);
 
-  // Function to find aspect ratio
   const findAspectRatio = async (): Promise<number> => {
     const initialStream = await navigator.mediaDevices.getUserMedia({
       video: {
@@ -27,14 +25,11 @@ export function useVideoRecording(
     const settings = webcamVideoTrack.getSettings();
     console.log(settings);
 
-    // Stop the initial stream
     initialStream.getTracks().forEach((track) => track.stop());
 
     if (settings.aspectRatio && settings.aspectRatio > 1) {
-      // Camera initialized in landscape (aspect ratio greater than 1) this is a desktop device.
       return 9 / 16;
     } else {
-      // Camera initialized in portrait (aspect ratio less than 1), this is a mobile phone.
       return 16 / 9;
     }
   };
@@ -42,15 +37,14 @@ export function useVideoRecording(
   useEffect(() => {
     if (!(canvasElm instanceof HTMLCanvasElement) || !videoElm) return;
     if (!hasPermissionGranted) {
-      console.log("User have not granted permission, abort");
+      console.log("User has not granted permission, aborting.");
       return;
     }
 
     const initializeRecorder = async () => {
       setIsMediaRecorderReady(false);
       try {
-        const aspectRatio = await findAspectRatio();
-        console.log(aspectRatio);
+        const aspectRatio = await findAspectRatio(); // Await aspect ratio determination
 
         const recorder = await createAVRecorder(
           canvasElm,
@@ -58,14 +52,16 @@ export function useVideoRecording(
           setRecordedBlobData,
         );
 
-        setIsMediaRecorderReady(true);
         setAVRecorder(recorder);
+        setIsMediaRecorderReady(true);
+
         videoElm.srcObject = recorder.videoStream;
         videoElm.play().catch(console.error);
 
-        console.log("created AVRecorder");
+        console.log("Created AVRecorder");
+
         return () => {
-          console.log(`cleanup AVRecorder`);
+          console.log("Cleaning up AVRecorder");
           recorder.destroy();
         };
       } catch (error) {
@@ -76,9 +72,13 @@ export function useVideoRecording(
     const cleanup = initializeRecorder();
 
     return () => {
-      cleanup.then((cleanupFn) => {
-        cleanupFn && cleanupFn();
-      });
+      cleanup
+        .then((cleanupFn) => {
+          if (typeof cleanupFn === "function") {
+            cleanupFn();
+          }
+        })
+        .catch(console.error);
     };
   }, [canvasElm, videoElm, hasPermissionGranted]);
 
