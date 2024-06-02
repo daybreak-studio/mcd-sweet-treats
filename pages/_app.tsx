@@ -14,6 +14,7 @@ import IMAGES_MANIFEST from "@/data/images-manifest.json";
 import ImageCollageLayoutSwitcher from "@/components/ImageCollage/Layouts/ImageCollageLayoutSwitcher";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { Analytics } from "@vercel/analytics/react";
+import ToastRenderer from "@/components/Toast/ToastRenderer";
 
 const font_speedee = localFont({
   src: [
@@ -90,6 +91,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                     )}
                   </AnimatePresence>
                   <ImageCollageLayoutSwitcher />
+                  <ToastRenderer />
                 </CookiesGate>
               </VideoUploadProvider>
             </UserInfoProvider>
