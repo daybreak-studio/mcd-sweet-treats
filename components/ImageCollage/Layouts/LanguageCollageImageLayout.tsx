@@ -14,53 +14,63 @@ const LanguageCollageImageLayout = (props: Props) => {
   return (
     <ImageCollage>
       {/* left items */}
-      <ImageCollageItem
-        width={22}
-        left={-5}
-        top={40}
-        rotation={6}
-        entrance="left"
-      >
-        {imgLeftMiddle}
-      </ImageCollageItem>
-      <ImageCollageItem
-        width={15}
-        left={2}
-        top={8}
-        rotation={-5}
-        entrance="left"
-      >
-        {imgLeftTop}
-      </ImageCollageItem>
-      <ImageCollageItem
-        width={18}
-        left={-1}
-        top={65}
-        rotation={-4}
-        entrance="left"
-      >
-        {imgLeftBottom}
-      </ImageCollageItem>
+      {imgLeftMiddle.isLoaded && (
+        <ImageCollageItem
+          width={22}
+          left={-5}
+          top={40}
+          rotation={6}
+          entrance="left"
+        >
+          {imgLeftMiddle.isLoaded}
+        </ImageCollageItem>
+      )}
+      {imgLeftTop.isLoaded && (
+        <ImageCollageItem
+          width={15}
+          left={2}
+          top={8}
+          rotation={-5}
+          entrance="left"
+        >
+          {imgLeftTop.img}
+        </ImageCollageItem>
+      )}
+      {imgLeftBottom.isLoaded && (
+        <ImageCollageItem
+          width={18}
+          left={-1}
+          top={65}
+          rotation={-4}
+          entrance="left"
+        >
+          {imgLeftBottom.img}
+        </ImageCollageItem>
+      )}
       {/* right items */}
-      <ImageCollageItem
-        width={15}
-        right={-2}
-        top={8}
-        rotation={-5}
-        entrance="right"
-      >
-        {imgRightTop}
-      </ImageCollageItem>
+      {imgRightTop.isLoaded && (
+        <ImageCollageItem
+          width={15}
+          right={-2}
+          top={8}
+          rotation={-5}
+          entrance="right"
+        >
+          {imgRightTop.img}
+        </ImageCollageItem>
+      )}
 
-      <ImageCollageItem
-        width={16}
-        right={-4}
-        top={50}
-        rotation={6}
-        entrance="right"
-      >
-        {imgRightBottom}
-      </ImageCollageItem>
+      {imgRightBottom.isLoaded && (
+        <ImageCollageItem
+          width={16}
+          right={-4}
+          top={50}
+          rotation={6}
+          entrance="right"
+        >
+          {imgRightBottom.img}
+        </ImageCollageItem>
+      )}
     </ImageCollage>
   );
 };
