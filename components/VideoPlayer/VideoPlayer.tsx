@@ -23,6 +23,8 @@ type Props = {
   onScrubStart?: () => void;
   onScrubEnd?: () => void;
   onReady?: () => void;
+  onPause?: () => void;
+  onPlay?: () => void;
   autoPlay?: boolean;
   poster?: string;
   dangerouslySetVideoFullWidth?: boolean;
@@ -37,6 +39,8 @@ const VideoPlayer = ({
   onReady,
   autoPlay,
   poster,
+  onPause,
+  onPlay,
   dangerouslySetVideoFullWidth,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
@@ -71,6 +75,14 @@ const VideoPlayer = ({
 
   const scrubWidth = videoWidth / 2;
   const pixelPerSec = scrubWidth / duration;
+
+  useEffect(() => {
+    if (shouldPlay) {
+      onPlay?.();
+    } else {
+      onPause?.();
+    }
+  }, [shouldPlay]);
 
   const {
     containerRef,
