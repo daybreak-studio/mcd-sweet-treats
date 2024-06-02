@@ -112,7 +112,7 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.h1
-            className="font-serif-md relative my-4 origin-top-left px-4 text-center xs:font-serif-lg md:font-serif-2xl lg:font-serif-2xl md:my-8 xl:w-1/3"
+            className="font-serif-md relative my-4 origin-top-left px-4 text-center xs:font-serif-lg md:font-serif-2xl lg:font-serif-2xl md:my-8"
             variants={AnimWrap.bounceUpB}
           >
             <motion.div
