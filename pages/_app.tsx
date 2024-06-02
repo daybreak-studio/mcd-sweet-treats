@@ -39,7 +39,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Sweet Connections | McDonalds</title>
+        <title>Sweet Connections | McDonald&apos;s</title>
         <meta name="description" content="Send grandma a sweet message." />
         <meta property="og:title" content="Sweet Connections | McDonald's" />
         {/* <meta property="og:site_name" content="McDonald's" /> */}
