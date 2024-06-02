@@ -4,6 +4,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useRef,
+  useState,
 } from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
@@ -25,9 +26,23 @@ const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 type Props = {};
 
+// minimum 5 seconds upload
+const minUploadTime = 5000;
+
 const UploadingPage = (props: Props) => {
   const { progress, isUploading } = useVideoUpload();
   const { email, clearVideo, videoBlob, name } = useUserInfo();
+
+  const [hasPassedMinUploadTime, setHasPassedMinUploadTime] = useState(false);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setHasPassedMinUploadTime(true);
+    }, minUploadTime);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   usePreventUserFromErasingContent(
     isUploading,
@@ -100,6 +115,8 @@ const UploadingPage = (props: Props) => {
     lottieRef.current.play();
   }
 
+  const hasDone = hasPassedMinUploadTime && progress === 1;
+
   return (
     <>
       <LogoLockup />
@@ -114,7 +131,7 @@ const UploadingPage = (props: Props) => {
           variants={AnimWrap.bounceUpA}
           className="font-serif-xl mx-auto mt-8 origin-top-left self-start px-4 pb-2 text-center md:font-serif-2xl max-md:max-w-[12ch]"
         >
-          {progress < 1
+          {!hasDone
             ? "Don't leave just yet!"
             : "Your message is being translated"}
         </motion.h1>
@@ -122,7 +139,7 @@ const UploadingPage = (props: Props) => {
           variants={AnimWrap.bounceUpB}
           className="font-serif-base origin-top-left pb-8"
         >
-          {progress < 1
+          {!hasDone
             ? "We’re uploading your video!"
             : "We'll email you when it's ready."}
         </motion.h5>
@@ -155,18 +172,17 @@ const UploadingPage = (props: Props) => {
             className="absolute bottom-0 w-1/2 opacity-100"
             src="/images/mcflurry.png"
             alt="McFlurry Full"
-            transition={{ delay: 1.5 }}
             initial={{
               height: `0%`,
             }}
             animate={{
-              height: `${progress * 100}%`,
+              height: `${progress * 70 + (hasDone ? 30 : 0)}%`,
             }}
             style={{
               objectFit: "cover",
               objectPosition: "bottom",
               overflow: "hidden",
-              transition: "height .3 cubic-bezier(0.16, 1, 0.3, 1)",
+              transition: "height 1s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           />
           <Lottie
@@ -178,7 +194,7 @@ const UploadingPage = (props: Props) => {
           />
         </motion.div>
         <div className="mt-8">
-          {progress === 1 && <LinkButton href="/done">Continue</LinkButton>}
+          {hasDone && <LinkButton href="/done">Continue</LinkButton>}
         </div>
       </motion.div>
     </>
