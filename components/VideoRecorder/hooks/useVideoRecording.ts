@@ -1,5 +1,4 @@
-import { RefObject, useEffect, useMemo, useRef, useState } from "react";
-import useViewport from "../../../hooks/useViewport";
+import { useEffect, useState } from "react";
 import { AVRecorder, createAVRecorder } from "../createAVRecorder";
 
 export function useVideoRecording(
@@ -11,49 +10,34 @@ export function useVideoRecording(
   const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  // const [aspectRatio, setAspectRatio] = useState<number>(9 / 16);
 
-  // Deprecate usage of isMoble for aspect ratio handling
-  // const { isMobile } = useViewport();
+  // Function to find aspect ratio
+  const findAspectRatio = async (): Promise<number> => {
+    const initialStream = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: "user",
+        frameRate: { ideal: 60 },
+      },
+      audio: true,
+    });
 
-  // Get device type
-  const getDeviceType = () => {
-    const userAgent =
-      // Make sure window is not undefined and navigator exists before accessing userAgent
-      typeof window !== "undefined" && window.navigator
-        ? window.navigator.userAgent
-        : "";
-    const mobile = Boolean(
-      userAgent.match(
-        /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile|WPDesktop/i,
-      ),
-    );
-    const tablet = Boolean(userAgent.match(/Tablet|iPad/i));
-    if (tablet) {
-      return "tablet";
-    } else if (mobile) {
-      return "mobile";
+    const videoStream = new MediaStream([initialStream.getVideoTracks()[0]]);
+    const webcamVideoTrack = videoStream.getVideoTracks()[0];
+    const settings = webcamVideoTrack.getSettings();
+    console.log(settings);
+
+    // Stop the initial stream
+    initialStream.getTracks().forEach((track) => track.stop());
+
+    if (settings.aspectRatio && settings.aspectRatio > 1) {
+      // Camera initialized in landscape (aspect ratio greater than 1) this is a desktop device.
+      return 9 / 16;
     } else {
-      return "desktop";
+      // Camera initialized in portrait (aspect ratio less than 1), this is a mobile phone.
+      return 16 / 9;
     }
   };
-
-  // Get device type on load
-  const deviceType = useMemo(getDeviceType, []);
-
-  // Get aspect ratio based on device type
-  const aspectRatio = useMemo(() => {
-    switch (deviceType) {
-      case "mobile":
-        return 16 / 9;
-      case "tablet":
-        return 16 / 9;
-      case "desktop":
-        return 9 / 16;
-      default:
-        // If we somehow do not match any of these, default to 9/16 as safety net.
-        return 9 / 16;
-    }
-  }, [deviceType]);
 
   useEffect(() => {
     if (!(canvasElm instanceof HTMLCanvasElement) || !videoElm) return;
@@ -62,11 +46,12 @@ export function useVideoRecording(
       return;
     }
 
-    console.log("creating AVRecorder");
-    const asyncCleanupFunctionWrapper = (async function () {
+    const initializeRecorder = async () => {
       setIsMediaRecorderReady(false);
-
       try {
+        const aspectRatio = await findAspectRatio();
+        console.log(aspectRatio);
+
         const recorder = await createAVRecorder(
           canvasElm,
           aspectRatio,
@@ -81,19 +66,21 @@ export function useVideoRecording(
         console.log("created AVRecorder");
         return () => {
           console.log(`cleanup AVRecorder`);
-          recorder.destory();
+          recorder.destroy();
         };
       } catch (error) {
         console.error("Error accessing media devices.", error);
       }
-    })();
+    };
+
+    const cleanup = initializeRecorder();
 
     return () => {
-      asyncCleanupFunctionWrapper.then((cleanup) => {
-        cleanup && cleanup();
+      cleanup.then((cleanupFn) => {
+        cleanupFn && cleanupFn();
       });
     };
-  }, [aspectRatio, canvasElm, videoElm, hasPermissionGranted]);
+  }, [canvasElm, videoElm, hasPermissionGranted]);
 
   const startRecording = () => {
     if (avRecorder && avRecorder.isInactive()) {

@@ -51,7 +51,8 @@ export async function createAVRecorder(
   };
 
   let _isDestroyed = false;
-  const destory = () => {
+
+  const destroy = () => {
     // top all the media stream
     let tracks = stream.getTracks();
     tracks.forEach((track) => track.stop());
@@ -84,7 +85,7 @@ export async function createAVRecorder(
 
   return {
     videoStream,
-    destory,
+    destroy,
     start,
     stop,
     isDestroyed,
