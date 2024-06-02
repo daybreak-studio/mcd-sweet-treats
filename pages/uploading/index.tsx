@@ -18,6 +18,7 @@ import dynamic from "next/dynamic";
 import { LottieRefCurrentProps } from "lottie-react";
 import { toast } from "@/components/Toast/ToastRenderer";
 import useGate from "@/hooks/useGate";
+import { usePreventUserFromErasingContent } from "@/hooks/usePreventUserFromErasingContent";
 
 //@ts-ignore
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
@@ -27,6 +28,11 @@ type Props = {};
 const UploadingPage = (props: Props) => {
   const { progress, isUploading } = useVideoUpload();
   const { email, clearVideo, videoBlob, name } = useUserInfo();
+
+  usePreventUserFromErasingContent(
+    isUploading,
+    "Would you like to abort upload?",
+  );
 
   useGate({
     condition: () => !isUploading && progress < 1,

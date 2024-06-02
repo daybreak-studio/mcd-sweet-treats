@@ -13,6 +13,7 @@ import { LottieRefCurrentProps } from "lottie-react";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
 import { toast } from "@/components/Toast/ToastRenderer";
 import InfoSVG from "@/public/icons/info.svg";
+import { usePreventUserFromErasingContent } from "@/hooks/usePreventUserFromErasingContent";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
