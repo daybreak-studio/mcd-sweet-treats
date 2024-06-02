@@ -1,5 +1,10 @@
 import { useVideoUpload } from "@/components/VideoUploadProvider/VideoUploadProvider";
-import React, { MutableRefObject, useEffect, useRef } from "react";
+import React, {
+  MutableRefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
@@ -11,6 +16,9 @@ import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
 import swirlAnimation from "@/public/Sprite - 4.json";
 import dynamic from "next/dynamic";
 import { LottieRefCurrentProps } from "lottie-react";
+import { toast } from "@/components/Toast/ToastRenderer";
+import useGate from "@/hooks/useGate";
+
 //@ts-ignore
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
@@ -18,7 +26,25 @@ type Props = {};
 
 const UploadingPage = (props: Props) => {
   const { progress, isUploading } = useVideoUpload();
-  const { email, clearVideo } = useUserInfo();
+  const { email, clearVideo, videoBlob, name } = useUserInfo();
+
+  useGate({
+    condition: () => !isUploading && progress < 1,
+    redirect: "/",
+    message: "Upload not started, please try again.",
+  });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      toast({
+        text: "Your uploading is taking longer than usual... please wait...",
+      });
+    }, 60 * 1000);
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   const handleEmail = async () => {
     if (!email) return;
@@ -34,6 +60,10 @@ const UploadingPage = (props: Props) => {
     });
 
     if (!response.ok) {
+      toast({
+        text: "Failed to send email",
+        canDismiss: true,
+      });
       console.error("Failed to send email");
     }
   };

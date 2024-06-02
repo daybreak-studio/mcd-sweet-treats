@@ -1,4 +1,3 @@
-import AppFrame from "@/components/AppFrame/AppFrame";
 import VideoRecorder from "@/components/VideoRecorder/VideoRecorder";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";

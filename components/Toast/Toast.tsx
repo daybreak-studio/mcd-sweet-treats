@@ -51,14 +51,16 @@ const Toast = ({
         opacity: 0,
         y: -4,
       }}
-      className="z-5 font-sans-sm flex max-w-72 gap-4 rounded-3xl bg-dark px-5 py-3 text-light"
+      className={`font-sans-sm flex w-full max-w-[400px] gap-3 rounded-3xl bg-dark ${icon ? "pl-3 pr-5" : "px-5"} py-3 text-light`}
     >
-      {icon && <div>{icon}</div>}
-      <div>{text}</div>
+      <div className="flex gap-3">
+        {icon && <div className="flex items-center justify-center">{icon}</div>}
+        <div>{text}</div>
+      </div>
       {canDismiss && (
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className="opacity-50"
+          className="ml-auto opacity-50"
           onClick={onDismiss}
         >
           Dismiss

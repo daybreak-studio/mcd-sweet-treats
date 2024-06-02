@@ -11,6 +11,8 @@ import BottomBanner from "@/components/Banner/BottomBanner";
 import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
+import { toast } from "@/components/Toast/ToastRenderer";
+import InfoSVG from "@/public/icons/info.svg";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -107,7 +109,7 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.h1
-            className="xs:font-serif-xl font-serif-md my-4 origin-top-left px-8 text-center md:font-serif-2xl lg:font-serif-2xl md:my-8 xl:w-1/3"
+            className="font-serif-md my-4 origin-top-left px-8 text-center xs:font-serif-xl md:font-serif-2xl lg:font-serif-2xl md:my-8 xl:w-1/3"
             variants={AnimWrap.bounceUpB}
           >
             Send grandma a <br /> sweet message

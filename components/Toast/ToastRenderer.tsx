@@ -35,7 +35,7 @@ const ToastRenderer = (props: Props) => {
 
   return (
     <div
-      className={`fixed left-1/2 top-0 mt-8 flex -translate-x-1/2 flex-col items-center gap-2`}
+      className={`fixed left-1/2 top-0 z-50 my-8 flex w-full -translate-x-1/2 flex-col items-center gap-2 px-8`}
     >
       <LayoutGroup>
         <AnimatePresence initial={true}>
