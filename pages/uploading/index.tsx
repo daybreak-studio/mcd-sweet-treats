@@ -49,11 +49,11 @@ const UploadingPage = (props: Props) => {
     "Would you like to abort upload?",
   );
 
-  useGate({
-    condition: () => !isUploading && progress < 1,
-    redirect: "/",
-    message: "Upload not started, please try again.",
-  });
+  // useGate({
+  //   condition: () => !isUploading && progress < 1,
+  //   redirect: "/",
+  //   message: "Upload not started, please try again.",
+  // });
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -148,7 +148,7 @@ const UploadingPage = (props: Props) => {
             hidden: { opacity: 0, scale: 0.7, rotate: -5, y: 40 },
             visible: { opacity: [0, 0.9, 1], scale: 1, rotate: 0, y: 0 },
           }}
-          className="relative flex w-[50vh] origin-top-left justify-center"
+          className="relative flex w-[35vh] origin-top-left justify-center md:w-[50vh]"
         >
           <motion.div
             animate={{
