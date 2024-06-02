@@ -10,6 +10,7 @@ import ShareIconSVG from "./share-icon.svg";
 import ScribbleTextSVG from "./scribble-text.svg";
 import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
+import { toast } from "@/components/Toast/ToastRenderer";
 
 type Props = {};
 
@@ -26,6 +27,10 @@ const DonePage = (props: Props) => {
         await navigator.share(shareData);
       } else {
         navigator.clipboard.writeText(shareData.url);
+        toast({
+          text: "Link copied!",
+          canDismiss: true,
+        });
       }
     } catch (err) {
       console.log(err);
