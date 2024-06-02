@@ -25,12 +25,21 @@ type Props = {
   };
 };
 
-const ImagePoolContext = createContext<ReturnType<typeof useNextImageList>>([]);
+const ImagePoolContext = createContext<ReturnType<typeof useNextImageList>>({
+  allImages: [],
+  loadedList: {},
+});
 
 const useNextImageList = ({ srcList, constraint }: Props) => {
+  const [loadedList, setLoadedList] = useState<{ [key: string]: boolean }>({});
   const allImages = useMemo(
     () =>
       srcList.map(({ src, width, height }, index) => {
+        const handleLoad = () =>
+          setLoadedList((prev) => {
+            prev[src] = true;
+            return { ...prev };
+          });
         // default constained width is 200
         const constrainedSize = constrainDimensions(
           width,
@@ -40,6 +49,7 @@ const useNextImageList = ({ srcList, constraint }: Props) => {
         );
         return (
           <Image
+            onLoad={handleLoad}
             key={index}
             src={src}
             width={constrainedSize.width}
@@ -52,35 +62,21 @@ const useNextImageList = ({ srcList, constraint }: Props) => {
     [],
   );
 
-  return allImages;
+  return { allImages, loadedList };
 };
 
 export function useImageFromPool(srcIncludes: string) {
   const pool = useContext(ImagePoolContext);
   const imgElm = useMemo(
-    () => pool.find((image) => image.props.src.includes(srcIncludes)),
+    () => pool.allImages.find((image) => image.props.src.includes(srcIncludes)),
     [pool, srcIncludes],
   );
 
   const imgRef = useRef() as MutableRefObject<HTMLImageElement>;
-  const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    if (!imgRef.current) return;
-    const img = imgRef.current;
-
-    if (img.complete) {
-      setIsLoaded(true);
-      return;
-    }
-
-    const handleLoad = () => {
-      setIsLoaded(true);
-    };
-    img.addEventListener("load", handleLoad);
-    return () => {
-      img.removeEventListener("load", handleLoad);
-    };
-  }, [imgRef]);
+  const isLoaded = useMemo(
+    () => pool.loadedList[imgElm?.props.src],
+    [imgElm?.props.src, pool.loadedList],
+  );
 
   return {
     img: React.cloneElement(imgElm as React.JSX.Element, { ref: imgRef }),
@@ -89,10 +85,10 @@ export function useImageFromPool(srcIncludes: string) {
 }
 
 const ImagePoolProvider = (props: Props) => {
-  const allImages = useNextImageList(props);
+  const imgList = useNextImageList(props);
 
   return (
-    <ImagePoolContext.Provider value={allImages}>
+    <ImagePoolContext.Provider value={imgList}>
       {props.children}
     </ImagePoolContext.Provider>
   );

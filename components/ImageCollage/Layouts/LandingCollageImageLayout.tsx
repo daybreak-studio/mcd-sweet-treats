@@ -15,74 +15,67 @@ const LandingCollageImageLayout = (props: Props) => {
   return (
     <ImageCollage>
       {/* left items */}
-      {imgLeftMiddle.isLoaded && (
-        <ImageCollageItem
-          width={25}
-          left={-5}
-          top={40}
-          rotation={8}
-          entrance="left"
-        >
-          {imgLeftMiddle.img}
-        </ImageCollageItem>
-      )}
-      {imgLeftTop.isLoaded && (
-        <ImageCollageItem
-          width={15}
-          left={2}
-          top={8}
-          rotation={-3}
-          entrance="left"
-        >
-          {imgLeftTop.img}
-        </ImageCollageItem>
-      )}
-      {imgLeftBottom.isLoaded && (
-        <ImageCollageItem
-          width={18}
-          left={-1}
-          top={64}
-          rotation={-10}
-          entrance="left"
-        >
-          {imgLeftBottom.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={25}
+        left={-5}
+        top={40}
+        rotation={8}
+        entrance="left"
+        shouldShow={imgLeftMiddle.isLoaded}
+      >
+        {imgLeftMiddle.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={15}
+        left={2}
+        top={8}
+        rotation={-3}
+        entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
+      >
+        {imgLeftTop.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={18}
+        left={-1}
+        top={64}
+        rotation={-10}
+        entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
+      >
+        {imgLeftBottom.img}
+      </ImageCollageItem>
       {/* right items */}
-      {imgRightTop.isLoaded && (
-        <ImageCollageItem
-          width={15}
-          right={-2}
-          top={8}
-          rotation={-5}
-          entrance="right"
-        >
-          {imgRightTop.img}
-        </ImageCollageItem>
-      )}
-
-      {imgRightBottom.isLoaded && (
-        <ImageCollageItem
-          width={16}
-          right={-4}
-          top={50}
-          rotation={6}
-          entrance="right"
-        >
-          {imgRightBottom.img}
-        </ImageCollageItem>
-      )}
-      {imgRightMiddle.isLoaded && (
-        <ImageCollageItem
-          width={18}
-          right={-2}
-          top={35}
-          rotation={-10}
-          entrance="right"
-        >
-          {imgRightMiddle.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        shouldShow={imgRightTop.isLoaded}
+        width={15}
+        right={-2}
+        top={8}
+        rotation={-5}
+        entrance="right"
+      >
+        {imgRightTop.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={16}
+        right={-4}
+        top={50}
+        rotation={6}
+        entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
+      >
+        {imgRightBottom.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={18}
+        right={-2}
+        top={35}
+        rotation={-10}
+        entrance="right"
+        shouldShow={imgRightMiddle.isLoaded}
+      >
+        {imgRightMiddle.img}
+      </ImageCollageItem>
     </ImageCollage>
   );
 };

@@ -14,63 +14,58 @@ const LanguageCollageImageLayout = (props: Props) => {
   return (
     <ImageCollage>
       {/* left items */}
-      {imgLeftMiddle.isLoaded && (
-        <ImageCollageItem
-          width={22}
-          left={-5}
-          top={40}
-          rotation={6}
-          entrance="left"
-        >
-          {imgLeftMiddle.isLoaded}
-        </ImageCollageItem>
-      )}
-      {imgLeftTop.isLoaded && (
-        <ImageCollageItem
-          width={15}
-          left={2}
-          top={8}
-          rotation={-5}
-          entrance="left"
-        >
-          {imgLeftTop.img}
-        </ImageCollageItem>
-      )}
-      {imgLeftBottom.isLoaded && (
-        <ImageCollageItem
-          width={18}
-          left={-1}
-          top={65}
-          rotation={-4}
-          entrance="left"
-        >
-          {imgLeftBottom.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={22}
+        left={-5}
+        top={40}
+        rotation={6}
+        entrance="left"
+        shouldShow={imgLeftMiddle.isLoaded}
+      >
+        {imgLeftMiddle.isLoaded}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={15}
+        left={2}
+        top={8}
+        rotation={-5}
+        entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
+      >
+        {imgLeftTop.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={18}
+        left={-1}
+        top={65}
+        rotation={-4}
+        entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
+      >
+        {imgLeftBottom.img}
+      </ImageCollageItem>
       {/* right items */}
-      {imgRightTop.isLoaded && (
-        <ImageCollageItem
-          width={15}
-          right={-2}
-          top={8}
-          rotation={-5}
-          entrance="right"
-        >
-          {imgRightTop.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={15}
+        right={-2}
+        top={8}
+        rotation={-5}
+        entrance="right"
+        shouldShow={imgRightTop.isLoaded}
+      >
+        {imgRightTop.img}
+      </ImageCollageItem>
 
-      {imgRightBottom.isLoaded && (
-        <ImageCollageItem
-          width={16}
-          right={-4}
-          top={50}
-          rotation={6}
-          entrance="right"
-        >
-          {imgRightBottom.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={16}
+        right={-4}
+        top={50}
+        rotation={6}
+        entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
+      >
+        {imgRightBottom.img}
+      </ImageCollageItem>
     </ImageCollage>
   );
 };

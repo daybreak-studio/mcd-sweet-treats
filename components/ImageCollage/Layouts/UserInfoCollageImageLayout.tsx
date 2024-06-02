@@ -13,52 +13,48 @@ const UserInfoCollageImageLayout = (props: Props) => {
   return (
     <ImageCollage>
       {/* left items */}
-      {imgLeftBottom.isLoaded && (
-        <ImageCollageItem
-          width={28}
-          left={-5}
-          top={42}
-          rotation={10}
-          entrance="left"
-        >
-          {imgLeftBottom.img}
-        </ImageCollageItem>
-      )}
-      {imgLeftTop.isLoaded && (
-        <ImageCollageItem
-          width={15}
-          left={2}
-          top={16}
-          rotation={-5}
-          entrance="left"
-        >
-          {imgLeftTop.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={28}
+        left={-5}
+        top={42}
+        rotation={10}
+        entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
+      >
+        {imgLeftBottom.img}
+      </ImageCollageItem>
+      <ImageCollageItem
+        width={15}
+        left={2}
+        top={16}
+        rotation={-5}
+        entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
+      >
+        {imgLeftTop.img}
+      </ImageCollageItem>
       {/* right items */}
-      {imgRightTop.isLoaded && (
-        <ImageCollageItem
-          width={20}
-          right={-2}
-          top={20}
-          rotation={2}
-          entrance="right"
-        >
-          {imgRightTop.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={20}
+        right={-2}
+        top={20}
+        rotation={2}
+        entrance="right"
+        shouldShow={imgRightTop.isLoaded}
+      >
+        {imgRightTop.img}
+      </ImageCollageItem>
 
-      {imgRightBottom.isLoaded && (
-        <ImageCollageItem
-          width={16}
-          right={-4}
-          top={50}
-          rotation={10}
-          entrance="right"
-        >
-          {imgRightBottom.img}
-        </ImageCollageItem>
-      )}
+      <ImageCollageItem
+        width={16}
+        right={-4}
+        top={50}
+        rotation={10}
+        entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
+      >
+        {imgRightBottom.img}
+      </ImageCollageItem>
     </ImageCollage>
   );
 };

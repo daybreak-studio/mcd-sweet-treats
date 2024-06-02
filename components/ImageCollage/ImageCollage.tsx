@@ -34,7 +34,9 @@ export const ImageCollageItem = ({
   right,
   rotation = 0,
   entrance,
+  shouldShow = false,
 }: {
+  shouldShow: boolean;
   left?: number;
   top?: number;
   bottom?: number;
@@ -101,8 +103,8 @@ export const ImageCollageItem = ({
           left: leftValue,
         }}
         animate={{
-          rotate: rotation,
-          x: 0,
+          rotate: shouldShow ? rotation : rotation - 20,
+          x: shouldShow ? 0 : `${40 * animDirection}vw`,
           y: 0,
           right: rightValue,
           left: leftValue,
