@@ -28,8 +28,10 @@ export function useVideoRecording(
     initialStream.getTracks().forEach((track) => track.stop());
 
     if (settings.aspectRatio && settings.aspectRatio > 1) {
+      console.log("Aspect ratio is greater than 1 (landscape)");
       return 9 / 16;
     } else {
+      console.log("Aspect ratio is less than 1 (portrait)");
       return 16 / 9;
     }
   };
@@ -45,6 +47,7 @@ export function useVideoRecording(
       setIsMediaRecorderReady(false);
       try {
         const aspectRatio = await findAspectRatio(); // Await aspect ratio determination
+        console.log(aspectRatio);
 
         const recorder = await createAVRecorder(
           canvasElm,

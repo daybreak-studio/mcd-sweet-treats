@@ -12,6 +12,7 @@ export async function createAVRecorder(
   aspectRatio: number,
   onBlobAvailable: (blob: Blob) => void,
 ) {
+  console.log("Aspect Ratio instanced:", aspectRatio);
   const stream = await navigator.mediaDevices.getUserMedia({
     video: {
       facingMode: "user",
@@ -20,6 +21,7 @@ export async function createAVRecorder(
     },
     audio: true,
   });
+  console.log("Instanced Stream", stream.getVideoTracks()[0].getSettings());
 
   // Only use the video track
   const videoStream = new MediaStream([stream.getVideoTracks()[0]]);
