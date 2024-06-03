@@ -494,6 +494,7 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                 </motion.div>
               </motion.div>
               <VideoPlayer
+                controlsAlwaysOn
                 autoPlay
                 src={recordedURLObject ? recordedURLObject : ""}
                 className="h-full w-full"
