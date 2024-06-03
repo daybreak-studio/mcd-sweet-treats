@@ -76,7 +76,7 @@ const config: Config = {
           "font-family": "var(--font-speedee)",
           "font-size": "14px",
           "letter-spacing": "0.01em",
-          "line-height": "24px",
+          "line-height": "20px",
         },
         "sans-base": {
           "font-family": "var(--font-speedee)",

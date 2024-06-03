@@ -21,8 +21,9 @@ const LandingCollageImageLayout = (props: Props) => {
         top={40}
         rotation={8}
         entrance="left"
+        shouldShow={imgLeftMiddle.isLoaded}
       >
-        {imgLeftMiddle}
+        {imgLeftMiddle.img}
       </ImageCollageItem>
       <ImageCollageItem
         width={15}
@@ -30,8 +31,9 @@ const LandingCollageImageLayout = (props: Props) => {
         top={8}
         rotation={-3}
         entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
       >
-        {imgLeftTop}
+        {imgLeftTop.img}
       </ImageCollageItem>
       <ImageCollageItem
         width={18}
@@ -39,28 +41,30 @@ const LandingCollageImageLayout = (props: Props) => {
         top={64}
         rotation={-10}
         entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
       >
-        {imgLeftBottom}
+        {imgLeftBottom.img}
       </ImageCollageItem>
       {/* right items */}
       <ImageCollageItem
+        shouldShow={imgRightTop.isLoaded}
         width={15}
         right={-2}
         top={8}
         rotation={-5}
         entrance="right"
       >
-        {imgRightTop}
+        {imgRightTop.img}
       </ImageCollageItem>
-
       <ImageCollageItem
         width={16}
         right={-4}
         top={50}
         rotation={6}
         entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
       >
-        {imgRightBottom}
+        {imgRightBottom.img}
       </ImageCollageItem>
       <ImageCollageItem
         width={18}
@@ -68,8 +72,9 @@ const LandingCollageImageLayout = (props: Props) => {
         top={35}
         rotation={-10}
         entrance="right"
+        shouldShow={imgRightMiddle.isLoaded}
       >
-        {imgRightMiddle}
+        {imgRightMiddle.img}
       </ImageCollageItem>
     </ImageCollage>
   );

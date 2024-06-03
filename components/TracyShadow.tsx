@@ -28,7 +28,7 @@ const TracyShadow = ({
   className,
   initial,
   animate,
-  variants
+  variants,
 }: Props) => {
   const yOffset = 100;
   const defaultLightSourceOffset = useMotionValue(0);
@@ -41,12 +41,8 @@ const TracyShadow = ({
   );
 
   return (
-    <motion.div
-
-      variants={variants}
-
-      className={`relative ${className}`}>
-      <div className="origin-top-left absolute bottom-0 flex h-full w-full items-end">
+    <motion.div variants={variants} className={`relative ${className}`}>
+      <div className="absolute bottom-0 flex h-full w-full origin-top-left items-end">
         <motion.div
           className="z-0 mx-auto h-[50%] w-[70%] blur-lg"
           style={{

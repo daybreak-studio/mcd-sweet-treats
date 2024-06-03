@@ -31,15 +31,16 @@ export default function CookiesGate({
       initializeWithValue: false,
     });
   const [isCookieChecked, setIsCookieChecked] = useState(true);
-  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(true);
 
   useGoogleAnalytics("G-JNW1SSN9K2", isCookiesAccepted);
 
   useEffect(() => {
-    if (hasInit && !hasAskedCookiePreference) {
-      setIsDrawerVisible(true);
+    console.log(isDrawerVisible);
+    if (hasInit && hasAskedCookiePreference) {
+      setIsDrawerVisible(false);
     }
-  }, [hasAskedCookiePreference, setHasAskedCookiePreference, hasInit]);
+  }, [hasAskedCookiePreference, hasInit]);
 
   const handleAccept = () => {
     setHasAskedCookiePreference(true);
@@ -58,7 +59,7 @@ export default function CookiesGate({
       <CookiesContext.Provider
         value={{
           isCookiesAccepted: isCookiesAccepted,
-          isAskingPermission: !isDrawerVisible,
+          isAskingPermission: isDrawerVisible,
         }}
       >
         {children}

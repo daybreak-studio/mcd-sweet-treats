@@ -65,9 +65,9 @@ const DropdownMenu = ({ label, value, onChange, children, error }: Props) => {
         {label}
       </motion.div>
       <TracyShadow
-        color={"#643525"}
+        color={"#9E5C46"}
         variants={AnimWrap.bounceUpA}
-        elevation={1}
+        elevation={0.95}
       >
         <motion.div
           className="relative w-full"

@@ -20,8 +20,9 @@ const LanguageCollageImageLayout = (props: Props) => {
         top={40}
         rotation={6}
         entrance="left"
+        shouldShow={imgLeftMiddle.isLoaded}
       >
-        {imgLeftMiddle}
+        {imgLeftMiddle.isLoaded}
       </ImageCollageItem>
       <ImageCollageItem
         width={15}
@@ -29,8 +30,9 @@ const LanguageCollageImageLayout = (props: Props) => {
         top={8}
         rotation={-5}
         entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
       >
-        {imgLeftTop}
+        {imgLeftTop.img}
       </ImageCollageItem>
       <ImageCollageItem
         width={18}
@@ -38,8 +40,9 @@ const LanguageCollageImageLayout = (props: Props) => {
         top={65}
         rotation={-4}
         entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
       >
-        {imgLeftBottom}
+        {imgLeftBottom.img}
       </ImageCollageItem>
       {/* right items */}
       <ImageCollageItem
@@ -48,8 +51,9 @@ const LanguageCollageImageLayout = (props: Props) => {
         top={8}
         rotation={-5}
         entrance="right"
+        shouldShow={imgRightTop.isLoaded}
       >
-        {imgRightTop}
+        {imgRightTop.img}
       </ImageCollageItem>
 
       <ImageCollageItem
@@ -58,8 +62,9 @@ const LanguageCollageImageLayout = (props: Props) => {
         top={50}
         rotation={6}
         entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
       >
-        {imgRightBottom}
+        {imgRightBottom.img}
       </ImageCollageItem>
     </ImageCollage>
   );

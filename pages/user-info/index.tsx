@@ -13,9 +13,10 @@ import { useReCaptcha } from "next-recaptcha-v3";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RecaptchaResponse } from "@/types/RecaptchaResponse";
 import { useEffect } from "react";
-import UserInfoCollageImageLayout from "@/components/ImageCollage/Layouts/UserInfoCollageImageLayout";
+import InfoSVG from "@/public/icons/info.svg";
 import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
+import { toast } from "@/components/Toast/ToastRenderer";
 
 const UserInfoSchema = z.object({
   name: z
@@ -70,11 +71,23 @@ export default function UserInfoPage() {
       console.log(
         "Input or output language is empty, redirecting to language page",
       );
+      toast({
+        text: "Please select your translation",
+        canDismiss: true,
+        icon: <InfoSVG />,
+        duration: 10000,
+      });
       router.push("/language");
       return;
     }
     if (!videoBlob) {
       console.log("Video not recorded, redirecting to record page");
+      toast({
+        text: "Please record a video",
+        canDismiss: true,
+        icon: <InfoSVG />,
+        duration: 10000,
+      });
       router.push("/record");
       return;
     }

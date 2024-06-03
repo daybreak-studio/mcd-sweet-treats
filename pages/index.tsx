@@ -11,6 +11,9 @@ import BottomBanner from "@/components/Banner/BottomBanner";
 import swirlAnimation from "@/public/mcdonald-sprite-3.json";
 import { LottieRefCurrentProps } from "lottie-react";
 import ExamplePromptTagSVG from "@/components/ExamplePromptTag/ExamplePrompTagSVG.svg";
+import { toast } from "@/components/Toast/ToastRenderer";
+import InfoSVG from "@/public/icons/info.svg";
+import { usePreventUserFromErasingContent } from "@/hooks/usePreventUserFromErasingContent";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -95,6 +98,8 @@ export default function Home() {
     lottieRef.current.play();
   }
 
+  const [isViewingSecondaryCopy, setIsViewingSecondaryCopy] = useState(false);
+
   return (
     <>
       <>
@@ -107,10 +112,30 @@ export default function Home() {
           variants={containerVariants}
         >
           <motion.h1
-            className="xs:font-serif-xl font-serif-md my-4 origin-top-left px-8 text-center md:font-serif-2xl lg:font-serif-2xl md:my-8 xl:w-1/3"
+            className="font-serif-md relative my-4 origin-top-left px-4 text-center xs:font-serif-lg md:font-serif-2xl lg:font-serif-2xl md:my-8"
             variants={AnimWrap.bounceUpB}
           >
-            Send grandma a <br /> sweet message
+            <motion.div
+              initial={{
+                opacity: 1,
+              }}
+              animate={{
+                opacity: isViewingSecondaryCopy ? 0 : 1,
+              }}
+              className="absolute inset-0"
+            >
+              Send grandma a <br /> sweet message
+            </motion.div>
+            <motion.div
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: isViewingSecondaryCopy ? 1 : 0,
+              }}
+            >
+              Tell her how you feel <br /> in her native language
+            </motion.div>
           </motion.h1>
           <motion.div
             className="relative z-10 mb-6 flex origin-top-left flex-col items-center "
@@ -123,6 +148,7 @@ export default function Home() {
               }
               className="h-[40svh] min-h-64"
               poster={"/opening/poster.jpg"}
+              onPlay={() => setIsViewingSecondaryCopy(true)}
             />
             <Lottie
               animationData={swirlAnimation}

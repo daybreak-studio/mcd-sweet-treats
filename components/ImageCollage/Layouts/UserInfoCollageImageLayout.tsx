@@ -19,8 +19,9 @@ const UserInfoCollageImageLayout = (props: Props) => {
         top={42}
         rotation={10}
         entrance="left"
+        shouldShow={imgLeftBottom.isLoaded}
       >
-        {imgLeftBottom}
+        {imgLeftBottom.img}
       </ImageCollageItem>
       <ImageCollageItem
         width={15}
@@ -28,8 +29,9 @@ const UserInfoCollageImageLayout = (props: Props) => {
         top={16}
         rotation={-5}
         entrance="left"
+        shouldShow={imgLeftTop.isLoaded}
       >
-        {imgLeftTop}
+        {imgLeftTop.img}
       </ImageCollageItem>
       {/* right items */}
       <ImageCollageItem
@@ -38,8 +40,9 @@ const UserInfoCollageImageLayout = (props: Props) => {
         top={20}
         rotation={2}
         entrance="right"
+        shouldShow={imgRightTop.isLoaded}
       >
-        {imgRightTop}
+        {imgRightTop.img}
       </ImageCollageItem>
 
       <ImageCollageItem
@@ -48,8 +51,9 @@ const UserInfoCollageImageLayout = (props: Props) => {
         top={50}
         rotation={10}
         entrance="right"
+        shouldShow={imgRightBottom.isLoaded}
       >
-        {imgRightBottom}
+        {imgRightBottom.img}
       </ImageCollageItem>
     </ImageCollage>
   );

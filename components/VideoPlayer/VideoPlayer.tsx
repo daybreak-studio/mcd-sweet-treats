@@ -23,9 +23,12 @@ type Props = {
   onScrubStart?: () => void;
   onScrubEnd?: () => void;
   onReady?: () => void;
+  onPause?: () => void;
+  onPlay?: () => void;
   autoPlay?: boolean;
   poster?: string;
   dangerouslySetVideoFullWidth?: boolean;
+  controlsAlwaysOn?: boolean;
 };
 
 const VideoPlayer = ({
@@ -37,7 +40,10 @@ const VideoPlayer = ({
   onReady,
   autoPlay,
   poster,
+  onPause,
+  onPlay,
   dangerouslySetVideoFullWidth,
+  controlsAlwaysOn,
 }: Props) => {
   const videoRef = useRef() as RefObject<HTMLVideoElement>;
 
@@ -71,6 +77,14 @@ const VideoPlayer = ({
 
   const scrubWidth = videoWidth / 2;
   const pixelPerSec = scrubWidth / duration;
+
+  useEffect(() => {
+    if (shouldPlay) {
+      onPlay?.();
+    } else {
+      onPause?.();
+    }
+  }, [shouldPlay]);
 
   const {
     containerRef,
@@ -180,7 +194,7 @@ const VideoPlayer = ({
           opacity: 0,
         }}
         animate={{
-          opacity: hasInteracted ? 1 : 0,
+          opacity: controlsAlwaysOn ? 1 : hasInteracted ? 1 : 0,
         }}
         className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 flex h-1/4 w-full items-end justify-center px-8 pb-8"
       >

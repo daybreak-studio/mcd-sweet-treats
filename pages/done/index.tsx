@@ -10,6 +10,8 @@ import ShareIconSVG from "./share-icon.svg";
 import ScribbleTextSVG from "./scribble-text.svg";
 import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
+import { toast } from "@/components/Toast/ToastRenderer";
+import LinkSVG from "@/public/icons/link.svg";
 
 type Props = {};
 
@@ -26,6 +28,11 @@ const DonePage = (props: Props) => {
         await navigator.share(shareData);
       } else {
         navigator.clipboard.writeText(shareData.url);
+        toast({
+          icon: <LinkSVG />,
+          text: "Link copied!",
+          canDismiss: true,
+        });
       }
     } catch (err) {
       console.log(err);
@@ -86,8 +93,8 @@ const DonePage = (props: Props) => {
             className="h-full w-full"
             src="/images/meal.png"
             alt="McFlurry"
-            width={1600}
-            height={900}
+            width={1965}
+            height={1106}
           />
           <ScribbleTextSVG className="k absolute rotate-6 text-dark lg:bottom-[37vw] lg:right-[12vw] 2xl:bottom-[39vw] 2xl:right-[calc(16vw+2rem)]" />
         </div>

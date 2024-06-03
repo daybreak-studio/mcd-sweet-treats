@@ -13,6 +13,7 @@ import {
   InputLanguageKey,
   OutputLanguageKey,
 } from "../VideoUploadProvider/Languages";
+import { toast } from "../Toast/ToastRenderer";
 
 // Initial user information
 const initialUserInfo = {
@@ -159,6 +160,11 @@ const UserInfoProvider = ({ children }: Props) => {
       setVideoBlob(blob);
       if (typeof duration === "string")
         setSavedVideoDuration(parseInt(duration));
+
+      toast({
+        text: "Restored video draft",
+        canDismiss: true,
+      });
     } catch (e) {
       console.warn(e);
     }
