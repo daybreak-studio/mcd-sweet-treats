@@ -41,7 +41,7 @@ const LinkButton = ({ inverted, href, children, disabled }: Props) => {
     // <TracyShadow variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
     // color={"#643525"} elevation={1}>
     <motion.div
-      className={`overflow-hidden rounded-full outline-accent ${
+      className={` overflow-hidden rounded-full shadow outline-accent ${
         inverted ? "bg-dark" : "bg-light"
       }`}
       whileTap={{

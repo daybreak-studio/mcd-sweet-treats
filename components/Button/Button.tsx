@@ -49,7 +49,7 @@ const Button = ({
       type={submit ? "submit" : "button"}
       disabled={disabled}
       onClick={onClick}
-      className={`${styling} ${disabled ? "cursor-default" : "cursor-pointer"} ${small ? "" : "min-w-64"} overflow-hidden rounded-full outline-accent ${className}`}
+      className={`shadow ${styling} ${disabled ? "cursor-default" : "cursor-pointer"} ${small ? "" : "min-w-64"} overflow-hidden rounded-full outline-accent ${className}`}
       whileTap={{
         scale: disabled ? 1 : 0.98,
       }}
@@ -78,18 +78,16 @@ const Button = ({
     </motion.button>
   );
 
-  return noShadow ? (
-    buttonContent
-  ) : (
-    <TracyShadow
-      color={"#643525"}
-      elevation={1}
-      className={className}
-      variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-    >
-      {buttonContent}
-    </TracyShadow>
-  );
+  return noShadow
+    ? buttonContent
+    : // <TracyShadow
+      //   color={"#643525"}
+      //   elevation={1}
+      //   className={className}
+      //   variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+      // >
+      buttonContent;
+  // </TracyShadow>
 };
 
 export default Button;
