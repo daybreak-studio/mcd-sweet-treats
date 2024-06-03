@@ -66,8 +66,11 @@ const RecordButton = ({
       onClick={() => {
         if (!isLoading) onClick();
       }}
-      onPointerDown={() => {
-        if (!isLoading) onPointerDown?.();
+      onPointerDown={(e) => {
+        if (!isLoading) {
+          e.preventDefault();
+          onPointerDown?.();
+        }
       }}
       onPointerUp={() => {
         if (!isLoading) onPointerUp?.();
