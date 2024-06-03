@@ -9,10 +9,8 @@ import { getSupportedMimeType } from "./getSupportedMimeType";
  */
 export async function createAVRecorder(
   canvas: HTMLCanvasElement,
-  // aspectRatio: number,
   onBlobAvailable: (blob: Blob) => void,
 ) {
-  // console.log("Aspect Ratio instanced:", aspectRatio);
   const stream = await navigator.mediaDevices.getUserMedia({
     video: {
       facingMode: "user",
@@ -21,18 +19,9 @@ export async function createAVRecorder(
     },
     audio: true,
   });
-  alert(
-    JSON.stringify(
-      stream.getVideoTracks()[0].getSettings().aspectRatio,
-      null,
-      2,
-    ),
-  );
-  console.log(stream);
 
   // Only use the video track
   const videoStream = new MediaStream([stream.getVideoTracks()[0]]);
-  // setVideoStream(videoStream);
 
   // Combine the video stream with the audio stream
   if (stream.getAudioTracks().length === 0) {
@@ -43,7 +32,6 @@ export async function createAVRecorder(
   }
   const canvasStream = canvas.captureStream(60);
   const videoTrack = canvasStream.getVideoTracks()[0];
-  // alert(JSON.stringify(videoTrack.getSettings(), null, 2));
 
   const audioTrack = stream.getAudioTracks()[0];
   const combinedStream = new MediaStream([videoTrack, audioTrack]);

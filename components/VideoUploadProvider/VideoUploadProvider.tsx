@@ -109,7 +109,7 @@ const VideoUploadProvider = ({ children }: Props) => {
       const parallelUploads3 = new Upload({
         client: s3Client,
         params: {
-          Bucket: "mcdonalds-test-input",
+          Bucket: "mcdonalds-input",
           Key: `${record.uuid}`,
           Body: file,
         },

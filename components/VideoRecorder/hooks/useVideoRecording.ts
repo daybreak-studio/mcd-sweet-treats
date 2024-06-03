@@ -10,23 +10,6 @@ export function useVideoRecording(
   const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-
-  const getVideoSettings = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        facingMode: "user",
-        frameRate: { ideal: 60 },
-      },
-      audio: true,
-    });
-
-    const videoTrack = stream.getVideoTracks()[0];
-    const settings = videoTrack.getSettings();
-    stream.getTracks().forEach((track) => track.stop());
-
-    return settings;
-  };
 
   const initializeRecorder = async () => {
     if (!(canvasElm instanceof HTMLCanvasElement) || !videoElm) return;
@@ -37,13 +20,7 @@ export function useVideoRecording(
 
     setIsMediaRecorderReady(false);
     try {
-      // const aspectRatio = await determineAspectRatio();
-
-      const recorder = await createAVRecorder(
-        canvasElm,
-        // aspectRatio,
-        setRecordedBlobData,
-      );
+      const recorder = await createAVRecorder(canvasElm, setRecordedBlobData);
 
       setAVRecorder(recorder);
       setIsMediaRecorderReady(true);
