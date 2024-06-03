@@ -10,9 +10,10 @@ export function useVideoRecording(
   const [avRecorder, setAVRecorder] = useState<AVRecorder | null>(null);
   const [isMediaRecorderReady, setIsMediaRecorderReady] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const findAspectRatio = async (): Promise<number> => {
-    const initialStream = await navigator.mediaDevices.getUserMedia({
+  const getVideoSettings = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({
       video: {
         facingMode: "user",
         frameRate: { ideal: 60 },
@@ -20,58 +21,48 @@ export function useVideoRecording(
       audio: true,
     });
 
-    const videoStream = new MediaStream([initialStream.getVideoTracks()[0]]);
-    const webcamVideoTrack = videoStream.getVideoTracks()[0];
-    const settings = webcamVideoTrack.getSettings();
-    console.log(settings);
+    const videoTrack = stream.getVideoTracks()[0];
+    const settings = videoTrack.getSettings();
+    stream.getTracks().forEach((track) => track.stop());
 
-    initialStream.getTracks().forEach((track) => track.stop());
-
-    if (settings.aspectRatio && settings.aspectRatio > 1) {
-      console.log("Aspect ratio is greater than 1 (landscape)");
-      return 9 / 16;
-    } else {
-      console.log("Aspect ratio is less than 1 (portrait)");
-      return 16 / 9;
-    }
+    return settings;
   };
 
-  useEffect(() => {
+  const initializeRecorder = async () => {
     if (!(canvasElm instanceof HTMLCanvasElement) || !videoElm) return;
     if (!hasPermissionGranted) {
       console.log("User has not granted permission, aborting.");
       return;
     }
 
-    const initializeRecorder = async () => {
-      setIsMediaRecorderReady(false);
-      try {
-        const aspectRatio = await findAspectRatio(); // Await aspect ratio determination
-        console.log(aspectRatio);
+    setIsMediaRecorderReady(false);
+    try {
+      // const aspectRatio = await determineAspectRatio();
 
-        const recorder = await createAVRecorder(
-          canvasElm,
-          aspectRatio,
-          setRecordedBlobData,
-        );
+      const recorder = await createAVRecorder(
+        canvasElm,
+        // aspectRatio,
+        setRecordedBlobData,
+      );
 
-        setAVRecorder(recorder);
-        setIsMediaRecorderReady(true);
+      setAVRecorder(recorder);
+      setIsMediaRecorderReady(true);
 
-        videoElm.srcObject = recorder.videoStream;
-        videoElm.play().catch(console.error);
+      videoElm.srcObject = recorder.videoStream;
+      videoElm.play().catch(console.error);
 
-        console.log("Created AVRecorder");
+      console.log("Created AVRecorder");
 
-        return () => {
-          console.log("Cleaning up AVRecorder");
-          recorder.destroy();
-        };
-      } catch (error) {
-        console.error("Error accessing media devices.", error);
-      }
-    };
+      return () => {
+        console.log("Cleaning up AVRecorder");
+        recorder.destroy();
+      };
+    } catch (error) {
+      console.error("Error accessing media devices.", error);
+    }
+  };
 
+  useEffect(() => {
     const cleanup = initializeRecorder();
 
     return () => {
