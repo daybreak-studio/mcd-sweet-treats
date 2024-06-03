@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { useUserInfo } from "../UserInfoProvider/UserInfoProvider";
 import { useState, useEffect } from "react";
 import { useVideoRecording } from "./hooks/useVideoRecording";
@@ -18,6 +18,7 @@ import { AnimationConfig } from "../AnimationConfig";
 import { useAVPermission } from "./hooks/useAVPermission";
 import VideoInstuction from "./Instruction/VideoInstuction";
 import FacePositionHint from "./FacePositionHint";
+import { useEventListener } from "usehooks-ts";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
@@ -28,6 +29,11 @@ enum RecorderStates {
   INITIAL = "INITIAL",
   RECORDING = "RECORDING",
   RECORDED = "RECORDED",
+}
+
+enum InteractionMode {
+  CLICK,
+  TAP_AND_HOLD,
 }
 
 const VideoRecorder = ({ onCompleteRecording }: Props) => {
@@ -119,16 +125,54 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     return videoBlob && URL.createObjectURL(videoBlob);
   }, [videoBlob]);
 
-  const handleRecordButtonClick = () => {
+  // handle holding
+  const [interactionMode, setInteractionMode] = useState<
+    InteractionMode | undefined
+  >(undefined);
+  const HOLD_TIME = 120; // .12s
+  const holdTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  // reset hold mode
+  useEffect(() => {
     if (recorderState === RecorderStates.INITIAL) {
-      startRecording();
+      setInteractionMode(undefined);
+    }
+  }, [recorderState]);
+
+  const handleRecordButtonClick = () => {
+    if (recorderState !== RecorderStates.RECORDING) return;
+
+    if (interactionMode === undefined) {
+      setInteractionMode(InteractionMode.CLICK);
       return;
     }
-    if (recorderState === RecorderStates.RECORDING) {
-      finishTimer();
-      return;
-    }
+    if (interactionMode !== InteractionMode.CLICK) return;
+    finishTimer();
   };
+
+  const handleRecordButtonPointerDown = () => {
+    if (recorderState !== RecorderStates.INITIAL) return;
+
+    setInteractionMode(undefined);
+    startRecording();
+
+    holdTimeout.current = setTimeout(() => {
+      // handle hold code execute
+      setInteractionMode(InteractionMode.TAP_AND_HOLD);
+    }, HOLD_TIME);
+  };
+
+  useEventListener("pointerup", () => {
+    // reset holding gesture
+    if (holdTimeout.current) clearTimeout(holdTimeout.current);
+
+    // only accept pointer up input during recording session
+    if (recorderState !== RecorderStates.RECORDING) return;
+
+    // only perform stop recording in "hold mode"
+    if (interactionMode !== InteractionMode.TAP_AND_HOLD) return;
+    finishTimer();
+  });
 
   // stop recording when the timer reach zero
   useEffect(() => {
@@ -361,7 +405,9 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   maxDuration={MAX_DURATION}
                   currentTime={remainingTime}
                   isRecording={recorderState === RecorderStates.RECORDING}
+                  isHoldMode={interactionMode === InteractionMode.TAP_AND_HOLD}
                   onClick={handleRecordButtonClick}
+                  onPointerDown={handleRecordButtonPointerDown}
                   isLoading={!isCameraExperienceReady}
                 />
               </motion.div>

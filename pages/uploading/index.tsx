@@ -49,11 +49,11 @@ const UploadingPage = (props: Props) => {
     "Would you like to abort upload?",
   );
 
-  // useGate({
-  //   condition: () => !isUploading && progress < 1,
-  //   redirect: "/",
-  //   message: "Upload not started, please try again.",
-  // });
+  useGate({
+    condition: () => !isUploading && progress < 1,
+    redirect: "/",
+    message: "Upload not started, please try again.",
+  });
 
   useEffect(() => {
     const timeout = setTimeout(() => {

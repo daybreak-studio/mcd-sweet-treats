@@ -12,7 +12,10 @@ type Props = {
   currentTime: number;
   isRecording: boolean;
   isLoading: boolean;
+  isHoldMode: boolean;
   onClick: () => void;
+  onPointerDown?: () => void;
+  onPointerUp?: () => void;
 };
 
 const ROT_OFFSET_DEGREE = 90;
@@ -23,6 +26,9 @@ const RecordButton = ({
   isRecording,
   isLoading,
   onClick,
+  onPointerDown,
+  onPointerUp,
+  isHoldMode,
 }: Props) => {
   const controls = useAnimation();
 
@@ -60,6 +66,12 @@ const RecordButton = ({
       onClick={() => {
         if (!isLoading) onClick();
       }}
+      onPointerDown={() => {
+        if (!isLoading) onPointerDown?.();
+      }}
+      onPointerUp={() => {
+        if (!isLoading) onPointerUp?.();
+      }}
       animate={controls}
       whileTap={{
         scale: !isLoading ? 0.97 : 1,
@@ -68,9 +80,11 @@ const RecordButton = ({
       <motion.div
         animate={{
           opacity: isLoading ? 0 : 1,
-          scale: isLoading ? 0.9 : 1,
+          scale: isLoading ? 0.9 : isHoldMode ? 1.05 : 1,
           transition: {
-            druation: AnimationConfig.NORMAL,
+            druation: isHoldMode
+              ? AnimationConfig.VERY_SLOW
+              : AnimationConfig.NORMAL,
             ease: AnimationConfig.EASING,
           },
         }}
@@ -84,10 +98,16 @@ const RecordButton = ({
       </motion.div>
       <motion.div
         animate={{
+          scale: isHoldMode ? 0.3 : 1,
+          borderRadius: isHoldMode ? 16 : 999,
           rotate: isRecording ? ROT_OFFSET_DEGREE : 0,
           transition: {
-            duration: AnimationConfig.SLOW,
-            ease: AnimationConfig.EASING_IN_OUT,
+            duration: isHoldMode
+              ? AnimationConfig.VERY_SLOW
+              : AnimationConfig.SLOW,
+            ease: isHoldMode
+              ? AnimationConfig.EASING
+              : AnimationConfig.EASING_IN_OUT,
           },
         }}
         className="absolute inset-0 m-auto h-fit w-fit rounded-full"
@@ -119,7 +139,7 @@ const RecordButton = ({
         >
           <motion.div
             animate={{
-              opacity: [0, 1],
+              opacity: isHoldMode ? [0, 0] : [0, 1],
               transition: {
                 repeat: Infinity,
                 repeatType: "reverse",
