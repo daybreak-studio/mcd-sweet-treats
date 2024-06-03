@@ -11,6 +11,7 @@ import ScribbleTextSVG from "./scribble-text.svg";
 import { motion } from "framer-motion";
 import { AnimWrap } from "@/components/AnimWrap";
 import { toast } from "@/components/Toast/ToastRenderer";
+import LinkSVG from "@/public/icons/link.svg";
 
 type Props = {};
 
@@ -28,6 +29,7 @@ const DonePage = (props: Props) => {
       } else {
         navigator.clipboard.writeText(shareData.url);
         toast({
+          icon: <LinkSVG />,
           text: "Link copied!",
           canDismiss: true,
         });

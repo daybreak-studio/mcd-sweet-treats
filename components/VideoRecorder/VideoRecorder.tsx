@@ -19,11 +19,15 @@ import { useAVPermission } from "./hooks/useAVPermission";
 import VideoInstuction from "./Instruction/VideoInstuction";
 import FacePositionHint from "./FacePositionHint";
 import { useEventListener } from "usehooks-ts";
+import { toast } from "../Toast/ToastRenderer";
+
+import InfoSVG from "@/public/icons/info.svg";
 
 type Props = {
   onCompleteRecording: (blob: Blob) => void;
 };
 const MAX_DURATION = 30; // Max video recording length
+const MIN_VID_LENGTH = 5; // minimunm video duration
 
 enum RecorderStates {
   INITIAL = "INITIAL",
@@ -198,6 +202,21 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
     isVideoFeedReady,
     stopRecording,
   ]);
+
+  const showTooShortToast = () => {
+    toast({
+      icon: <InfoSVG />,
+      text: "Video must be longer than 5 seconds",
+      canDismiss: true,
+    });
+  };
+
+  useEffect(() => {
+    if (recorderState !== RecorderStates.RECORDED) return;
+    if (approximateVideoDuration < MIN_VID_LENGTH) {
+      showTooShortToast();
+    }
+  }, [recorderState, approximateVideoDuration]);
 
   return (
     <div className="fixed inset-0 flex h-svh">
@@ -460,7 +479,13 @@ const VideoRecorder = ({ onCompleteRecording }: Props) => {
                   <Button
                     small
                     isVisible={shouldShowNavButtons}
-                    onClick={() => videoBlob && onCompleteRecording(videoBlob)}
+                    onClick={() => {
+                      if (approximateVideoDuration < MIN_VID_LENGTH) {
+                        showTooShortToast();
+                        return;
+                      }
+                      videoBlob && onCompleteRecording(videoBlob);
+                    }}
                     inverted
                   >
                     <DoneSVG />
