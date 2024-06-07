@@ -17,7 +17,7 @@ const LandingCollageImageLayout = (props: Props) => {
       {/* left items */}
       <ImageCollageItem
         width={25}
-        left={-5}
+        left={-10}
         top={40}
         rotation={8}
         entrance="left"
@@ -27,7 +27,7 @@ const LandingCollageImageLayout = (props: Props) => {
       </ImageCollageItem>
       <ImageCollageItem
         width={15}
-        left={2}
+        left={-1}
         top={8}
         rotation={-3}
         entrance="left"
