@@ -9,7 +9,7 @@ import React, {
 import Image from "next/image";
 import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-import { motion, useIsPresent } from "framer-motion";
+import { AnimatePresence, motion, useIsPresent } from "framer-motion";
 import LinkButton from "@/components/Button/LinkButton";
 import { AnimWrap } from "@/components/AnimWrap";
 import { useUserInfo } from "@/components/UserInfoProvider/UserInfoProvider";
@@ -127,22 +127,24 @@ const UploadingPage = (props: Props) => {
         variants={AnimWrap.AnimParentA}
         className="flex flex-grow origin-top-left flex-col items-center justify-center text-center"
       >
-        <motion.h1
-          variants={AnimWrap.bounceUpA}
-          className="font-serif-xl mx-auto mt-8 origin-top-left self-start px-4 pb-2 text-center md:font-serif-2xl max-md:max-w-[12ch]"
-        >
-          {!hasDone
-            ? "Don't leave just yet!"
-            : "Your message is being translated"}
-        </motion.h1>
-        <motion.h5
-          variants={AnimWrap.bounceUpB}
-          className="font-serif-base origin-top-left pb-8"
-        >
-          {!hasDone
-            ? "We’re uploading your video!"
-            : "We'll email you when it's ready."}
-        </motion.h5>
+        <AnimatePresence custom={"wait"}>
+          <motion.h1
+            variants={AnimWrap.bounceUpA}
+            className="font-serif-xl mx-auto mt-8 origin-top-left self-start px-4 pb-2 text-center md:font-serif-2xl max-md:max-w-[12ch]"
+          >
+            {!hasDone
+              ? "Don't leave just yet!"
+              : "Your message is being translated"}
+          </motion.h1>
+          <motion.h5
+            variants={AnimWrap.bounceUpB}
+            className="font-serif-base origin-top-left pb-8"
+          >
+            {!hasDone
+              ? "We’re uploading your video."
+              : "We'll email you when it's ready."}
+          </motion.h5>
+        </AnimatePresence>
         <motion.div
           variants={{
             hidden: { opacity: 0, scale: 0.7, rotate: -5, y: 40 },
