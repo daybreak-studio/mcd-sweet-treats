@@ -61,41 +61,43 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Analytics />
       <ReCaptchaProvider>
         <WindowDimensionContextProvider>
-          <ImagePoolProvider
-            srcList={IMAGES_MANIFEST}
-            constraint={{
-              width: 200,
-            }}
-          >
-            <UserInfoProvider>
-              <VideoUploadProvider>
-                <CookiesGate>
-                  <AnimatePresence initial={false} mode="wait">
-                    {pathname === "/record" && (
-                      <Component
-                        {...pageProps}
-                        key={"record"}
-                        className={` ${font_speedee.variable}`}
-                      />
-                    )}
-                    {pathname !== "/record" && (
-                      <AppFrame key={"frame"}>
-                        <AnimatePresence mode="wait">
-                          <Component
-                            {...pageProps}
-                            key={pathname}
-                            className={` ${font_speedee.variable}`}
-                          />
-                        </AnimatePresence>
-                      </AppFrame>
-                    )}
-                  </AnimatePresence>
-                  <ImageCollageLayoutSwitcher />
-                  <ToastRenderer />
-                </CookiesGate>
-              </VideoUploadProvider>
-            </UserInfoProvider>
-          </ImagePoolProvider>
+          {pathname !== "/" && (
+            <ImagePoolProvider
+              srcList={IMAGES_MANIFEST}
+              constraint={{
+                width: 200,
+              }}
+            >
+              <UserInfoProvider>
+                <VideoUploadProvider>
+                  <CookiesGate>
+                    <AnimatePresence initial={false} mode="wait">
+                      {pathname === "/record" && (
+                        <Component
+                          {...pageProps}
+                          key={"record"}
+                          className={` ${font_speedee.variable}`}
+                        />
+                      )}
+                      {pathname !== "/record" && (
+                        <AppFrame key={"frame"}>
+                          <AnimatePresence mode="wait">
+                            <Component
+                              {...pageProps}
+                              key={pathname}
+                              className={` ${font_speedee.variable}`}
+                            />
+                          </AnimatePresence>
+                        </AppFrame>
+                      )}
+                    </AnimatePresence>
+                    <ImageCollageLayoutSwitcher />
+                    <ToastRenderer />
+                  </CookiesGate>
+                </VideoUploadProvider>
+              </UserInfoProvider>
+            </ImagePoolProvider>
+          )}
         </WindowDimensionContextProvider>
       </ReCaptchaProvider>
     </>
