@@ -6,7 +6,8 @@ import { ReCaptchaProvider } from "next-recaptcha-v3";
 import localFont from "next/font/local";
 import "@/styles/globals.css";
 import { AnimatePresence } from "framer-motion";
-import { usePathname } from "next/navigation";
+// import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import CookiesGate from "@/components/Cookies";
 import ImagePoolProvider from "@/components/ImagePool/ImagePoolProvider";
@@ -34,7 +35,9 @@ const font_speedee = localFont({
 });
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const pathname = usePathname();
+  const router = useRouter();
+  const pathname = router.pathname;
+  console.log(router);
 
   return (
     <>
@@ -61,7 +64,13 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <Analytics />
       <ReCaptchaProvider>
         <WindowDimensionContextProvider>
-          {pathname !== "/" && (
+          {router.pathname === "/closed" ? (
+            <Component
+              {...pageProps}
+              key={pathname}
+              className={`${font_speedee.variable}`}
+            />
+          ) : (
             <ImagePoolProvider
               srcList={IMAGES_MANIFEST}
               constraint={{

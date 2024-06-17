@@ -1,10 +1,10 @@
+import AppFrame from "@/components/AppFrame/AppFrame";
 import { LogoLockup } from "@/components/LogoLockup/LogoLockup";
-
 type Props = {};
 
 const Closed = (props: Props) => {
   return (
-    <>
+    <AppFrame>
       <LogoLockup />
       <div className="flex flex-grow flex-col items-center justify-center text-center">
         <h1 className="font-serif-xl w-10/12 md:font-serif-2xl md:w-8/12">
@@ -12,7 +12,7 @@ const Closed = (props: Props) => {
           hear from you!
         </h1>
       </div>
-    </>
+    </AppFrame>
   );
 };
 
