@@ -8,7 +8,7 @@ import Cookies from "@/components/Cookies";
 
 type Props = {};
 
-const DonePage = (props: Props) => {
+const ComingSoon = (props: Props) => {
   return (
     <>
       <LogoLockup />
@@ -24,4 +24,4 @@ const DonePage = (props: Props) => {
   );
 };
 
-export default DonePage;
+export default ComingSoon;
